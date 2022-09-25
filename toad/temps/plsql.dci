@@ -1,0 +1,128 @@
+[record | record declaration]
+TYPE |RecordName IS RECORD (
+  deptno  NUMBER;
+  deptname dept.name%TYPE );
+dept_rec RecordName;
+
+[cr | cursor declaration]
+CURSOR |c1 IS
+   SELECT  FROM   WHERE ;
+
+[crfor | cursor FOR]
+FOR c1_rec IN c1 LOOP
+   |
+END LOOP;
+
+[crloop | cursor LOOP]
+OPEN c1;
+LOOP
+   FETCH c1.| INTO  ;
+   EXIT WHEN c1%NOTFOUND;
+END LOOP;
+CLOSE c1;
+
+[crsp | package spec cursor]
+/* declare package cursor specification */
+CURSOR c1 RETURN |tablename%ROWTYPE;
+
+[crbo | package body cursor]
+/* declare package body */
+CURSOR c1 RETURN |tablename%ROWTYPE IS
+   SELECT ....;
+
+[crbl | entire cursor block]
+DECLARE
+   CURSOR c1 IS
+      SELECT | FROM   WHERE;
+   c1rec c1%ROWTYPE;
+BEGIN
+   OPEN c1;
+   LOOP
+      FETCH c1 INTO c1rec;
+      EXIT WHEN c1%NOTFOUND;
+   END LOOP;
+   CLOSE c1;
+END;
+
+[crt | CREATE TABLE]
+CREATE TABLE | AS (
+)
+
+[for | FOR statement]
+FOR |x IN  .. LOOP
+
+END LOOP;
+
+[forwo | multiple FORs with EXIT WHEN OUTER]
+FOR |x IN  .. LOOP
+
+   FOR j IN  .. LOOP
+      EXIT outer WHEN
+   END LOOP;
+END LOOP outer;
+
+[func | function shell]
+FUNCTION | () RETURN xxx IS
+BEGIN
+   RETURN xxx;
+END:
+
+[if | if statement]
+IF | THEN
+
+END IF;
+
+[ife | if/else statement]
+IF | THEN
+
+ELSE
+
+END IF;
+
+[ifn | if/else NULL statement]
+IF | THEN
+
+ELSE
+   NULL:
+END IF;
+
+[lp | LOOP statement]
+LOOP
+   |
+END LOOP;
+
+[lpe | LOOP with EXIT statement]
+LOOP
+   IF |x THEN
+      EXIT;
+   END IF;
+END LOOP;
+
+[lpew | LOOP with EXIT WHEN statement]
+LOOP
+  EXIT WHEN |;
+END LOOP;
+
+[mta | MODIFY TABLE ADD]
+MODIFY TABLE | ADD (
+)
+
+[proc | procedure shell]
+PROCEDURE | () IS
+BEGIN
+END:
+
+[ups | UPDATE with SAVEPOINTS]
+BEGIN
+   SAVEPOINT my_point;
+   UPDATE | SET ;
+EXCEPTION
+   WHEN OTHERS THEN
+      ROLLBACK TO my_point;
+END;
+
+[while | WHILE statement]
+WHILE | LOOP
+
+END LOOP;
+

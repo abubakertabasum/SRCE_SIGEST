@@ -1,0 +1,4 @@
+Every day=TRUNC(SYSDATE+1)
+Every Sunday=NEXT_DAY(TRUNC(SYSDATE), 'SUNDAY')
+Every day at 6am=TRUNC(SYSDATE+1)+6/24
+Every half hour=SYSDATE+30/1440 

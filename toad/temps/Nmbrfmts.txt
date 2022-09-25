@@ -1,0 +1,35 @@
+*TO_CHAR(number, '9999')
+The number of 9s determines the number of digits returned.
+*TO_CHAR(number, '0009')
+The number will be converted with 4 digits, prefixed with leading zeros.
+*TO_CHAR(number, '$9999')
+The number will be converted with 4 digits, prefixed with dollar sign.
+*TO_CHAR(number, 'B9999')
+The char value number will be returned as blank if the value is zero.
+*TO_CHAR(number, '9999MI')
+If negative, the return value will be prefixed by a "-" sign.
+*TO_CHAR(number, 'S9999')
+Negative values will be prefixed by a "-" sign and positive values will be prefixed by a "+" sign.
+*TO_CHAR(number, '9999PR')
+If negative, the return value will be wrapped by angle brackets "<>".
+*TO_CHAR(number, '99D99')
+Embeds the decimal character
+*TO_CHAR(number, 'FM999,999,999')
+Returns "standard" number with commas
+*TO_CHAR(number, '9G999')
+Embeds the group character
+*TO_CHAR(number, 'L9999')
+Returns the local currency symbol
+*TO_CHAR(number, 'C9999')
+Returns the international currency symbol
+*TO_CHAR(number, '9,999')
+Returns a comma in this position
+*TO_CHAR(number, '99.99')
+Returns a period in this position
+*TO_CHAR(number, '9.99EEEE')
+Returns a value in scientific notation
+*TO_CHAR(number, '9999rn')
+Or RN.  Returns upper or lower case roman numerals for values between 1 and 3999
+*TO_CHAR(number, 'DATE')
+Converts a numeric Julian date to a date in the format "MM/DD/YY"
+

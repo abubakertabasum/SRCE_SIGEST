@@ -1,0 +1,866 @@
+
+create or replace package body employee_tst
+is
+  g_norow employee%rowtype;
+  g_norow_set boolean := false;
+
+  -- Display header for a new set of information.
+  procedure newset(
+  str in varchar2,
+  gr in varchar2 := '='
+  )
+  is
+  begin
+  dbms_output.put_line(rpad(gr,
+                       60,
+                       gr
+                       )
+  );
+  dbms_output.put_line(str
+  );
+  dbms_output.put_line(rpad(gr,
+                       60,
+                       gr
+                       )
+  );
+  end;
+
+  -- Show the contents of a table record.
+  procedure showrow(
+  row_in in employee%rowtype
+  )
+  is
+  begin
+  dbms_output.put_line('**COL employee_id: ' || row_in.employee_id
+  );
+  dbms_output.put_line('**COL last_name: ' || row_in.last_name
+  );
+  dbms_output.put_line('**COL first_name: ' || row_in.first_name
+  );
+  dbms_output.put_line('**COL middle_initial: ' || row_in.middle_initial
+  );
+  dbms_output.put_line('**COL job_id: ' || row_in.job_id
+  );
+  dbms_output.put_line('**COL manager_id: ' || row_in.manager_id
+  );
+  dbms_output.put_line('**COL hire_date: ' || row_in.hire_date
+  );
+  dbms_output.put_line('**COL salary: ' || row_in.salary
+  );
+  dbms_output.put_line('**COL commission: ' || row_in.commission
+  );
+  dbms_output.put_line('**COL department_id: ' || row_in.department_id
+  );
+  dbms_output.put_line('**COL empno: ' || row_in.empno
+  );
+  dbms_output.put_line('**COL ename: ' || row_in.ename
+  );
+  dbms_output.put_line('**COL created_by: ' || row_in.created_by
+  );
+  dbms_output.put_line('**COL created_on: ' || row_in.created_on
+  );
+  dbms_output.put_line('**COL changed_by: ' || row_in.changed_by
+  );
+  dbms_output.put_line('**COL changed_on: ' || row_in.changed_on
+  );
+  end;
+
+  -- Sets contents of record that does NOT match a row in the database table.
+  procedure set_norow(
+  employee_id_in in employee.employee_id%type,
+  last_name_in in employee.last_name%type default null,
+  first_name_in in employee.first_name%type default null,
+  middle_initial_in in employee.middle_initial%type default null,
+  job_id_in in employee.job_id%type default null,
+  manager_id_in in employee.manager_id%type default null,
+  hire_dain in employee.hire_date%type default sysdate,
+  salary_in in employee.salary%type default null,
+  commission_in in employee.commission%type default null,
+  department_id_in in employee.department_id%type default null,
+  empno_in in employee.empno%type default null,
+  ename_in in employee.ename%type default null,
+  created_by_in in employee.created_by%type default user,
+  created_on_in in employee.created_on%type default sysdate,
+  changed_by_in in employee.changed_by%type default user,
+  changed_on_in in employee.changed_on%type default sysdate
+  )
+  is
+  begin
+  newset('Defining "No Row" Values for Primary and Foreign Keys'
+  );
+  g_norow.employee_id := employee_id_in;
+  g_norow.last_name := last_name_in;
+  g_norow.first_name := first_name_in;
+  g_norow.middle_initial := middle_initial_in;
+  g_norow.job_id := job_id_in;
+  g_norow.manager_id := manager_id_in;
+  g_norow.hire_date := hire_dain;
+  g_norow.salary := salary_in;
+  g_norow.commission := commission_in;
+  g_norow.department_id := department_id_in;
+  g_norow.empno := empno_in;
+  g_norow.ename := ename_in;
+  g_norow.created_by := created_by_in;
+  g_norow.created_on := created_on_in;
+  g_norow.changed_by := changed_by_in;
+  g_norow.changed_on := changed_on_in;
+  g_norow_set := true;
+  end;
+
+  function norowset
+  return boolean
+  is
+  begin
+  return g_norow_set;
+  end;
+
+  -- Test unique index related functionality.
+  procedure uind(
+  maxrows in integer := null
+  )
+  is
+    v_row employee%rowtype;
+
+    --// Test record structures and functions to retrieve rows. --//
+    i_employee_name_r employee.i_employee_name_rt;
+    v_pky employee.pky_rt;
+  begin
+  newset('Unique Index-Related Fetch Activity',
+  '*'
+  );
+
+  -- Exercise "by primary key" cursor
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > nvl(maxrows,
+                                             5
+                                             );
+
+  -- Perform a lookup based on the primary key values.
+  v_pky :=
+  employee.i_employee_name$pky(rec.last_name,
+  rec.first_name,
+  rec.middle_initial
+  );
+
+  -- Display contents to verify the results.
+  dbms_output.put_line('Primary key from I_EMPLOYEE_NAME:'
+  );
+  dbms_output.put_line('**IND last_name: ' || rec.last_name
+  );
+  dbms_output.put_line('**IND first_name: ' || rec.first_name
+  );
+  dbms_output.put_line('**IND middle_initial: ' || rec.middle_initial
+  );
+  dbms_output.put_line('**PKY employee_id: ' || v_pky.employee_id
+  );
+
+  -- If user has set a "no row", use it to test a failed lookup
+  -- by primary key.
+  if norowset then
+  v_pky :=
+  employee.i_employee_name$pky(g_norow.last_name,
+  g_norow.first_name,
+  g_norow.middle_initial
+  );
+
+  -- If primary key is null, then the lookup failed.
+  if employee.isnullpky(v_pky
+     ) then
+  dbms_output.put_line('"No row" value from I_EMPLOYEE_NAME is invalid/NULL.'
+  );
+  end if;
+  end if;
+
+  newset('Look up index entry for a primary key.'
+  );
+
+  -- Use the primary key to return an index entry
+  i_employee_name_r := employee.i_employee_name$val(rec.employee_id
+                       );
+
+  dbms_output.put_line('Index i_employee_name values from Primary Key'
+  );
+  dbms_output.put_line('**PKY employee_id: ' || rec.employee_id
+  );
+  dbms_output.put_line('**IND last_name: ' || i_employee_name_r.last_name
+  );
+  dbms_output.put_line('**IND first_name: ' || i_employee_name_r.first_name
+  );
+  dbms_output.put_line('**IND middle_initial: ' ||
+                       i_employee_name_r.middle_initial
+  );
+
+  newset('Look up row for unique index'
+  );
+
+  -- Get all row information for the contents of a unique index entry.
+  v_row :=
+  employee.i_employee_name$row(rec.last_name,
+  rec.first_name,
+  rec.middle_initial
+  );
+  dbms_output.put_line('Entire row from I_EMPLOYEE_NAME:'
+  );
+  dbms_output.put_line('**IND last_name: ' || rec.last_name
+  );
+  dbms_output.put_line('**IND first_name: ' || rec.first_name
+  );
+  dbms_output.put_line('**IND middle_initial: ' || rec.middle_initial
+  );
+  showrow(v_row
+  );
+
+  end loop;
+  end uind;
+
+  procedure pky(
+  maxrows in integer := null
+  )
+  is
+    v_row employee.allforpky_cur%rowtype;
+
+    v_pky employee.pky_rt;
+
+  begin
+  newset('Primary Key-Related Activity',
+  '*'
+  );
+
+  -- Use the by primary key cursor.
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > nvl(maxrows,
+                                             5
+                                             );
+
+  newset('Cursor by primary key'
+  );
+
+  -- Open the cursor for the current primary key and fetch the row
+  -- it identifies.
+
+  open employee.allforpky_cur(rec.employee_id
+  );
+
+  fetch employee.allforpky_cur into v_row;
+
+  dbms_output.put_line('**PKY employee_id: ' || v_row.employee_id
+  );
+
+  if employee.allforpky_cur%notfound then
+  dbms_output.put_line('!! Row not found for primary key.'
+  );
+  else
+  dbms_output.put_line('Row found for primary key'
+  );
+  dbms_output.put_line('**COL last_name: ' || v_row.last_name
+  );
+  dbms_output.put_line('**COL first_name: ' || v_row.first_name
+  );
+  dbms_output.put_line('**COL middle_initial: ' || v_row.middle_initial
+  );
+  dbms_output.put_line('**COL job_id: ' || v_row.job_id
+  );
+  dbms_output.put_line('**COL manager_id: ' || v_row.manager_id
+  );
+  dbms_output.put_line('**COL hire_date: ' || v_row.hire_date
+  );
+  dbms_output.put_line('**COL salary: ' || v_row.salary
+  );
+  dbms_output.put_line('**COL commission: ' || v_row.commission
+  );
+  dbms_output.put_line('**COL department_id: ' || v_row.department_id
+  );
+  dbms_output.put_line('**COL empno: ' || v_row.empno
+  );
+  dbms_output.put_line('**COL ename: ' || v_row.ename
+  );
+  dbms_output.put_line('**COL created_by: ' || v_row.created_by
+  );
+  dbms_output.put_line('**COL created_on: ' || v_row.created_on
+  );
+  dbms_output.put_line('**COL changed_by: ' || v_row.changed_by
+  );
+  dbms_output.put_line('**COL changed_on: ' || v_row.changed_on
+  );
+  end if;
+
+  -- Close the cursor.
+  employee.close_allforpky_cur;
+
+  end loop;
+  end pky;
+
+  -- Test FKY related functionality.
+  procedure fky(
+  maxrows in integer := null
+  )
+  is
+    v_pky employee.employee_id%type;
+    -- Declare a cursor to obtain distinct foreign key values in the table.
+    cursor emp_dept_lookup_all_cur
+    is
+    select distinct   department_id
+    from     employee;
+    -- Declare a cursor to obtain distinct foreign key values in the table.
+    cursor emp_job_lookup_all_cur
+    is
+    select distinct   job_id
+    from     employee;
+    -- Declare a cursor to obtain distinct foreign key values in the table.
+    cursor emp_mgr_lookup_all_cur
+    is
+    select distinct   manager_id
+    from     employee;
+  begin
+  newset('Foreign Key-Related Activity',
+  '*'
+  );
+
+  -- For each value in this foreign key cursor...
+  for orec in emp_dept_lookup_all_cur loop
+  exit when emp_dept_lookup_all_cur%rowcount > nvl(maxrows,
+                                               5
+                                               );
+  newset('Retrieve Data for Foreign Key emp_dept_lookup'
+  );
+  dbms_output.put_line('**FKY department_id: ' || orec.department_id
+  );
+  -- Display all records identified for that foreign key.
+  for irec in employee.emp_dept_lookup_all_cur(orec.department_id
+              ) loop
+  if employee.emp_dept_lookup_all_cur%rowcount > nvl(maxrows,
+                                                 5
+                                                 ) then
+  --// Test close cursor program and then exit. --//
+  employee.close_emp_dept_lookup_all_cur;
+  exit;
+  else
+  showrow(irec
+  );
+  end if;
+  end loop;
+  end loop;
+  -- For each value in this foreign key cursor...
+  for orec in emp_job_lookup_all_cur loop
+  exit when emp_job_lookup_all_cur%rowcount > nvl(maxrows,
+                                              5
+                                              );
+  newset('Retrieve Data for Foreign Key emp_job_lookup'
+  );
+  dbms_output.put_line('**FKY job_id: ' || orec.job_id
+  );
+  -- Display all records identified for that foreign key.
+  for irec in employee.emp_job_lookup_all_cur(orec.job_id
+              ) loop
+  if employee.emp_job_lookup_all_cur%rowcount > nvl(maxrows,
+                                                5
+                                                ) then
+  --// Test close cursor program and then exit. --//
+  employee.close_emp_job_lookup_all_cur;
+  exit;
+  else
+  showrow(irec
+  );
+  end if;
+  end loop;
+  end loop;
+  -- For each value in this foreign key cursor...
+  for orec in emp_mgr_lookup_all_cur loop
+  exit when emp_mgr_lookup_all_cur%rowcount > nvl(maxrows,
+                                              5
+                                              );
+  newset('Retrieve Data for Foreign Key emp_mgr_lookup'
+  );
+  dbms_output.put_line('**FKY manager_id: ' || orec.manager_id
+  );
+  -- Display all records identified for that foreign key.
+  for irec in employee.emp_mgr_lookup_all_cur(orec.manager_id
+              ) loop
+  if employee.emp_mgr_lookup_all_cur%rowcount > nvl(maxrows,
+                                                5
+                                                ) then
+  --// Test close cursor program and then exit. --//
+  employee.close_emp_mgr_lookup_all_cur;
+  exit;
+  else
+  showrow(irec
+  );
+  end if;
+  end loop;
+  end loop;
+  end fky;
+
+  -- Test lookup functionality
+  procedure lookups(
+  maxrows in integer := null
+  )
+  is
+    v_row employee%rowtype;
+
+  begin
+  newset('Retrieve one row at a time.',
+  '*'
+  );
+
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > nvl(maxrows,
+                                             5
+                                             );
+
+  newset('Retrieve and display row and desc columns for primary key.'
+  );
+
+  dbms_output.put_line('**PKY employee_id: ' || rec.employee_id
+  );
+
+  -- Use onerow function to lookup row for this primary key value.
+  v_row := employee.onerow(rec.employee_id
+           );
+
+  if not employee.isnullpky(v_row
+     ) then
+  showrow(v_row
+  );
+  else
+  dbms_output.put_line('!! Row not found for primary key.'
+  );
+  end if;
+  end loop;
+
+
+  end lookups;
+
+  -- Test the validation programs.
+  procedure validate
+  is
+    v_row employee%rowtype;
+    v_valuesok boolean;
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+  begin
+  --// Check Constraint Validation --//
+
+  --// Check Constraint: DEPARTMENT_ID > 0 AND (salary > 0 OR salary IS NULL) --//
+  if not employee.employee$complex$chk(department_id_in => null,
+     salary_in => null
+     ) then
+  dbms_output.put_line('Constraint EMPLOYEE$COMPLEX failed.'
+  );
+  end if;
+
+  --// Check Constraint: DEPARTMENT_ID IS NOT NULL --//
+  if not employee.notnull_department_id$chk(department_id_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_DEPARTMENT_ID failed.'
+  );
+  end if;
+
+  --// Check Constraint: EMPLOYEE_ID IS NOT NULL --//
+  if not employee.notnull_employee_id$chk(employee_id_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_EMPLOYEE_ID failed.'
+  );
+  end if;
+
+  --// Check Constraint: HIRE_DATE IS NOT NULL --//
+  if not employee.notnull_hire_date$chk(hire_dain => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_HIRE_DATE failed.'
+  );
+  end if;
+
+  --// Check Constraint: CREATED_BY IS NOT NULL --//
+  if not employee.notnull_created_by$chk(created_by_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CREATED_BY failed.'
+  );
+  end if;
+
+  --// Check Constraint: CREATED_ON IS NOT NULL --//
+  if not employee.notnull_created_on$chk(created_on_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CREATED_ON failed.'
+  );
+  end if;
+
+  --// Check Constraint: CHANGED_BY IS NOT NULL --//
+  if not employee.notnull_changed_by$chk(changed_by_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CHANGED_BY failed.'
+  );
+  end if;
+
+  --// Check Constraint: CHANGED_ON IS NOT NULL --//
+  if not employee.notnull_changed_on$chk(changed_on_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CHANGED_ON failed.'
+  );
+  end if;
+
+  employee.validate(employee_id_in => null,
+  hire_dain => null,
+  salary_in => null,
+  department_id_in => null,
+  created_by_in => null,
+  created_on_in => null,
+  changed_by_in => null,
+  changed_on_in => null,
+  record_error => false                                    --// no record //--
+  );
+
+  employee.validate(v_row,
+  false
+  );
+  end validate;
+
+  -- Test insert activity.
+  procedure ins(
+  maxrows in integer := null
+  )
+  is
+    v_row employee%rowtype;
+    v_pky employee.pky_rt;
+    v_pkycol integer;
+    v_nxtpky integer;
+
+    --// Variable for every primary key column //--
+    v_employee_id employee.employee_id%type;
+
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+  begin
+  newset('INS: function-based record init'
+  );
+  v_row := employee.initrec;
+  showrow(v_row
+  );
+
+  newset('INS: procedure-based record init'
+  );
+  employee.initrec(v_row
+  );
+  showrow(v_row
+  );
+
+  rollback;
+
+  newset('INS: Pass in primary key'
+  );
+
+  employee.ins(v_employee_id,
+  substr('last_name',
+  1,
+  300
+  ),
+  substr('first_name',
+  1,
+  15
+  ),
+  substr('middle_initial',
+  1,
+  1
+  ),
+  22,
+  22,
+  sysdate,
+  22,
+  22,
+  22,
+  22,
+  substr('ename',
+  1,
+  30
+  ),
+  substr('created_by',
+  1,
+  100
+  ),
+  sysdate,
+  substr('changed_by',
+  1,
+  100
+  ),
+  sysdate,
+  false
+  );
+
+  rollback;
+
+  newset('INS: Record-based insert'
+  );
+
+  --// Populate the row! //--
+  employee.ins(v_row,
+  false
+  );
+
+  rollback;
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > 1;
+
+  --// Move primary key information to the PKY record. //--
+  v_pky.employee_id := rec.employee_id;
+
+  --// Try to reinsert same record with update-on-dup option. //--
+  --// Double all nonprimary key column values. //--
+  v_row.last_name := substr(v_row.last_name || v_row.last_name,
+                     1,
+                     300
+                     );
+  v_row.first_name := substr(v_row.first_name || v_row.first_name,
+                      1,
+                      15
+                      );
+  v_row.middle_initial :=
+                   substr(v_row.middle_initial || v_row.middle_initial,
+                   1,
+                   1
+                   );
+  v_row.job_id := v_row.job_id + v_row.job_id;
+  v_row.manager_id := v_row.manager_id + v_row.manager_id;
+  v_row.hire_date :=
+             v_row.hire_date + (
+                               v_row.hire_date - trunc(v_row.hire_date,
+                                                 'YY'
+                                                 )
+                               );
+  v_row.salary := v_row.salary + v_row.salary;
+  v_row.commission := v_row.commission + v_row.commission;
+  v_row.department_id := v_row.department_id + v_row.department_id;
+  v_row.empno := v_row.empno + v_row.empno;
+  v_row.ename := substr(v_row.ename || v_row.ename,
+                 1,
+                 30
+                 );
+  v_row.created_by := substr(v_row.created_by || v_row.created_by,
+                      1,
+                      100
+                      );
+  v_row.created_on :=
+          v_row.created_on + (
+                             v_row.created_on - trunc(v_row.created_on,
+                                                'YY'
+                                                )
+                             );
+  v_row.changed_by := substr(v_row.changed_by || v_row.changed_by,
+                      1,
+                      100
+                      );
+  v_row.changed_on :=
+          v_row.changed_on + (
+                             v_row.changed_on - trunc(v_row.changed_on,
+                                                'YY'
+                                                )
+                             );
+
+  employee.ins(v_row,
+  true
+  );
+
+  rollback;
+
+  --// Try to reinsert same record with no-update option. //--
+  employee.ins(v_row,
+  false
+  );
+
+  rollback;
+  end loop;
+  end ins;
+  procedure upd(
+  maxrows in integer := null
+  )
+  is
+    v_row employee%rowtype;
+    v_pky employee.pky_rt;
+    v_last_name employee.last_name%type;
+    v_first_name employee.first_name%type;
+    v_middle_initial employee.middle_initial%type;
+    v_job_id employee.job_id%type;
+    v_manager_id employee.manager_id%type;
+    v_hire_date employee.hire_date%type;
+    v_salary employee.salary%type;
+    v_commission employee.commission%type;
+    v_department_id employee.department_id%type;
+    v_empno employee.empno%type;
+    v_ename employee.ename%type;
+    v_created_by employee.created_by%type;
+    v_created_on employee.created_on%type;
+    v_changed_by employee.changed_by%type;
+    v_changed_on employee.changed_on%type;
+
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+    v_rowcount integer;
+  begin
+  newset('UPD: Update Processing',
+  '*'
+  );
+
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > nvl(maxrows,
+                                             5
+                                             );
+
+  --// Move primary key information to the PKY record. //--
+  v_pky.employee_id := rec.employee_id;
+
+  newset('UPD: Turn off all force fields with reset, update all NULLs'
+  );
+  employee.reset$frc;
+  employee.upd(rec.employee_id,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  v_rowcount,
+  true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount
+  );
+  rollback;
+
+  newset('UPD: Turn on force fields, update all NULLs'
+  );
+  employee.upd(rec.employee_id,
+  'a',
+  'a',
+  'a',
+  1,
+  1,
+  sysdate,
+  1,
+  1,
+  1,
+  1,
+  'a',
+  'a',
+  sysdate,
+  'a',
+  sysdate,
+  v_rowcount,
+  true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount
+  );
+
+  rollback;
+
+  newset('UPD: Record-based Update'
+  );
+
+  employee.upd(v_row,
+  v_rowcount,
+  true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount
+  );
+  end loop;
+  end upd;
+
+
+  procedure del(
+  maxrows in integer := null
+  )
+  is
+    v_pky employee.pky_rt;
+    v_last_name employee.last_name%type;
+    v_first_name employee.first_name%type;
+    v_middle_initial employee.middle_initial%type;
+    v_job_id employee.job_id%type;
+    v_manager_id employee.manager_id%type;
+    v_hire_date employee.hire_date%type;
+    v_salary employee.salary%type;
+    v_commission employee.commission%type;
+    v_department_id employee.department_id%type;
+    v_empno employee.empno%type;
+    v_ename employee.ename%type;
+    v_created_by employee.created_by%type;
+    v_created_on employee.created_on%type;
+    v_changed_by employee.changed_by%type;
+    v_changed_on employee.changed_on%type;
+    v_rowcount integer;
+
+    procedure showcount(
+    str in varchar2 := null
+    )
+    is
+    begin
+    select   count(*)
+    into    v_rowcount
+    from     employee;
+
+    dbms_output.put_line('# of rows in table ' || str || ': ' || v_rowcount
+    );
+    end;
+  begin
+  newset('DEL: Delete Processing',
+  '*'
+  );
+
+  showcount('before delete - individual fields'
+  );
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > nvl(maxrows,
+                                             5
+                                             );
+  employee.del(rec.employee_id,
+  v_rowcount
+  );
+  end loop;
+  showcount('after delete'
+  );
+
+  rollback;
+
+  showcount('before delete - by record'
+  );
+  for rec in employee.allbypky_cur loop
+  exit when employee.allbypky_cur%rowcount > nvl(maxrows,
+                                             5
+                                             );
+  v_pky.employee_id := rec.employee_id;
+  employee.del(v_pky,
+  v_rowcount
+  );
+  end loop;
+  showcount('after delete'
+  );
+
+  rollback;
+
+  if norowset then
+  showcount('Delete "No Row"'
+  );
+  employee.del(g_norow.employee_id,
+  v_rowcount
+  );
+  dbms_output.put_line('Number of "no rows" deleted:' || v_rowcount
+  );
+  end if;
+
+  end;
+
+  procedure load
+  is
+  begin
+  dbms_output.put_line('LOAD: Pre-loading not performed for this table.'
+  );
+  end;
+
+end employee_tst;
+/

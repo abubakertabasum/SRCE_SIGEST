@@ -1,0 +1,705 @@
+// Ver  Date               Author             Description
+// ===  =================  ================   ==========================================
+// 1.1  March 17, 2000     Steve C. Chapman   Added Oracle Reserved words: NOTFOUND and SQLBUF.
+//                                            Added PLSQL Reserved words: COLUMNS and DELTA.
+//                                            Added new category: Oracle Keywords.
+
+#define st_DEFAULT                     0
+#define st_COMMENT                     1
+#define st_IDENTIFIER                  2
+#define st_STRING                      3
+#define st_NUMBER                      4
+#define st_SYMBOL                      5
+#define st_SQLRESERVED                 6
+#define st_PLSQLRESERVED               7
+#define st_SQLFUNCTION                 8
+#define st_DEFAULTPACKAGE              9
+#define st_DEFAULTEXCEPTION           10
+#define st_DEFAULTPACKAGEEXCEPTION    11
+#define st_COMMENT_LINE               12
+#define st_COMMENT_STAR               13
+#define st_RESERVED                   14
+#define st_EXCEPTION                  15
+#define st_CONSTANT                   16
+#define st_DEFAULTPACKAGECONSTANT     17
+#define st_DATATYPE                   18
+#define st_SQLDATATYPE                19
+#define st_PLSQLDATATYPE              20
+#define st_DEFAULTPACKAGEDATATYPE     21
+#define st_TABLENAMES                 22
+#define st_USERPROCEDURES             23
+#define st_PLSqlString                24
+#define st_SYSVIEWS                   25
+#define st_KEYWORD                    26
+
+#define st_PROCEDURE                60
+#define st_FUNCTION                 61
+#define st_TRIGGER                  62
+#define st_WHITESPACE               63
+#define st_DOT                      64
+#define st_PACKAGE                  65
+#define st_BODY                     66
+#define st_TYPE                     67
+#define st_TYPE                     67
+#define st_NEWLINE                  68
+
+#define _non_alpha_                 '[^_A-Za-z0-9]'
+#define _all_chars_                 '[\x00-\xFF]'
+#define _no_chars_                  '[]'
+#define _dont_care_                 _all_chars_
+#define _DEFAULT_BACKGROUND         clWhite
+#define _DEFAULT_FOREGROUND         clBlack
+#define ss_D1  200
+#define ss_D2  201
+#define ss_D3  202
+#define ss_D4  203
+
+
+%%language
+StartState                = [0, ss_D1, ss_D2, ss_D3, ss_D4]
+Name                      = 'PLSQL'
+Case                      = __INSENSITIVE
+Options                   = __DEFAULT_OPTIONS or __OPT_APPLY_CAPITALIZATION
+WordWrapColumn            = _EDGE
+Gutter                    = _DEFAULT_GUTTER
+//Anchor                    = _DEFAULT_START_ANCHOR
+Anchor                    =  [ st_COMMENT   st_IDENTIFIER
+                   st_STRING   st_NUMBER  st_SYMBOL    st_SQLRESERVED
+                   st_PLSQLRESERVED   st_SQLFUNCTION   st_DEFAULTPACKAGE
+                   st_DEFAULTEXCEPTION   st_DEFAULTPACKAGEEXCEPTION
+                   st_COMMENT_LINE    st_COMMENT_STAR   st_RESERVED
+                   st_EXCEPTION  st_CONSTANT   st_DEFAULTPACKAGECONSTANT
+                   st_DATATYPE   st_SQLDATATYPE    st_PLSQLDATATYPE
+                   st_PLSqlString   st_KEYWORD]
+//                   st_DEFAULTPACKAGEDATATYPE   st_TABLENAMES
+//                   st_USERPROCEDURES   st_PLSqlString     st_SYSVIEWS ]
+
+IndentStep                = 1
+FontName                  = 'Courier New'
+FontSize                  = 10
+ExampleText               = '\DECLARE\n\
+                            \  c_ausw_nr  CONSTANT VARCHAR2(4) := \'14\';\n\
+                            \  v_book     book%ROWTYPE;\n\
+                            \ \n\
+                            \BEGIN\n\
+                            \  DELETE FROM commercial\n\
+                            \END;\n'
+
+EditableStyles              ('Reserved word', st_RESERVED),
+                            ('SQL Functions', st_SQLFUNCTION),
+                            ('Default Packages', st_DEFAULTPACKAGE),
+                            ('Exceptions',    st_EXCEPTION),
+                            ('Comment',       st_COMMENT),
+                            ('Identifier',    st_IDENTIFIER),
+                            ('String',        st_STRING),
+                            ('Number',        st_NUMBER),
+                            ('Symbols',       st_SYMBOL),
+                            ('Datatypes',     st_DATATYPE),
+                            ('Table Names',   st_TABLENAMES),
+                            ('SYS Views',     st_SYSVIEWS),
+                            ('Sql Reserved',   st_SQLRESERVED),
+                            ('PLSql Reserved',   st_PLSQLRESERVED),
+                            ('Keywords',         st_KEYWORD),
+                            ('Default Exceptions',   st_DEFAULTEXCEPTION),
+                            ('User Procedures',   st_USERPROCEDURES),
+                            ('Default',       st_DEFAULT)
+
+%%handler
+st_COMMENT_LINE         '[^\n]'?                    '\n'           _discard_
+st_COMMENT_STAR         _all_chars_                 '*/'           _use_
+
+%%tokens
+st_STRING              __STD_PLSQLSTRING
+//st_STRING           __STD_PASCALSTRING
+st_STRING              __STD_C_STRING
+st_NUMBER              __STD_NUMBER_OR_FP
+st_IDENTIFIER         '[a-zA-Z_\$]'  '[a-zA-Z0-9_\$]'?  '[^a-zA-Z0-9_\$]' _discard_
+st_NEWLINE     '[\n]'      '[\n]'?    '[^\n]'     _discard_
+st_WHITESPACE  '[\s\t]'    '[\s\t]'?  '[^\s\t]'   _discard_
+
+
+%%effects
+st_DEFAULT          []  _DEFAULT_FOREGROUND   _DEFAULT_BACKGROUND
+st_IDENTIFIER       []  clBlack               _DEFAULT_BACKGROUND
+st_STRING           []  clRed                 _DEFAULT_BACKGROUND
+st_COMMENT          []  clGreen               _DEFAULT_BACKGROUND
+st_PLSQLRESERVED    [UpperCase]  clBlue       _DEFAULT_BACKGROUND
+st_SQLRESERVED      [UpperCase]  clBlue       _DEFAULT_BACKGROUND
+st_RESERVED         [UpperCase]  clBlue       _DEFAULT_BACKGROUND
+st_SQLFUNCTION      [UpperCase]  _DEFAULT_FOREGROUND  _DEFAULT_BACKGROUND
+st_DEFAULTPACKAGE   [UpperCase]  clblue       _DEFAULT_BACKGROUND
+st_EXCEPTION        [UpperCase]  clred        _DEFAULT_BACKGROUND
+st_DEFAULTEXCEPTION [UpperCase]  clred        _DEFAULT_BACKGROUND
+st_NUMBER           []  clMaroon              _DEFAULT_BACKGROUND
+st_SYMBOL           []  clBlue                _DEFAULT_BACKGROUND
+st_DATATYPE         [UpperCase]  clRed        _DEFAULT_BACKGROUND
+st_CONSTANT         []  _DEFAULT_FOREGROUND   _DEFAULT_BACKGROUND
+st_TABLENAMES       [UpperCase]  clOlive      _DEFAULT_BACKGROUND
+st_SYSVIEWS         [UpperCase]  clMaroon     _DEFAULT_BACKGROUND
+st_USERPROCEDURES   [InitialCap]  clOlive     _DEFAULT_BACKGROUND
+st_SQLDATATYPE      [UpperCase]  clRed        _DEFAULT_BACKGROUND
+st_PLSQLDATATYPE    [UpperCase]  clRed        _DEFAULT_BACKGROUND
+st_PLSqlString      []           clRed        _DEFAULT_BACKGROUND
+st_KEYWORD          [UpperCase]  clBlue       _DEFAULT_BACKGROUND
+
+
+%%autoreplace    ActionKeys    = ';,:=[]\n\t\s'
+        'NDF'         = 'NO_DATA_FOUND'
+        'teh'         = 'the'
+        '(c)'         = '©'
+        '(r)'         = '®'
+        '(tm)'        = '™'
+
+
+%%kwtables
+  ForState [ss_D1] endswith _non_alpha_
+    ( st_SQLDATATYPE is  'FLOAT', 'LONG', 'INTEGER', 'CHAR', 'NUMBER',
+         'RAW', 'SMALLINT', 'VARCHAR', 'VARCHAR2'
+    )
+
+  ForState [ss_D2] endswith _non_alpha_
+    ( st_TABLENAMES is  'TOAD_PLAN_TABLE'
+    )
+
+  ForState [ss_D3] endswith _non_alpha_
+    ( st_SYSVIEWS is  'ALL_VIEWS'
+    )
+
+  ForState [ss_D4] endswith _non_alpha_
+    ( st_USERPROCEDURES is  'UNKNOWN'
+    )
+
+  ForState [] endswith _non_alpha_
+      ( st_PROCEDURE is 'procedure'
+        st_FUNCTION  is 'function'
+        st_PACKAGE   is 'package'
+        st_BODY      is 'body'
+        st_TYPE      is 'type'
+        st_TRIGGER   is 'trigger'
+        )
+
+%%map
+st_RESERVED                             st_RESERVED
+st_DEFAULT                              st_DEFAULT
+st_IDENTIFIER                           st_IDENTIFIER
+st_PLSqlString                          st_PLSqlString
+st_STRING                               st_STRING
+st_COMMENT                              st_COMMENT
+st_COMMENT_LINE                         st_COMMENT
+st_COMMENT_STAR                         st_COMMENT
+st_SQLRESERVED                          st_SQLRESERVED
+st_PLSQLRESERVED                        st_PLSQLRESERVED
+st_SQLFUNCTION                          st_SQLFUNCTION
+st_DEFAULTPACKAGE                       st_DEFAULTPACKAGE
+st_EXCEPTION                            st_EXCEPTION
+st_DEFAULTPACKAGEEXCEPTION              st_EXCEPTION
+st_DEFAULTEXCEPTION                     st_EXCEPTION
+st_SYMBOL                               st_SYMBOL
+st_NUMBER                               st_NUMBER
+st_CONSTANT                             st_CONSTANT
+st_DEFAULTPACKAGECONSTANT               st_CONSTANT
+st_DEFAULTPACKAGEDATATYPE               st_DATATYPE
+st_SQLDATATYPE                          st_DATATYPE
+st_PLSQLDATATYPE                        st_DATATYPE
+st_DATATYPE                             st_DATATYPE
+st_TABLENAMES                           st_TABLENAMES
+st_SYSVIEWS                             st_SYSVIEWS
+st_USERPROCEDURES                       st_USERPROCEDURES
+st_PROCEDURE                            st_PLSQLRESERVED
+st_FUNCTION                             st_PLSQLRESERVED
+st_TRIGGER                              st_PLSQLRESERVED
+st_PACKAGE                              st_PLSQLRESERVED
+st_BODY                                 st_PLSQLRESERVED
+st_TYPE                                 st_PLSQLRESERVED
+st_WHITESPACE                           st_DEFAULT
+st_DOT                                  st_SYMBOL
+st_NEWLINE                              st_DEFAULT
+st_KEYWORD                              st_KEYWORD
+
+%%templates
+Hotkey =  ([Ctrl] ' ')
+
+
+%%words
+'--'             _dont_care_       st_COMMENT_LINE
+'REM '           _dont_care_       st_COMMENT_LINE
+'/*'             _dont_care_       st_COMMENT_STAR
+'!'              _dont_care_       st_SYMBOL
+'$'              _dont_care_       st_SYMBOL
+'%'              _dont_care_       st_SYMBOL
+'^'              _dont_care_       st_SYMBOL
+'&'              _dont_care_       st_SYMBOL
+'*'              _dont_care_       st_SYMBOL
+'('              _dont_care_       st_SYMBOL
+')'              _dont_care_       st_SYMBOL
+'-'              _dont_care_       st_SYMBOL
+'='              _dont_care_       st_SYMBOL
+'+'              _dont_care_       st_SYMBOL
+'{'              _dont_care_       st_SYMBOL
+'}'              _dont_care_       st_SYMBOL
+'['              _dont_care_       st_SYMBOL
+']'              _dont_care_       st_SYMBOL
+':'              _dont_care_       st_SYMBOL
+';'              _dont_care_       st_SYMBOL
+'@'              _dont_care_       st_SYMBOL
+'#'              _dont_care_       st_SYMBOL
+'~'              _dont_care_       st_SYMBOL
+'<'              _dont_care_       st_SYMBOL
+'>'              _dont_care_       st_SYMBOL
+','              _dont_care_       st_SYMBOL
+'.'              _dont_care_       st_DOT
+'/'              _dont_care_       st_SYMBOL
+'?'              _dont_care_       st_SYMBOL
+'\\'             _dont_care_       st_SYMBOL
+'ACCESS'         _non_alpha_       st_SQLRESERVED
+'ADD'            _non_alpha_       st_SQLRESERVED
+'ALL'            _non_alpha_       st_SQLRESERVED
+'ALTER'          _non_alpha_       st_SQLRESERVED
+'AND'            _non_alpha_       st_SQLRESERVED
+'ANY'            _non_alpha_       st_SQLRESERVED
+'AS'             _non_alpha_       st_SQLRESERVED
+'ASC'            _non_alpha_       st_SQLRESERVED
+'AUDIT'          _non_alpha_       st_SQLRESERVED
+'BETWEEN'        _non_alpha_       st_SQLRESERVED
+'BY'             _non_alpha_       st_SQLRESERVED
+'CHAR'           _non_alpha_       st_SQLDATATYPE
+'CHECK'          _non_alpha_       st_SQLRESERVED
+'CLUSTER'        _non_alpha_       st_SQLRESERVED
+'COLUMN'         _non_alpha_       st_SQLRESERVED
+'COMMENT'        _non_alpha_       st_SQLRESERVED
+'COMPRESS'       _non_alpha_       st_SQLRESERVED
+'CONNECT'        _non_alpha_       st_SQLRESERVED
+'CREATE'         _non_alpha_       st_SQLRESERVED
+'CURRENT'        _non_alpha_       st_SQLRESERVED
+'DATE'           _non_alpha_       st_SQLRESERVED
+'DECIMAL'        _non_alpha_       st_SQLRESERVED
+'DEFAULT'        _non_alpha_       st_SQLRESERVED
+'DELETE'         _non_alpha_       st_SQLRESERVED
+'DESC'           _non_alpha_       st_SQLRESERVED
+'DISTINCT'       _non_alpha_       st_SQLRESERVED
+'DROP'           _non_alpha_       st_SQLRESERVED
+'ELSE'           _non_alpha_       st_SQLRESERVED
+'EXCLUSIVE'      _non_alpha_       st_SQLRESERVED
+'EXISTS'         _non_alpha_       st_SQLRESERVED
+'FILE'           _non_alpha_       st_SQLRESERVED
+'FLOAT'          _non_alpha_       st_SQLDATATYPE
+'FOR'            _non_alpha_       st_SQLRESERVED
+'FROM'           _non_alpha_       st_SQLRESERVED
+'GRANT'          _non_alpha_       st_SQLRESERVED
+'GROUP'          _non_alpha_       st_SQLRESERVED
+'HAVING'         _non_alpha_       st_SQLRESERVED
+'IDENTIFIED'     _non_alpha_       st_SQLRESERVED
+'IMMEDIATE'      _non_alpha_       st_SQLRESERVED
+'IN'             _non_alpha_       st_SQLRESERVED
+'INCREMENT'      _non_alpha_       st_SQLRESERVED
+'INDEX'          _non_alpha_       st_SQLRESERVED
+'INITIAL'        _non_alpha_       st_SQLRESERVED
+'INSERT'         _non_alpha_       st_SQLRESERVED
+'INTEGER'        _non_alpha_       st_SQLDATATYPE
+'INTERSECT'      _non_alpha_       st_SQLRESERVED
+'INTO'           _non_alpha_       st_SQLRESERVED
+'IS'             _non_alpha_       st_SQLRESERVED
+'LEVEL'          _non_alpha_       st_SQLRESERVED
+'LIKE'           _non_alpha_       st_SQLRESERVED
+'LOCK'           _non_alpha_       st_SQLRESERVED
+'LONG'           _non_alpha_       st_SQLDATATYPE
+'MAXEXTENTS'     _non_alpha_       st_SQLRESERVED
+'MINUS'          _non_alpha_       st_SQLRESERVED
+'MLSLABEL'       _non_alpha_       st_SQLRESERVED
+'MODE'           _non_alpha_       st_SQLRESERVED
+'MODIFY'         _non_alpha_       st_SQLRESERVED
+'NOAUDIT'        _non_alpha_       st_SQLRESERVED
+'NOCOMPRESS'     _non_alpha_       st_SQLRESERVED
+'NOT'            _non_alpha_       st_SQLRESERVED
+'NOTFOUND'       _non_alpha_       st_SQLRESERVED
+'NOWAIT'         _non_alpha_       st_SQLRESERVED
+'NULL'           _non_alpha_       st_SQLRESERVED
+'NUMBER'         _non_alpha_       st_SQLDATATYPE
+'OF'             _non_alpha_       st_SQLRESERVED
+'OFFLINE'        _non_alpha_       st_SQLRESERVED
+'ON'             _non_alpha_       st_SQLRESERVED
+'ONLINE'         _non_alpha_       st_SQLRESERVED
+'OPTION'         _non_alpha_       st_SQLRESERVED
+'OR'             _non_alpha_       st_SQLRESERVED
+'ORDER'          _non_alpha_       st_SQLRESERVED
+'PCTFREE'        _non_alpha_       st_SQLRESERVED
+'PRIOR'          _non_alpha_       st_SQLRESERVED
+'PRIVILEGES'     _non_alpha_       st_SQLRESERVED
+'PUBLIC'         _non_alpha_       st_SQLRESERVED
+'RAW'            _non_alpha_       st_SQLDATATYPE
+'RENAME'         _non_alpha_       st_SQLRESERVED
+'REPLACE'        _non_alpha_       st_SQLRESERVED
+'RESOURCE'       _non_alpha_       st_SQLRESERVED
+'REVOKE'         _non_alpha_       st_SQLRESERVED
+'ROW'            _non_alpha_       st_SQLRESERVED
+'ROWID'          _non_alpha_       st_SQLRESERVED
+'ROWLABEL'       _non_alpha_       st_SQLRESERVED
+'ROWNUM'         _non_alpha_       st_SQLRESERVED
+'ROWS'           _non_alpha_       st_SQLRESERVED
+'SELECT'         _non_alpha_       st_SQLRESERVED
+'SESSION'        _non_alpha_       st_SQLRESERVED
+'SET'            _non_alpha_       st_SQLRESERVED
+'SHARE'          _non_alpha_       st_SQLRESERVED
+'SIZE'           _non_alpha_       st_SQLRESERVED
+'SMALLINT'       _non_alpha_       st_SQLDATATYPE
+'SQLBUF'         _non_alpha_       st_SQLRESERVED
+'START'          _non_alpha_       st_SQLRESERVED
+'SUCCESSFUL'     _non_alpha_       st_SQLRESERVED
+'SYNONYM'        _non_alpha_       st_SQLRESERVED
+'SYSDATE'        _non_alpha_       st_SQLRESERVED
+'TABLE'          _non_alpha_       st_SQLRESERVED
+'THEN'           _non_alpha_       st_SQLRESERVED
+'TO'             _non_alpha_       st_SQLRESERVED
+'UNION'          _non_alpha_       st_SQLRESERVED
+'UNIQUE'         _non_alpha_       st_SQLRESERVED
+'UPDATE'         _non_alpha_       st_SQLRESERVED
+'VALIDATE'       _non_alpha_       st_SQLRESERVED
+'VALUES'         _non_alpha_       st_SQLRESERVED
+'VARCHAR'        _non_alpha_       st_SQLDATATYPE
+'VARCHAR2'       _non_alpha_       st_SQLDATATYPE
+'VIEW'           _non_alpha_       st_SQLRESERVED
+'WHENEVER'       _non_alpha_       st_SQLRESERVED
+'WHERE'          _non_alpha_       st_SQLRESERVED
+'WITH'           _non_alpha_       st_SQLRESERVED
+'ABORT'          _non_alpha_       st_PLSQLRESERVED
+'ACCEPT'         _non_alpha_       st_PLSQLRESERVED
+'ARRAY'          _non_alpha_       st_PLSQLRESERVED
+'ARRAYLEN'       _non_alpha_       st_PLSQLRESERVED
+'ASSERT'         _non_alpha_       st_PLSQLRESERVED
+'ASSIGN'         _non_alpha_       st_PLSQLRESERVED
+'AT'             _non_alpha_       st_PLSQLRESERVED
+'AUTHORIZATION'  _non_alpha_       st_PLSQLRESERVED
+'BASE_TABLE'     _non_alpha_       st_PLSQLRESERVED
+'BEGIN'          _non_alpha_       st_PLSQLRESERVED
+'BINARY_INTEGER'  _non_alpha_       st_PLSQLDATATYPE
+'BOOLEAN'        _non_alpha_       st_PLSQLDATATYPE
+'CASE'           _non_alpha_       st_PLSQLRESERVED
+'CHAR_BASE'      _non_alpha_       st_PLSQLRESERVED
+'CLOSE'          _non_alpha_       st_PLSQLRESERVED
+'CLUSTERS'       _non_alpha_       st_PLSQLRESERVED
+'COLAUTH'        _non_alpha_       st_PLSQLRESERVED
+'COLUMNS'        _non_alpha_       st_PLSQLRESERVED
+'COMMIT'         _non_alpha_       st_PLSQLRESERVED
+'CONSTANT'       _non_alpha_       st_PLSQLRESERVED
+'CRASH'          _non_alpha_       st_PLSQLRESERVED
+'CURRVAL'        _non_alpha_       st_PLSQLRESERVED
+'CURSOR'         _non_alpha_       st_PLSQLRESERVED
+'DATABASE'       _non_alpha_       st_PLSQLRESERVED
+'DATA_BASE'      _non_alpha_       st_PLSQLRESERVED
+'DBA'            _non_alpha_       st_PLSQLRESERVED
+'DEBUGOFF'       _non_alpha_       st_PLSQLRESERVED
+'DEBUGON'        _non_alpha_       st_PLSQLRESERVED
+'DECLARE'        _non_alpha_       st_PLSQLRESERVED
+'DEFINITION'     _non_alpha_       st_PLSQLRESERVED
+'DELAY'          _non_alpha_       st_PLSQLRESERVED
+'DELTA'          _non_alpha_       st_PLSQLRESERVED
+'DIGITS'         _non_alpha_       st_PLSQLRESERVED
+'DISPOSE'        _non_alpha_       st_PLSQLRESERVED
+'DO'             _non_alpha_       st_PLSQLRESERVED
+'ELSIF'          _non_alpha_       st_PLSQLRESERVED
+'END'            _non_alpha_       st_PLSQLRESERVED
+'ENTRY'          _non_alpha_       st_PLSQLRESERVED
+'EXCEPTION'      _non_alpha_       st_PLSQLRESERVED
+'EXCEPTION_INIT' _non_alpha_       st_PLSQLRESERVED
+'EXIT'           _non_alpha_       st_PLSQLRESERVED
+'FALSE'          _non_alpha_       st_PLSQLRESERVED
+'FETCH'          _non_alpha_       st_PLSQLRESERVED
+'FORM'           _non_alpha_       st_PLSQLRESERVED
+'GENERIC'        _non_alpha_       st_PLSQLRESERVED
+'GOTO'           _non_alpha_       st_PLSQLRESERVED
+'IF'             _non_alpha_       st_PLSQLRESERVED
+'INDEXES'        _non_alpha_       st_PLSQLRESERVED
+'INDICATOR'      _non_alpha_       st_PLSQLRESERVED
+'INTERFACE'      _non_alpha_       st_PLSQLRESERVED
+'LIMITED'        _non_alpha_       st_PLSQLRESERVED
+'LOOP'           _non_alpha_       st_PLSQLRESERVED
+'NATURAL'        _non_alpha_       st_PLSQLRESERVED
+'NATURALN'       _non_alpha_       st_PLSQLRESERVED
+'NEW'            _non_alpha_       st_PLSQLRESERVED
+'NEXTVAL'        _non_alpha_       st_PLSQLRESERVED
+'NUMBER_BASE'    _non_alpha_       st_PLSQLRESERVED
+'OLD'            _non_alpha_       st_PLSQLRESERVED
+'OPEN'           _non_alpha_       st_PLSQLRESERVED
+'OUT'            _non_alpha_       st_PLSQLRESERVED
+'PARTITION'      _non_alpha_       st_PLSQLRESERVED
+'PLS_INTEGER'    _non_alpha_       st_PLSQLDATATYPE
+'POSITIVE'       _non_alpha_       st_PLSQLRESERVED
+'POSITIVEN'      _non_alpha_       st_PLSQLRESERVED
+'PRAGMA'         _non_alpha_       st_PLSQLRESERVED
+'PRIVATE'        _non_alpha_       st_PLSQLRESERVED
+'RAISE'          _non_alpha_       st_PLSQLRESERVED
+'RANGE'          _non_alpha_       st_PLSQLRESERVED
+'REAL'           _non_alpha_       st_PLSQLDATATYPE
+'RECORD'         _non_alpha_       st_PLSQLRESERVED
+'REF'            _non_alpha_       st_PLSQLRESERVED
+'RELEASE'        _non_alpha_       st_PLSQLRESERVED
+'REMR'           _non_alpha_       st_PLSQLRESERVED
+'RESTRICT_REFERENCES'         _non_alpha_       st_PLSQLRESERVED
+'RETURN'         _non_alpha_       st_PLSQLRESERVED
+'REVERSE'        _non_alpha_       st_PLSQLRESERVED
+'ROLLBACK'       _non_alpha_       st_PLSQLRESERVED
+'ROWTYPE'        _non_alpha_       st_PLSQLRESERVED
+'RUN'            _non_alpha_       st_PLSQLRESERVED
+'SAVEPOINT'      _non_alpha_       st_PLSQLRESERVED
+'SCHEMA'         _non_alpha_       st_PLSQLRESERVED
+'SEPARATE'       _non_alpha_       st_PLSQLRESERVED
+'SPACE'          _non_alpha_       st_PLSQLRESERVED
+'SQL'            _non_alpha_       st_PLSQLRESERVED
+'SQLCODE'        _non_alpha_       st_PLSQLRESERVED
+'SQLERRM'        _non_alpha_       st_PLSQLRESERVED
+'STATEMENT'      _non_alpha_       st_PLSQLRESERVED
+'SUBTYPE'        _non_alpha_       st_PLSQLRESERVED
+'TABAUTH'        _non_alpha_       st_PLSQLRESERVED
+'TABLES'         _non_alpha_       st_PLSQLRESERVED
+'TASK'           _non_alpha_       st_PLSQLRESERVED
+'TERMINATE'      _non_alpha_       st_PLSQLRESERVED
+'TRUE'           _non_alpha_       st_PLSQLRESERVED
+'USE'            _non_alpha_       st_PLSQLRESERVED
+'VIEWS'          _non_alpha_       st_PLSQLRESERVED
+'WHEN'           _non_alpha_       st_PLSQLRESERVED
+'WHILE'          _non_alpha_       st_PLSQLRESERVED
+'WORK'           _non_alpha_       st_PLSQLRESERVED
+'WRITE'          _non_alpha_       st_PLSQLRESERVED
+'XOR'            _non_alpha_       st_PLSQLRESERVED
+'TO_CHAR'        _non_alpha_       st_SQLFUNCTION
+'TO_DATE'        _non_alpha_       st_SQLFUNCTION
+'TO_NUMBER'      _non_alpha_       st_SQLFUNCTION
+'ABS'            _non_alpha_       st_SQLFUNCTION
+'ACOS'           _non_alpha_       st_SQLFUNCTION
+'ASIN'           _non_alpha_       st_SQLFUNCTION
+'ATAN'           _non_alpha_       st_SQLFUNCTION
+'ATAN2'          _non_alpha_       st_SQLFUNCTION
+'CEIL'           _non_alpha_       st_SQLFUNCTION
+'COS'            _non_alpha_       st_SQLFUNCTION
+'COSH'           _non_alpha_       st_SQLFUNCTION
+'EXP'            _non_alpha_       st_SQLFUNCTION
+'FLOOR'          _non_alpha_       st_SQLFUNCTION
+'LN'             _non_alpha_       st_SQLFUNCTION
+'LOG'            _non_alpha_       st_SQLFUNCTION
+'MOD'            _non_alpha_       st_SQLFUNCTION
+'POWER'          _non_alpha_       st_SQLFUNCTION
+'ROUND'          _non_alpha_       st_SQLFUNCTION
+'SIGN'           _non_alpha_       st_SQLFUNCTION
+'SIN'            _non_alpha_       st_SQLFUNCTION
+'SINH'           _non_alpha_       st_SQLFUNCTION
+'SQRT'           _non_alpha_       st_SQLFUNCTION
+'TAN'            _non_alpha_       st_SQLFUNCTION
+'TANH'           _non_alpha_       st_SQLFUNCTION
+'TRUNC'          _non_alpha_       st_SQLFUNCTION
+'CHR'            _non_alpha_       st_SQLFUNCTION
+'CONCAT'         _non_alpha_       st_SQLFUNCTION
+'INITCAP'        _non_alpha_       st_SQLFUNCTION
+'LOWER'          _non_alpha_       st_SQLFUNCTION
+'LPAD'           _non_alpha_       st_SQLFUNCTION
+'LTRIM'          _non_alpha_       st_SQLFUNCTION
+'NLS_INITCAP'    _non_alpha_       st_SQLFUNCTION
+'NLS_LOWER'      _non_alpha_       st_SQLFUNCTION
+'NLS_UPPER'      _non_alpha_       st_SQLFUNCTION
+'RPAD'           _non_alpha_       st_SQLFUNCTION
+'RTRIM'          _non_alpha_       st_SQLFUNCTION
+'SOUNDEX'        _non_alpha_       st_SQLFUNCTION
+'SUBSTR'         _non_alpha_       st_SQLFUNCTION
+'SUBSTRB'        _non_alpha_       st_SQLFUNCTION
+'TRANSLATE'      _non_alpha_       st_SQLFUNCTION
+'UPPER'          _non_alpha_       st_SQLFUNCTION
+'ASCII'          _non_alpha_       st_SQLFUNCTION
+'INSTR'          _non_alpha_       st_SQLFUNCTION
+'INSTRB'         _non_alpha_       st_SQLFUNCTION
+'LENGTH'         _non_alpha_       st_SQLFUNCTION
+'LENGTHB'        _non_alpha_       st_SQLFUNCTION
+'NLS_SORT'       _non_alpha_       st_SQLFUNCTION
+'ADD_MONTHS'     _non_alpha_       st_SQLFUNCTION
+'LAST_DAY'       _non_alpha_       st_SQLFUNCTION
+'MONTHS_BETWEEN' _non_alpha_       st_SQLFUNCTION
+'NEW_TIME'       _non_alpha_       st_SQLFUNCTION
+'NEXT_DAY'       _non_alpha_       st_SQLFUNCTION
+'CHARTOROWID'    _non_alpha_       st_SQLFUNCTION
+'CONVERT'        _non_alpha_       st_SQLFUNCTION
+'HEXTORAW'       _non_alpha_       st_SQLFUNCTION
+'RAWTOHEX'       _non_alpha_       st_SQLFUNCTION
+'ROWIDTOCHAR'    _non_alpha_       st_SQLFUNCTION
+'TO_MULTI_BYTE'  _non_alpha_       st_SQLFUNCTION
+'TO_SINGLE_BYTE' _non_alpha_       st_SQLFUNCTION
+'USING'          _non_alpha_       st_SQLFUNCTION
+'DUMP'           _non_alpha_       st_SQLFUNCTION
+'EMPTY_BLOB'     _non_alpha_       st_SQLFUNCTION
+'EMPTY_CLOB'     _non_alpha_       st_SQLFUNCTION
+'BFILENAME'      _non_alpha_       st_SQLFUNCTION
+'GREATEST'       _non_alpha_       st_SQLFUNCTION
+'LEAST'          _non_alpha_       st_SQLFUNCTION
+'NLS_CHARSET_DECL_LEN'   _non_alpha_       st_SQLFUNCTION
+'NLS_CHARSET_ID'         _non_alpha_       st_SQLFUNCTION
+'NLS_CHARSET_NAME'      _non_alpha_       st_SQLFUNCTION
+'NVL'            _non_alpha_       st_SQLFUNCTION
+'USER'           _non_alpha_       st_SQLFUNCTION
+'UID'            _non_alpha_       st_SQLFUNCTION
+'USERENV'        _non_alpha_       st_SQLFUNCTION
+'VSIZE'          _non_alpha_       st_SQLFUNCTION
+'AVG'            _non_alpha_       st_SQLFUNCTION
+'COUNT'          _non_alpha_       st_SQLFUNCTION
+'MAX'            _non_alpha_       st_SQLFUNCTION
+'MIN'            _non_alpha_       st_SQLFUNCTION
+'STDDEV'         _non_alpha_       st_SQLFUNCTION
+'SUM'            _non_alpha_       st_SQLFUNCTION
+'VARIANCE'       _non_alpha_       st_SQLFUNCTION
+'DEREF'          _non_alpha_       st_SQLFUNCTION
+'REFTOHEX'       _non_alpha_       st_SQLFUNCTION
+'MAKE_REF'       _non_alpha_       st_SQLFUNCTION
+'DECODE'         _non_alpha_       st_SQLFUNCTION
+'RAISE_APPLICATION_ERROR'         _non_alpha_       st_DEFAULTPACKAGE
+'INSERTING'         _non_alpha_       st_DEFAULTPACKAGE
+'DELETING'         _non_alpha_       st_DEFAULTPACKAGE
+'UPDATING'         _non_alpha_       st_DEFAULTPACKAGE
+'SET_TRANSACTION_USE'           _non_alpha_       st_DEFAULTPACKAGE
+'OTHERS'               _non_alpha_       st_DEFAULTEXCEPTION
+'DUP_VAL_ON_INDEX'     _non_alpha_       st_DEFAULTEXCEPTION
+'INVALID_CURSOR'       _non_alpha_       st_DEFAULTEXCEPTION
+'INVALID_NUMBER'       _non_alpha_       st_DEFAULTEXCEPTION
+'LOGIN_DENIED'         _non_alpha_       st_DEFAULTEXCEPTION
+'NO_DATA_FOUND'        _non_alpha_       st_DEFAULTEXCEPTION
+'NOT_LOGGED_ON'        _non_alpha_       st_DEFAULTEXCEPTION
+'PROGRAM_ERROR'        _non_alpha_       st_DEFAULTEXCEPTION
+'STORAGE_ERROR'        _non_alpha_       st_DEFAULTEXCEPTION
+'TIMEOUT_ON_RESOURCE'  _non_alpha_       st_DEFAULTEXCEPTION
+'TOO_MANY_ROWS'        _non_alpha_       st_DEFAULTEXCEPTION
+'VALUE_ERROR'          _non_alpha_       st_DEFAULTEXCEPTION
+'ACCESS_INTO_NULL'     _non_alpha_       st_DEFAULTEXCEPTION
+'COLLECTION_IS_NULL'        _non_alpha_  st_DEFAULTEXCEPTION
+'SUBSCRIPT_OUTSIDE_LIMIT'   _non_alpha_  st_DEFAULTEXCEPTION
+'SUBSCRIPT_BEYOND_COUNT'    _non_alpha_  st_DEFAULTEXCEPTION
+'ZERO_DIVIDE'          _non_alpha_       st_DEFAULTEXCEPTION
+'CURSOR_ALREADY_OPEN'  _non_alpha_       st_DEFAULTEXCEPTION
+'ADMIN'                _non_alpha_        st_KEYWORD
+'AFTER'                _non_alpha_        st_KEYWORD
+'ALLOCATE'             _non_alpha_        st_KEYWORD
+'ANALYZE'              _non_alpha_        st_KEYWORD
+'ARCHIVE'              _non_alpha_        st_KEYWORD
+'ARCHIVELOG'           _non_alpha_        st_KEYWORD
+'BACKUP'               _non_alpha_        st_KEYWORD
+'BECOME'               _non_alpha_        st_KEYWORD
+'BEFORE'               _non_alpha_        st_KEYWORD
+'BLOCK'                _non_alpha_        st_KEYWORD
+'CACHE'                _non_alpha_        st_KEYWORD
+'CANCEL'               _non_alpha_        st_KEYWORD
+'CASCADE'              _non_alpha_        st_KEYWORD
+'CHANGE'               _non_alpha_        st_KEYWORD
+'CHARACTER'            _non_alpha_        st_KEYWORD
+'CHECKPOINT'           _non_alpha_        st_KEYWORD
+'COBOL'                _non_alpha_        st_KEYWORD
+'COMPILE'              _non_alpha_        st_KEYWORD
+'CONSTRAINT'           _non_alpha_        st_KEYWORD
+'CONSTRAINTS'          _non_alpha_        st_KEYWORD
+'CONTENTS'             _non_alpha_        st_KEYWORD
+'CONTINUE'             _non_alpha_        st_KEYWORD
+'CONTROLFILE'          _non_alpha_        st_KEYWORD
+'CYCLE'                _non_alpha_        st_KEYWORD
+'DATAFILE'             _non_alpha_        st_KEYWORD
+'DEC'                  _non_alpha_        st_KEYWORD
+'DISABLE'              _non_alpha_        st_KEYWORD
+'DISMOUNT'             _non_alpha_        st_KEYWORD
+'DOUBLE'               _non_alpha_        st_KEYWORD
+'EACH'                 _non_alpha_        st_KEYWORD
+'ENABLE'               _non_alpha_        st_KEYWORD
+'ESCAPE'               _non_alpha_        st_KEYWORD
+'EVENTS'               _non_alpha_        st_KEYWORD
+'EXCEPT'               _non_alpha_        st_KEYWORD
+'EXCEPTIONS'           _non_alpha_        st_KEYWORD
+'EXEC'                 _non_alpha_        st_KEYWORD
+'EXECUTE'              _non_alpha_        st_KEYWORD
+'EXPLAIN'              _non_alpha_        st_KEYWORD
+'EXTENT'               _non_alpha_        st_KEYWORD
+'EXTERNALLY'           _non_alpha_        st_KEYWORD
+'FLUSH'                _non_alpha_        st_KEYWORD
+'FORCE'                _non_alpha_        st_KEYWORD
+'FOREIGN'              _non_alpha_        st_KEYWORD
+'FORTRAN'              _non_alpha_        st_KEYWORD
+'FOUND'                _non_alpha_        st_KEYWORD
+'FREELIST'             _non_alpha_        st_KEYWORD
+'FREELISTS'            _non_alpha_        st_KEYWORD
+'GO'                   _non_alpha_        st_KEYWORD
+'GROUPS'               _non_alpha_        st_KEYWORD
+'INCLUDING'            _non_alpha_        st_KEYWORD
+'INITRANS'             _non_alpha_        st_KEYWORD
+'INSTANCE'             _non_alpha_        st_KEYWORD
+'INT'                  _non_alpha_        st_KEYWORD
+'KEY'                  _non_alpha_        st_KEYWORD
+'LANGUAGE'             _non_alpha_        st_KEYWORD
+'LAYER'                _non_alpha_        st_KEYWORD
+'LINK'                 _non_alpha_        st_KEYWORD
+'LISTS'                _non_alpha_        st_KEYWORD
+'LOGFILE'              _non_alpha_        st_KEYWORD
+'MANAGE'               _non_alpha_        st_KEYWORD
+'MANUAL'               _non_alpha_        st_KEYWORD
+'MAXDATAFILES'         _non_alpha_        st_KEYWORD
+'MAXINSTANCES'         _non_alpha_        st_KEYWORD
+'MAXLOGFILES'          _non_alpha_        st_KEYWORD
+'MAXLOGHISTORY'        _non_alpha_        st_KEYWORD
+'MAXLOGMEMBERS'        _non_alpha_        st_KEYWORD
+'MAXTRANS'             _non_alpha_        st_KEYWORD
+'MAXVALUE'             _non_alpha_        st_KEYWORD
+'MINEXTENTS'           _non_alpha_        st_KEYWORD
+'MINVALUE'             _non_alpha_        st_KEYWORD
+'MODULE'               _non_alpha_        st_KEYWORD
+'MOUNT'                _non_alpha_        st_KEYWORD
+'NEXT'                 _non_alpha_        st_KEYWORD
+'NOARCHIVELOG'         _non_alpha_        st_KEYWORD
+'NOCACHE'              _non_alpha_        st_KEYWORD
+'NOCYCLE'              _non_alpha_        st_KEYWORD
+'NOMAXVALUE'           _non_alpha_        st_KEYWORD
+'NOMINVALUE'           _non_alpha_        st_KEYWORD
+'NONE'                 _non_alpha_        st_KEYWORD
+'NOORDER'              _non_alpha_        st_KEYWORD
+'NORESETLOGS'          _non_alpha_        st_KEYWORD
+'NORMAL'               _non_alpha_        st_KEYWORD
+'NOSORT'               _non_alpha_        st_KEYWORD
+'NUMERIC'              _non_alpha_        st_KEYWORD
+'OFF'                  _non_alpha_        st_KEYWORD
+'ONLY'                 _non_alpha_        st_KEYWORD
+'OPTIMAL'              _non_alpha_        st_KEYWORD
+'OWN'                  _non_alpha_        st_KEYWORD
+'PARALLEL'             _non_alpha_        st_KEYWORD
+'PCTINCREASE'          _non_alpha_        st_KEYWORD
+'PCTUSED'              _non_alpha_        st_KEYWORD
+'PLAN'                 _non_alpha_        st_KEYWORD
+'PLI'                  _non_alpha_        st_KEYWORD
+'PRECISION'            _non_alpha_        st_KEYWORD
+'PRIMARY'              _non_alpha_        st_KEYWORD
+'PROFILE'              _non_alpha_        st_KEYWORD
+'QUOTA'                _non_alpha_        st_KEYWORD
+'READ'                 _non_alpha_        st_KEYWORD
+'RECOVER'              _non_alpha_        st_KEYWORD
+'REFERENCES'           _non_alpha_        st_KEYWORD
+'REFERENCING'          _non_alpha_        st_KEYWORD
+'RESETLOGS'            _non_alpha_        st_KEYWORD
+'RESTRICTED'           _non_alpha_        st_KEYWORD
+'REUSE'                _non_alpha_        st_KEYWORD
+'ROLE'                 _non_alpha_        st_KEYWORD
+'ROLES'                _non_alpha_        st_KEYWORD
+'SCN'                  _non_alpha_        st_KEYWORD
+'SECTION'              _non_alpha_        st_KEYWORD
+'SEGMENT'              _non_alpha_        st_KEYWORD
+'SEQUENCE'             _non_alpha_        st_KEYWORD
+'SHARED'               _non_alpha_        st_KEYWORD
+'SNAPSHOT'             _non_alpha_        st_KEYWORD
+'SOME'                 _non_alpha_        st_KEYWORD
+'SORT'                 _non_alpha_        st_KEYWORD
+'SQLERROR'             _non_alpha_        st_KEYWORD
+'SQLSTATE'             _non_alpha_        st_KEYWORD
+'STATEMENT_ID'         _non_alpha_        st_KEYWORD
+'STATISTICS'           _non_alpha_        st_KEYWORD
+'STOP'                 _non_alpha_        st_KEYWORD
+'STORAGE'              _non_alpha_        st_KEYWORD
+'SWITCH'               _non_alpha_        st_KEYWORD
+'SYSTEM'               _non_alpha_        st_KEYWORD
+'TABLESPACE'           _non_alpha_        st_KEYWORD
+'TEMPORARY'            _non_alpha_        st_KEYWORD
+'THREAD'               _non_alpha_        st_KEYWORD
+'TIME'                 _non_alpha_        st_KEYWORD
+'TRACING'              _non_alpha_        st_KEYWORD
+'TRANSACTION'          _non_alpha_        st_KEYWORD
+'TRIGGERS'             _non_alpha_        st_KEYWORD
+'TRUNCATE'             _non_alpha_        st_KEYWORD
+'UNDER'                _non_alpha_        st_KEYWORD
+'UNLIMITED'            _non_alpha_        st_KEYWORD
+'UNTIL'                _non_alpha_        st_KEYWORD
+

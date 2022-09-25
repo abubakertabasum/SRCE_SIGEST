@@ -1,0 +1,415 @@
+***  Installation Started 01/09/2004 15:24  ***
+Title: Formatter Plus V1.2 Installation
+Source: F:\QUESTS~1\toad\FMTPLU~1.EXE | 12-03-2001 | 11:42:26 | 2183574
+Made Dir: F:\QUESTS~1\toad\Help
+Made Dir: F:\QUESTS~1\toad\Help\UnWise
+File Copy: F:\Quest Software\toad\Help\UnWise\UNWISE.EXE | 05-24-2001 | 11:59:30 | | 162304 | 432c52a3
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\Formatter Plus V1.2
+RegDB Val: Formatter Plus V1.2
+RegDB Name: DisplayName
+RegDB Root: 2
+RegDB Old: Formatter Plus V1.2
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\Formatter Plus V1.2
+RegDB Val: F:\QUESTS~1\toad\Help\UnWise\UNWISE.EXE F:\QUESTS~1\toad\Help\UnWise\INSTALL.LOG
+RegDB Name: UninstallString
+RegDB Root: 2
+RegDB Old: D:\PROGRA~1\QUESTS~1\toad\Help\UnWise\UNWISE.EXE D:\PROGRA~1\QUESTS~1\toad\Help\UnWise\INSTALL.LOG
+File Copy: F:\Quest Software\toad\KXauth.dll | 10-30-2001 | 15:06:20 | | 378880 | 4b803ddb
+File Copy: F:\Quest Software\toad\FmtEdtn.dll | 09-26-2001 | 14:51:02 | 1.0.0.4 | 122880 | 213eab34
+Made Dir: F:\QUESTS~1\toad\Sample Project
+File Copy: F:\Quest Software\toad\Sample Project\department.sps | 12-29-2000 | 08:32:54 | | 6918 | d310e27a
+File Copy: F:\Quest Software\toad\Sample Project\department_test.spb | 12-29-2000 | 08:34:50 | | 13418 | 92955044
+File Copy: F:\Quest Software\toad\Sample Project\department_test.sps | 10-17-2000 | 11:14:02 | | 1313 | b0537be1
+File Copy: F:\Quest Software\toad\Sample Project\employee.spb | 10-17-2000 | 11:15:50 | | 34006 | c4dbc2e7
+File Copy: F:\Quest Software\toad\Sample Project\employee.sps | 10-17-2000 | 11:16:22 | | 12619 | 34667d99
+File Copy: F:\Quest Software\toad\Sample Project\employee_test.spb | 10-17-2000 | 11:17:02 | | 23003 | 240e27ed
+File Copy: F:\Quest Software\toad\Sample Project\employee_test.sps | 10-17-2000 | 11:17:12 | | 1876 | 5245811b
+File Copy: F:\Quest Software\toad\Sample Project\expdemo.sql | 10-17-2000 | 11:17:26 | | 17141 | 319052ca
+File Copy: F:\Quest Software\toad\Sample Project\givebonus.sp | 10-17-2000 | 11:17:32 | | 1503 | b4e5d459
+File Copy: F:\Quest Software\toad\Sample Project\job.sps | 10-17-2000 | 11:17:38 | | 5953 | 2659de0a
+File Copy: F:\Quest Software\toad\Sample Project\job_test.spb | 10-17-2000 | 11:17:44 | | 17640 | 9fbd5591
+File Copy: F:\Quest Software\toad\Sample Project\job_test.sps | 10-17-2000 | 11:17:50 | | 1258 | aae7e018
+File Copy: F:\Quest Software\toad\Sample Project\loc.spb | 10-17-2000 | 11:17:54 | | 17491 | 58254b51
+File Copy: F:\Quest Software\toad\Sample Project\loc.sps | 10-27-2000 | 13:34:10 | | 5893 | d8559d72
+File Copy: F:\Quest Software\toad\Sample Project\locemp.spb | 10-17-2000 | 11:18:14 | | 18895 | 1f2b6397
+File Copy: F:\Quest Software\toad\Sample Project\locemp.sps | 10-17-2000 | 11:18:20 | | 7106 | 4ea5011c
+File Copy: F:\Quest Software\toad\Sample Project\locemp_test.spb | 10-17-2000 | 11:18:26 | | 13991 | c4baac68
+File Copy: F:\Quest Software\toad\Sample Project\locemp_test.sps | 10-17-2000 | 11:18:30 | | 1275 | 65c4c204
+File Copy: F:\Quest Software\toad\Sample Project\loc_test.spb | 10-17-2000 | 11:18:04 | | 13475 | 116fbfbe
+File Copy: F:\Quest Software\toad\Sample Project\loc_test.sps | 10-17-2000 | 11:18:08 | | 1270 | 9dc89ce
+File Copy: F:\Quest Software\toad\Sample Project\Readme.txt | 03-13-2001 | 09:36:10 | | 1356 | 80304995
+File Copy: F:\Quest Software\toad\Sample Project\salhist.spb | 10-17-2000 | 11:18:36 | | 20020 | 83d7cb14
+File Copy: F:\Quest Software\toad\Sample Project\salhist.sps | 10-17-2000 | 11:18:40 | | 8092 | 3fc99682
+File Copy: F:\Quest Software\toad\Sample Project\salhist_test.spb | 10-17-2000 | 11:18:44 | | 14272 | 25807d06
+File Copy: F:\Quest Software\toad\Sample Project\salhist_test.sps | 10-17-2000 | 11:18:50 | | 1392 | 222fb355
+File Copy: F:\Quest Software\toad\Sample Project\Sample Project.rnp | 02-28-2001 | 09:30:36 | | 2591 | c707f5d5
+File Copy: F:\Quest Software\toad\Help\arrow.gif | 10-09-2000 | 14:53:22 | | 77 | 262a344
+File Copy: F:\Quest Software\toad\Help\bar.gif | 09-28-2000 | 09:02:30 | | 188 | fc9a7242
+File Copy: F:\Quest Software\toad\Help\bar_products.gif | 08-19-1998 | 09:10:10 | | 360 | a68ed7b6
+File Copy: F:\Quest Software\toad\Help\blue_bullet.gif | 09-27-2000 | 13:41:56 | | 342 | 9379d0cf
+File Copy: F:\Quest Software\toad\Help\errors.gif | 10-30-2000 | 11:02:14 | | 403 | 26a01ebf
+File Copy: F:\Quest Software\toad\Help\files.gif | 09-29-2000 | 14:03:46 | | 2322 | 69975202
+File Copy: F:\Quest Software\toad\Help\formatting.htm | 02-12-2001 | 13:47:00 | | 5394 | 4366f1a8
+File Copy: F:\Quest Software\toad\Help\formatting_bar.gif | 04-13-2001 | 13:04:02 | | 828 | c1752bdc
+File Copy: F:\Quest Software\toad\Help\formatting_bar1.gif | 12-04-2000 | 11:04:18 | | 91 | d0ee8cc0
+File Copy: F:\Quest Software\toad\Help\formatting_bar2.gif | 12-04-2000 | 12:13:36 | | 103 | 36fb2394
+File Copy: F:\Quest Software\toad\Help\formatting_bar3.gif | 12-04-2000 | 12:13:50 | | 97 | 4547491
+File Copy: F:\Quest Software\toad\Help\formatting_bar4.gif | 12-04-2000 | 12:14:06 | | 89 | 11f4d48e
+File Copy: F:\Quest Software\toad\Help\formatting_bar5.gif | 12-04-2000 | 12:14:20 | | 121 | cb2c92d3
+File Copy: F:\Quest Software\toad\Help\formatting_bar6.gif | 12-06-2000 | 07:47:28 | | 197 | 6e804504
+File Copy: F:\Quest Software\toad\Help\help.htm | 09-17-2001 | 09:40:24 | | 5204 | 609688d3
+File Copy: F:\Quest Software\toad\Help\insert_files.gif | 12-06-2000 | 07:48:52 | | 10146 | 1aa1b912
+File Copy: F:\Quest Software\toad\Help\insert_folders.gif | 12-06-2000 | 07:50:02 | | 5226 | 22c2b124
+File Copy: F:\Quest Software\toad\Help\logocg.gif | 02-23-2001 | 08:35:00 | | 6392 | f6414fb
+File Copy: F:\Quest Software\toad\Help\menu_bar.gif | 10-25-2000 | 16:02:02 | | 926 | def2051d
+File Copy: F:\Quest Software\toad\Help\menu_bar.htm | 09-17-2001 | 09:42:02 | | 30739 | 40cda525
+File Copy: F:\Quest Software\toad\Help\no_errors.gif | 10-30-2000 | 10:51:12 | | 372 | 582792db
+File Copy: F:\Quest Software\toad\Help\options.gif | 10-30-2000 | 13:08:42 | | 97 | f25b43b3
+File Copy: F:\Quest Software\toad\Help\ordrmail.gif | 09-22-2000 | 08:14:46 | | 6180 | f1e93644
+File Copy: F:\Quest Software\toad\Help\output.htm | 02-12-2001 | 13:47:12 | | 2926 | 61e6901d
+File Copy: F:\Quest Software\toad\Help\output_bar.gif | 02-12-2001 | 11:43:40 | | 5157 | f822ba6e
+File Copy: F:\Quest Software\toad\Help\output_bar1.gif | 10-26-2000 | 11:01:20 | | 267 | 4c12b544
+File Copy: F:\Quest Software\toad\Help\output_bar2.gif | 12-03-2000 | 15:42:16 | | 253 | 434bb16d
+File Copy: F:\Quest Software\toad\Help\output_bar3.gif | 02-12-2001 | 11:50:48 | | 285 | 8fbff82a
+File Copy: F:\Quest Software\toad\Help\pack_spec.gif | 10-31-2000 | 15:18:14 | | 344 | 1ee971e5
+File Copy: F:\Quest Software\toad\Help\plf_support.htm | 09-17-2001 | 10:03:52 | | 4612 | 6ae5c0ec
+File Copy: F:\Quest Software\toad\Help\projects.htm | 02-12-2001 | 13:47:06 | | 7202 | 4749920d
+File Copy: F:\Quest Software\toad\Help\project_bar1.gif | 10-26-2000 | 13:12:40 | | 433 | b1288dbb
+File Copy: F:\Quest Software\toad\Help\project_sub1.gif | 10-05-2000 | 11:27:52 | | 132 | 100d85bf
+File Copy: F:\Quest Software\toad\Help\project_sub4.gif | 10-05-2000 | 11:30:08 | | 115 | 78bab418
+File Copy: F:\Quest Software\toad\Help\proj_files.gif | 12-03-2000 | 11:29:00 | | 1685 | afcabfa3
+File Copy: F:\Quest Software\toad\Help\proj_new.gif | 12-03-2000 | 13:10:18 | | 1074 | d77104aa
+File Copy: F:\Quest Software\toad\Help\quest.gif | 09-17-2001 | 10:11:50 | | 6032 | 9dab5aea
+File Copy: F:\Quest Software\toad\Help\rbutton_good.gif | 09-29-2000 | 14:22:28 | | 2131 | b102b1d4
+File Copy: F:\Quest Software\toad\Help\right_mouse_edit.gif | 04-13-2001 | 13:03:48 | | 3581 | 269a7cbc
+File Copy: F:\Quest Software\toad\Help\right_mouse_proj.gif | 02-12-2001 | 12:02:36 | | 3023 | d82b0cbe
+File Copy: F:\Quest Software\toad\Help\rme.htm | 09-17-2001 | 09:56:04 | | 6615 | 4a9fc984
+File Copy: F:\Quest Software\toad\Help\rme1.gif | 10-26-2000 | 15:43:40 | | 223 | 9dc85fdf
+File Copy: F:\Quest Software\toad\Help\rme10.gif | 12-03-2000 | 11:06:56 | | 324 | 38b8edbb
+File Copy: F:\Quest Software\toad\Help\rme11.gif | 12-03-2000 | 11:06:30 | | 188 | 1c30e7e8
+File Copy: F:\Quest Software\toad\Help\rme12.gif | 02-12-2001 | 13:04:18 | | 367 | b459936d
+File Copy: F:\Quest Software\toad\Help\rme2.gif | 10-26-2000 | 15:44:10 | | 204 | a6d287c8
+File Copy: F:\Quest Software\toad\Help\rme3.gif | 10-26-2000 | 15:44:36 | | 218 | 8bd230b9
+File Copy: F:\Quest Software\toad\Help\rme4.gif | 02-12-2001 | 12:16:44 | | 207 | 56818390
+File Copy: F:\Quest Software\toad\Help\rme5.gif | 10-26-2000 | 15:45:18 | | 242 | e8fee05c
+File Copy: F:\Quest Software\toad\Help\rme6.gif | 10-27-2000 | 09:56:36 | | 149 | cd82898c
+File Copy: F:\Quest Software\toad\Help\rme7.gif | 10-27-2000 | 09:56:54 | | 185 | 4d1c6bea
+File Copy: F:\Quest Software\toad\Help\rme8.gif | 10-27-2000 | 09:57:18 | | 223 | d1edccb5
+File Copy: F:\Quest Software\toad\Help\rme9.gif | 10-27-2000 | 09:57:46 | | 147 | 95456d22
+File Copy: F:\Quest Software\toad\Help\rmp.htm | 02-12-2001 | 13:01:10 | | 6854 | 9f54d4f1
+File Copy: F:\Quest Software\toad\Help\rmp1.gif | 10-27-2000 | 09:36:20 | | 268 | 5a8d096a
+File Copy: F:\Quest Software\toad\Help\rmp10.gif | 12-03-2000 | 10:50:52 | | 246 | 166a1fd
+File Copy: F:\Quest Software\toad\Help\rmp11.gif | 10-27-2000 | 15:04:56 | | 219 | d3236ca3
+File Copy: F:\Quest Software\toad\Help\rmp12.gif | 02-12-2001 | 12:56:40 | | 302 | f81bc7e7
+File Copy: F:\Quest Software\toad\Help\rmp13.gif | 02-12-2001 | 12:57:26 | | 362 | cf917328
+File Copy: F:\Quest Software\toad\Help\rmp2.gif | 10-27-2000 | 09:36:42 | | 317 | b751443e
+File Copy: F:\Quest Software\toad\Help\rmp3.gif | 10-27-2000 | 09:37:08 | | 263 | bc5c49e7
+File Copy: F:\Quest Software\toad\Help\rmp4.gif | 12-03-2000 | 10:48:42 | | 231 | 4b526eff
+File Copy: F:\Quest Software\toad\Help\rmp5.gif | 10-27-2000 | 09:37:56 | | 176 | a017f9d7
+File Copy: F:\Quest Software\toad\Help\rmp6.gif | 10-27-2000 | 09:38:22 | | 232 | 303bb921
+File Copy: F:\Quest Software\toad\Help\rmp7.gif | 10-27-2000 | 09:38:42 | | 213 | a1ba6f47
+File Copy: F:\Quest Software\toad\Help\rmp8.gif | 10-27-2000 | 09:39:06 | | 227 | c8ebcff7
+File Copy: F:\Quest Software\toad\Help\rmp9.gif | 02-12-2001 | 12:04:44 | | 210 | 41a0844
+File Copy: F:\Quest Software\toad\Help\setup.htm | 09-17-2001 | 10:49:28 | | 17968 | dcccde6b
+File Copy: F:\Quest Software\toad\Help\side_bar.gif | 10-05-2000 | 11:35:50 | | 23940 | 25400f14
+File Copy: F:\Quest Software\toad\Help\standard.htm | 12-06-2000 | 10:42:10 | | 7780 | 58cf2056
+File Copy: F:\Quest Software\toad\Help\sysreq1.gif | 09-29-2000 | 13:50:36 | | 3017 | 6ac7fb77
+File Copy: F:\Quest Software\toad\Help\toolbar.gif | 12-03-2000 | 15:07:24 | | 1034 | 51d8e2e5
+File Copy: F:\Quest Software\toad\Help\toolbar1.gif | 10-05-2000 | 10:13:30 | | 149 | 292996d9
+File Copy: F:\Quest Software\toad\Help\toolbar10.gif | 10-05-2000 | 10:20:50 | | 150 | 7c24d133
+File Copy: F:\Quest Software\toad\Help\toolbar11.gif | 10-05-2000 | 10:21:26 | | 133 | fad7c247
+File Copy: F:\Quest Software\toad\Help\toolbar12.gif | 10-05-2000 | 10:22:08 | | 147 | 65a5bef2
+File Copy: F:\Quest Software\toad\Help\toolbar13.gif | 10-05-2000 | 10:22:52 | | 139 | 4f3febb3
+File Copy: F:\Quest Software\toad\Help\toolbar2.gif | 10-05-2000 | 10:14:22 | | 132 | 70083706
+File Copy: F:\Quest Software\toad\Help\toolbar3.gif | 10-05-2000 | 10:15:16 | | 138 | 8f027918
+File Copy: F:\Quest Software\toad\Help\toolbar4.gif | 10-27-2000 | 08:41:54 | | 149 | d471c4dd
+File Copy: F:\Quest Software\toad\Help\toolbar5.gif | 10-05-2000 | 10:17:04 | | 122 | b160e1fb
+File Copy: F:\Quest Software\toad\Help\toolbar6.gif | 10-05-2000 | 10:17:52 | | 140 | 9b5068cd
+File Copy: F:\Quest Software\toad\Help\toolbar7.gif | 10-05-2000 | 10:18:42 | | 156 | 9b9dce35
+File Copy: F:\Quest Software\toad\Help\toolbar8.gif | 10-05-2000 | 10:19:26 | | 115 | 583f9115
+File Copy: F:\Quest Software\toad\Help\toolbar9.gif | 10-05-2000 | 10:20:10 | | 115 | cf4a10ff
+File Copy: F:\Quest Software\toad\Help\toolbars.gif | 09-28-2000 | 16:02:12 | | 11059 | fd169cba
+File Copy: F:\Quest Software\toad\Help\toolbars.htm | 02-12-2001 | 12:27:38 | | 3424 | b7a7b584
+File Copy: F:\Quest Software\toad\Help\top2.gif | 10-10-2000 | 14:35:26 | | 11182 | 2acd819d
+File Copy: F:\Quest Software\toad\Help\tour.htm | 09-17-2001 | 10:09:26 | | 34038 | 42d3acda
+File Copy: F:\Quest Software\toad\Help\walkthru.htm | 09-17-2001 | 10:19:26 | | 15101 | a476a10a
+File Copy: F:\Quest Software\toad\FmtPlus.opt | 02-15-2001 | 09:58:40 | | 1698 | 3882cba5
+File Copy: F:\Quest Software\toad\FmtPlus.exe | 12-01-2001 | 19:12:38 | 1.2.0.1 | 1343488 | 289de18
+File Copy: F:\Quest Software\toad\FmtPlus.dll | 09-20-2001 | 15:27:24 | 4.5.2.0 | 1200128 | f8f45d4d
+File Copy: F:\Quest Software\toad\FmtOptions.exe | 09-20-2001 | 15:13:44 | 4.5.4.2 | 253952 | ffebaa44
+File Copy: F:\Quest Software\toad\kbasemap.dat | 08-07-2001 | 13:50:38 | | 14097 | a43723bf
+File Copy: F:\Quest Software\toad\plfdll.dll | 04-23-2001 | 14:29:54 | 4.0.0.0 | 40960 | eb11155a
+File Copy: F:\Quest Software\toad\Relnotes.htm | 09-24-2001 | 14:41:22 | | 20975 | cc090ae5
+File Copy: F:\Quest Software\toad\relnotes_top.gif | 02-08-2001 | 04:53:00 | | 9187 | 7205cbb2
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Formatter Plus.lnk
+Link Info: F:\Quest Software\toad\FmtPlus.exe | F:\QUESTS~1\toad |  | 0 | 1 | 0 | 
+Backup Copy: F:\QUESTS~1\toad\BACKUP\Formatter Plus.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Formatter Plus Release Notes.lnk
+Link Info: F:\Quest Software\toad\Relnotes.htm | F:\QUESTS~1\toad |  | 0 | 1 | 0 | 
+Backup Copy: F:\QUESTS~1\toad\BACKUP\Formatter Plus Release Notes.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Formatter Plus User Guide.lnk
+Link Info: F:\Quest Software\toad\Help\help.htm | F:\QUESTS~1\toad |  | 0 | 1 | 0 | 
+Backup Copy: F:\QUESTS~1\toad\BACKUP\Formatter Plus User Guide.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Uninstall Formatter Plus.lnk
+Link Info: F:\Quest Software\toad\Help\UnWise\UNWISE.EXE | F:\QUESTS~1\toad |  | 0 | 1 | 0 | 
+Backup Copy: F:\QUESTS~1\toad\BACKUP\Uninstall Formatter Plus.lnk
+RegDB Key: SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\FmtPlus.exe
+RegDB Val: F:\QUESTS~1\toad
+RegDB Name: Path
+RegDB Root: 2
+RegDB Old: D:\PROGRA~1\QUESTS~1\toad
+RegDB Key: SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\FmtPlus.exe
+RegDB Val: F:\QUESTS~1\toad\FmtPlus.exe
+RegDB Root: 2
+RegDB Old: D:\PROGRA~1\QUESTS~1\toad\FmtPlus.exe
+RegDB Key: SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\FmtPlus.exe
+RegDB Val: F:\QUESTS~1\toad
+RegDB Name: ClientPath
+RegDB Root: 2
+RegDB Old: D:\PROGRA~1\QUESTS~1\toad
+INI New: Created INI
+INI File: F:\QUESTS~1\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: Start Green
+INI Val: 255
+INI File: F:\QUESTS~1\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: Start Red
+INI Val: 255
+INI File: F:\QUESTS~1\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: End Red
+INI Val: 255
+INI File: F:\QUESTS~1\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: End Green
+INI Val: 255
+INI File: F:\QUESTS~1\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: End Blue
+INI Val: 255
+INI New: Created INI
+INI File: F:\QUESTS~1\toad\FMTUSER.INI
+INI Sect: Formatter Plus
+INI Item: ActionScope
+INI Val: 1
+INI File: F:\QUESTS~1\toad\FMTUSER.INI
+INI Sect: Formatter Plus
+INI Item: HideKNDialog
+INI Val: 1
+INI File: F:\QUESTS~1\toad\FMTUSER.INI
+INI Sect: Formatter Plus
+INI Item: Project
+INI Val: FMTPLUS-INSTALL-SAMPLE
+Delete in-use files: On
+RegDB Tree: .DEFAULT\Software\RevealNet\Formatter Plus
+RegDB Root: 3
+File Tree: F:\QUESTS~1\toad\QSAuthorize36.key
+User Rights: Admin
+***  Installation Started 05/23/2005 16:48  ***
+Title: Formatter Plus V1.2 Installation
+Source: C:\PARTAGE\Quest Software\toad\FmtPlus_v1.2_IDE.exe | 12-03-2001 | 11:42:26 | 2183574
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.EXE | 05-24-2001 | 11:59:30 | | 162304 | 432c52a3
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\Formatter Plus V1.2
+RegDB Val: Formatter Plus V1.2
+RegDB Name: DisplayName
+RegDB Root: 2
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\Formatter Plus V1.2
+RegDB Val: C:\PARTAGE\QUESTS~1\toad\Help\UnWise\UNWISE.EXE C:\PARTAGE\QUESTS~1\toad\Help\UnWise\INSTALL.LOG
+RegDB Name: UninstallString
+RegDB Root: 2
+File Overwrite: C:\PARTAGE\Quest Software\toad\KXauth.dll | 10-30-2001 | 15:06:20 | | 378880 | 4b803ddb
+File Overwrite: C:\PARTAGE\Quest Software\toad\FmtEdtn.dll | 09-26-2001 | 14:51:02 | 1.0.0.4 | 122880 | 213eab34
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\department.sps | 12-29-2000 | 08:32:54 | | 6918 | d310e27a
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\department_test.spb | 12-29-2000 | 08:34:50 | | 13418 | 92955044
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\department_test.sps | 10-17-2000 | 11:14:02 | | 1313 | b0537be1
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\employee.spb | 10-17-2000 | 11:15:50 | | 34006 | c4dbc2e7
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\employee.sps | 10-17-2000 | 11:16:22 | | 12619 | 34667d99
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\employee_test.spb | 10-17-2000 | 11:17:02 | | 23003 | 240e27ed
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\employee_test.sps | 10-17-2000 | 11:17:12 | | 1876 | 5245811b
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\expdemo.sql | 10-17-2000 | 11:17:26 | | 17141 | 319052ca
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\givebonus.sp | 10-17-2000 | 11:17:32 | | 1503 | b4e5d459
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\job.sps | 10-17-2000 | 11:17:38 | | 5953 | 2659de0a
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\job_test.spb | 10-17-2000 | 11:17:44 | | 17640 | 9fbd5591
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\job_test.sps | 10-17-2000 | 11:17:50 | | 1258 | aae7e018
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\loc.spb | 10-17-2000 | 11:17:54 | | 17491 | 58254b51
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\loc.sps | 10-27-2000 | 13:34:10 | | 5893 | d8559d72
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\locemp.spb | 10-17-2000 | 11:18:14 | | 18895 | 1f2b6397
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\locemp.sps | 10-17-2000 | 11:18:20 | | 7106 | 4ea5011c
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\locemp_test.spb | 10-17-2000 | 11:18:26 | | 13991 | c4baac68
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\locemp_test.sps | 10-17-2000 | 11:18:30 | | 1275 | 65c4c204
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\loc_test.spb | 10-17-2000 | 11:18:04 | | 13475 | 116fbfbe
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\loc_test.sps | 10-17-2000 | 11:18:08 | | 1270 | 9dc89ce
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\Readme.txt | 03-13-2001 | 09:36:10 | | 1356 | 80304995
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\salhist.spb | 10-17-2000 | 11:18:36 | | 20020 | 83d7cb14
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\salhist.sps | 10-17-2000 | 11:18:40 | | 8092 | 3fc99682
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\salhist_test.spb | 10-17-2000 | 11:18:44 | | 14272 | 25807d06
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\salhist_test.sps | 10-17-2000 | 11:18:50 | | 1392 | 222fb355
+File Overwrite: C:\PARTAGE\Quest Software\toad\Sample Project\Sample Project.rnp | 02-28-2001 | 09:30:36 | | 2591 | c707f5d5
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\arrow.gif | 10-09-2000 | 14:53:22 | | 77 | 262a344
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\bar.gif | 09-28-2000 | 09:02:30 | | 188 | fc9a7242
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\bar_products.gif | 08-19-1998 | 09:10:10 | | 360 | a68ed7b6
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\blue_bullet.gif | 09-27-2000 | 13:41:56 | | 342 | 9379d0cf
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\errors.gif | 10-30-2000 | 11:02:14 | | 403 | 26a01ebf
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\files.gif | 09-29-2000 | 14:03:46 | | 2322 | 69975202
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting.htm | 02-12-2001 | 13:47:00 | | 5394 | 4366f1a8
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar.gif | 04-13-2001 | 13:04:02 | | 828 | c1752bdc
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar1.gif | 12-04-2000 | 11:04:18 | | 91 | d0ee8cc0
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar2.gif | 12-04-2000 | 12:13:36 | | 103 | 36fb2394
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar3.gif | 12-04-2000 | 12:13:50 | | 97 | 4547491
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar4.gif | 12-04-2000 | 12:14:06 | | 89 | 11f4d48e
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar5.gif | 12-04-2000 | 12:14:20 | | 121 | cb2c92d3
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\formatting_bar6.gif | 12-06-2000 | 07:47:28 | | 197 | 6e804504
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\help.htm | 09-17-2001 | 09:40:24 | | 5204 | 609688d3
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\insert_files.gif | 12-06-2000 | 07:48:52 | | 10146 | 1aa1b912
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\insert_folders.gif | 12-06-2000 | 07:50:02 | | 5226 | 22c2b124
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\logocg.gif | 02-23-2001 | 08:35:00 | | 6392 | f6414fb
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\menu_bar.gif | 10-25-2000 | 16:02:02 | | 926 | def2051d
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\menu_bar.htm | 09-17-2001 | 09:42:02 | | 30739 | 40cda525
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\no_errors.gif | 10-30-2000 | 10:51:12 | | 372 | 582792db
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\options.gif | 10-30-2000 | 13:08:42 | | 97 | f25b43b3
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\ordrmail.gif | 09-22-2000 | 08:14:46 | | 6180 | f1e93644
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\output.htm | 02-12-2001 | 13:47:12 | | 2926 | 61e6901d
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\output_bar.gif | 02-12-2001 | 11:43:40 | | 5157 | f822ba6e
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\output_bar1.gif | 10-26-2000 | 11:01:20 | | 267 | 4c12b544
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\output_bar2.gif | 12-03-2000 | 15:42:16 | | 253 | 434bb16d
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\output_bar3.gif | 02-12-2001 | 11:50:48 | | 285 | 8fbff82a
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\pack_spec.gif | 10-31-2000 | 15:18:14 | | 344 | 1ee971e5
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\plf_support.htm | 09-17-2001 | 10:03:52 | | 4612 | 6ae5c0ec
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\projects.htm | 02-12-2001 | 13:47:06 | | 7202 | 4749920d
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\project_bar1.gif | 10-26-2000 | 13:12:40 | | 433 | b1288dbb
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\project_sub1.gif | 10-05-2000 | 11:27:52 | | 132 | 100d85bf
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\project_sub4.gif | 10-05-2000 | 11:30:08 | | 115 | 78bab418
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\proj_files.gif | 12-03-2000 | 11:29:00 | | 1685 | afcabfa3
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\proj_new.gif | 12-03-2000 | 13:10:18 | | 1074 | d77104aa
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\quest.gif | 09-17-2001 | 10:11:50 | | 6032 | 9dab5aea
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rbutton_good.gif | 09-29-2000 | 14:22:28 | | 2131 | b102b1d4
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\right_mouse_edit.gif | 04-13-2001 | 13:03:48 | | 3581 | 269a7cbc
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\right_mouse_proj.gif | 02-12-2001 | 12:02:36 | | 3023 | d82b0cbe
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme.htm | 09-17-2001 | 09:56:04 | | 6615 | 4a9fc984
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme1.gif | 10-26-2000 | 15:43:40 | | 223 | 9dc85fdf
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme10.gif | 12-03-2000 | 11:06:56 | | 324 | 38b8edbb
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme11.gif | 12-03-2000 | 11:06:30 | | 188 | 1c30e7e8
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme12.gif | 02-12-2001 | 13:04:18 | | 367 | b459936d
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme2.gif | 10-26-2000 | 15:44:10 | | 204 | a6d287c8
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme3.gif | 10-26-2000 | 15:44:36 | | 218 | 8bd230b9
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme4.gif | 02-12-2001 | 12:16:44 | | 207 | 56818390
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme5.gif | 10-26-2000 | 15:45:18 | | 242 | e8fee05c
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme6.gif | 10-27-2000 | 09:56:36 | | 149 | cd82898c
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme7.gif | 10-27-2000 | 09:56:54 | | 185 | 4d1c6bea
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme8.gif | 10-27-2000 | 09:57:18 | | 223 | d1edccb5
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rme9.gif | 10-27-2000 | 09:57:46 | | 147 | 95456d22
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp.htm | 02-12-2001 | 13:01:10 | | 6854 | 9f54d4f1
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp1.gif | 10-27-2000 | 09:36:20 | | 268 | 5a8d096a
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp10.gif | 12-03-2000 | 10:50:52 | | 246 | 166a1fd
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp11.gif | 10-27-2000 | 15:04:56 | | 219 | d3236ca3
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp12.gif | 02-12-2001 | 12:56:40 | | 302 | f81bc7e7
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp13.gif | 02-12-2001 | 12:57:26 | | 362 | cf917328
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp2.gif | 10-27-2000 | 09:36:42 | | 317 | b751443e
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp3.gif | 10-27-2000 | 09:37:08 | | 263 | bc5c49e7
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp4.gif | 12-03-2000 | 10:48:42 | | 231 | 4b526eff
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp5.gif | 10-27-2000 | 09:37:56 | | 176 | a017f9d7
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp6.gif | 10-27-2000 | 09:38:22 | | 232 | 303bb921
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp7.gif | 10-27-2000 | 09:38:42 | | 213 | a1ba6f47
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp8.gif | 10-27-2000 | 09:39:06 | | 227 | c8ebcff7
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\rmp9.gif | 02-12-2001 | 12:04:44 | | 210 | 41a0844
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\setup.htm | 09-17-2001 | 10:49:28 | | 17968 | dcccde6b
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\side_bar.gif | 10-05-2000 | 11:35:50 | | 23940 | 25400f14
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\standard.htm | 12-06-2000 | 10:42:10 | | 7780 | 58cf2056
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\sysreq1.gif | 09-29-2000 | 13:50:36 | | 3017 | 6ac7fb77
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar.gif | 12-03-2000 | 15:07:24 | | 1034 | 51d8e2e5
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar1.gif | 10-05-2000 | 10:13:30 | | 149 | 292996d9
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar10.gif | 10-05-2000 | 10:20:50 | | 150 | 7c24d133
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar11.gif | 10-05-2000 | 10:21:26 | | 133 | fad7c247
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar12.gif | 10-05-2000 | 10:22:08 | | 147 | 65a5bef2
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar13.gif | 10-05-2000 | 10:22:52 | | 139 | 4f3febb3
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar2.gif | 10-05-2000 | 10:14:22 | | 132 | 70083706
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar3.gif | 10-05-2000 | 10:15:16 | | 138 | 8f027918
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar4.gif | 10-27-2000 | 08:41:54 | | 149 | d471c4dd
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar5.gif | 10-05-2000 | 10:17:04 | | 122 | b160e1fb
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar6.gif | 10-05-2000 | 10:17:52 | | 140 | 9b5068cd
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar7.gif | 10-05-2000 | 10:18:42 | | 156 | 9b9dce35
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar8.gif | 10-05-2000 | 10:19:26 | | 115 | 583f9115
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbar9.gif | 10-05-2000 | 10:20:10 | | 115 | cf4a10ff
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbars.gif | 09-28-2000 | 16:02:12 | | 11059 | fd169cba
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\toolbars.htm | 02-12-2001 | 12:27:38 | | 3424 | b7a7b584
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\top2.gif | 10-10-2000 | 14:35:26 | | 11182 | 2acd819d
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\tour.htm | 09-17-2001 | 10:09:26 | | 34038 | 42d3acda
+File Overwrite: C:\PARTAGE\Quest Software\toad\Help\walkthru.htm | 09-17-2001 | 10:19:26 | | 15101 | a476a10a
+File Overwrite: C:\PARTAGE\Quest Software\toad\FmtPlus.opt | 02-15-2001 | 09:58:40 | | 1698 | 3882cba5
+File Overwrite: C:\PARTAGE\Quest Software\toad\FmtPlus.exe | 12-01-2001 | 19:12:38 | 1.2.0.1 | 1343488 | 289de18
+File Overwrite: C:\PARTAGE\Quest Software\toad\FmtPlus.dll | 09-20-2001 | 15:27:24 | 4.5.2.0 | 1200128 | f8f45d4d
+File Overwrite: C:\PARTAGE\Quest Software\toad\FmtOptions.exe | 09-20-2001 | 15:13:44 | 4.5.4.2 | 253952 | ffebaa44
+File Overwrite: C:\PARTAGE\Quest Software\toad\kbasemap.dat | 08-07-2001 | 13:50:38 | | 14097 | a43723bf
+File Overwrite: C:\PARTAGE\Quest Software\toad\plfdll.dll | 04-23-2001 | 14:29:54 | 4.0.0.0 | 40960 | eb11155a
+File Overwrite: C:\PARTAGE\Quest Software\toad\Relnotes.htm | 09-24-2001 | 14:41:22 | | 20975 | cc090ae5
+Date/Time: Following file not copied.
+ File Copy: C:\PARTAGE\Quest Software\toad\relnotes_top.gif
+Made Dir: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software
+Made Dir: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Formatter Plus.lnk
+Link Info: C:\PARTAGE\Quest Software\toad\FmtPlus.exe | C:\PARTAGE\Quest Software\toad |  | 0 | 1 | 0 | 
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Formatter Plus Release Notes.lnk
+Link Info: C:\PARTAGE\Quest Software\toad\Relnotes.htm | C:\PARTAGE\Quest Software\toad |  | 0 | 1 | 0 | 
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Formatter Plus User Guide.lnk
+Link Info: C:\PARTAGE\Quest Software\toad\Help\help.htm | C:\PARTAGE\Quest Software\toad |  | 0 | 1 | 0 | 
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\Formatter Plus\Uninstall Formatter Plus.lnk
+Link Info: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.EXE | C:\PARTAGE\Quest Software\toad |  | 0 | 1 | 0 | 
+Shell Link: C:\Documents and Settings\All Users\Bureau\Formatter Plus.lnk
+Link Info: C:\PARTAGE\Quest Software\toad\FmtPlus.exe | C:\PARTAGE\Quest Software\toad |  | 0 | 1 | 0 | 
+RegDB Key: SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\FmtPlus.exe
+RegDB Val: C:\PARTAGE\Quest Software\toad
+RegDB Name: Path
+RegDB Root: 2
+RegDB Key: SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\FmtPlus.exe
+RegDB Val: C:\PARTAGE\Quest Software\toad\FmtPlus.exe
+RegDB Root: 2
+RegDB Key: SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\FmtPlus.exe
+RegDB Val: C:\PARTAGE\Quest Software\toad
+RegDB Name: ClientPath
+RegDB Root: 2
+INI File: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: Start Green
+INI Val: 255
+INI Old: 255
+INI File: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: Start Red
+INI Val: 255
+INI Old: 255
+INI File: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: End Red
+INI Val: 255
+INI Old: 255
+INI File: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: End Green
+INI Val: 255
+INI Old: 255
+INI File: C:\PARTAGE\Quest Software\toad\Help\UnWise\UNWISE.INI
+INI Sect: Settings
+INI Item: End Blue
+INI Val: 255
+INI Old: 255
+INI File: C:\PARTAGE\Quest Software\toad\FMTUSER.INI
+INI Sect: Formatter Plus
+INI Item: ActionScope
+INI Val: 1
+INI Old: 1
+INI File: C:\PARTAGE\Quest Software\toad\FMTUSER.INI
+INI Sect: Formatter Plus
+INI Item: HideKNDialog
+INI Val: 1
+INI Old: 1
+INI File: C:\PARTAGE\Quest Software\toad\FMTUSER.INI
+INI Sect: Formatter Plus
+INI Item: Project
+INI Val: FMTPLUS-INSTALL-SAMPLE
+INI Old: FMTPLUS-INSTALL-SAMPLE
+Delete in-use files: On
+RegDB Tree: .DEFAULT\Software\RevealNet\Formatter Plus
+RegDB Root: 3
+File Tree: C:\PARTAGE\Quest Software\toad\QSAuthorize36.key
+User Rights: Admin

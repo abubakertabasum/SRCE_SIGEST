@@ -1,0 +1,107 @@
+***  Installation Started 09/01/2004 15:35  ***
+Title: TOAD Evaluation Version Installation
+Source: G:\Toad\TOAD_Evaluation.EXE
+Made Dir: F:\Quest Software\toad\TOAD
+File Copy: F:\Quest Software\toad\TOAD\UNINSTAL.EXE
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\TOAD version 6
+RegDB Val: TOAD version 6
+RegDB Name: DisplayName
+RegDB Root: 2
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\TOAD version 6
+RegDB Val: F:\QUESTS~1\toad\TOAD\UNINSTAL.EXE F:\QUESTS~1\toad\TOAD\INSTALL.LOG
+RegDB Name: UninstallString
+RegDB Root: 2
+File Copy: F:\Quest Software\toad\TOAD\install.txt
+File Copy: F:\Quest Software\toad\TOAD\fulltoad.lic
+File Copy: F:\Quest Software\toad\TOAD\hints.txt
+File Copy: F:\Quest Software\toad\TOAD\Readme.txt
+File Copy: F:\Quest Software\toad\TOAD\readonly.lic
+File Copy: F:\Quest Software\toad\TOAD\temp.key
+File Copy: F:\Quest Software\toad\TOAD\Toad.exe
+File Copy: F:\Quest Software\toad\TOAD\Toad.hlp
+File Copy: F:\Quest Software\toad\TOAD\Toad.mld
+File Copy: F:\Quest Software\toad\TOAD\revbase.dll
+Made Dir: F:\Quest Software\toad\TOAD\temps
+File Copy: F:\Quest Software\toad\TOAD\temps\plsql.dci
+File Copy: F:\Quest Software\toad\TOAD\temps\html.dci
+File Copy: F:\Quest Software\toad\TOAD\temps\text.dci
+File Copy: F:\Quest Software\toad\TOAD\temps\Newfunc.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\Newpack.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\Newproc.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\Newtrig.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\Cnvfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Datefmts.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Datfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Grpfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Mscfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Nmbrfmts.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Numfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\opthints.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\Strfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\pseudo.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\predfxcp.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\usrfuncs.txt
+File Copy: F:\Quest Software\toad\TOAD\toad.lic
+File Copy: F:\Quest Software\toad\TOAD\toadload.wav
+File Copy: F:\Quest Software\toad\TOAD\TOAD.fts
+File Copy: F:\Quest Software\toad\TOAD\TOAD.gid
+Made Dir: F:\Quest Software\toad\TOAD\BACKUP
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Cnvfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Datefmts.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Datfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Grpfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Mscfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Nmbrfmts.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Numfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\opthints.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Strfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\pseudo.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\predfxcp.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\usrfuncs.txt
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Newfunc.sql
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Newpack.sql
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Newproc.sql
+File Overwrite: F:\Quest Software\toad\TOAD\temps\Newtrig.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\longscr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\shortscr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\plsqlscr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\htmlscr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\iniscr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\javascr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\textscr.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\notoad.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\toadprep.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\aliases.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\explan.sql
+File Overwrite: F:\Quest Software\toad\TOAD\temps\html.dci
+File Overwrite: F:\Quest Software\toad\TOAD\temps\text.dci
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\HTMLKEYS.BIN
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\HTMLOPTS.TXT
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\INIKEYS.BIN
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\INIOPTS.TXT
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\plsqlkeys.bin
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\plsqlopts.txt
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\TEXTKEYS.BIN
+File Copy: F:\Quest Software\toad\TOAD\TEMPS\TEXTOPTS.TXT
+File Copy: F:\Quest Software\toad\TOAD\temps\TOADProfiler.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\TOADSecurity.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\htmlsub.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\inisub.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\plsqlsub.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\textsub.txt
+File Copy: F:\Quest Software\toad\TOAD\temps\toadvcs.sql
+File Copy: F:\Quest Software\toad\TOAD\temps\toadstats.ini
+Made Dir: F:\Quest Software\toad\TOAD\docs
+File Copy: F:\Quest Software\toad\TOAD\docs\TOAD Getting Started Guide.pdf
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Application.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Help.lnk
+Backup Copy: F:\Quest Software\toad\TOAD\BACKUP\TOAD Help.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Readme General.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\Uninstall TOAD.lnk
+Backup Copy: F:\Quest Software\toad\TOAD\BACKUP\Uninstall TOAD.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Getting Started Guide.lnk
+Backup Copy: F:\Quest Software\toad\TOAD\BACKUP\TOAD Getting Started Guide.lnk
+Shell Link: C:\Documents and Settings\Ouangraoua\Bureau\TOAD.lnk
+Backup Copy: F:\Quest Software\toad\TOAD\BACKUP\TOAD.lnk
+File Copy: C:\WINNT\logs\TOAD Evaluation version 6.3.2.16.log
+User Rights: Admin

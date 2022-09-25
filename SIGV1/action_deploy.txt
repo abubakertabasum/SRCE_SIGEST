@@ -1,0 +1,26 @@
+1 - f_sig_cenex_deploy
+Cet écran vous permettra :
+	- de créer les objets suivants
+		+ Tables sg_trace_index_site, sg_trace_valeur_site
+		+ Rôles sig_maj_production_saisie, sig_ctrl_production_saisie
+		+ sgf_droit_operateur, sgf_code_actif
+	- de modifier les objets suivants:
+		+ tables sgc_operateur, sgc_role_operateur
+		+ fonctions sgf_user_profile, sgf_user_dispatching
+	- de donner des accès aux objets crées ou modifiés (grants sur les tables trace et fonctions sgf_droit_operateur, sgf_code_actif).
+
+2 - f_sig_ce_controle_index, f_sig_ce_controle_donnee pour les contrôles des relevés
+
+3 - f_sig_ce_maj_index, f_sig_ce_maj_donnee pour la maj des relevés comportant des anomalies
+
+4 - f_sig_ce_init_trace pour vider les  tables trace
+
+5 - m_sig_cenex_menu modifié pour intégrer dans le menu administration les nouveaux programmes
+
+6 - f_sig_releve_index 
+La procedure de traitement du relevé suivant a été modifiée pour les raisons suivantes:
+Cette procedure utilisait le coefficient de la saisie en cours pour le calcul de la quantité du relevé suivant, ce qui n'est pas correcte du moment où 2 journées consécutives peuvent avoir des coéfficients différents pour les mêmes equipements et types de compteur.
+
+Alors, elle a été modifié pour utiliser le coéfficient enregistré lors de la saisie du relevé suivant pour le calcul de la quantité.
+
+7 - create.trace.sql, modifier.operateur.sql 2 scripts à utiliser au cas ou des erreurs sont constatées lors de l'exécution de f_sig_cenex_deploy

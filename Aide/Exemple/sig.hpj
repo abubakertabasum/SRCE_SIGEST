@@ -1,0 +1,14 @@
+; This file is maintained by HCW. Do not modify this file directly.
+
+[OPTIONS]
+LCID=0x40c 0x0 0x0 ; Français (France)
+REPORT=Yes
+CNT=sig.cnt
+HLP=sig.hlp
+
+[FILES]
+SIG.rtf
+SIG_FACTURATION.rtf
+
+[WINDOWS]
+w_sig="",(608,68,414,659),20740,(r14876671),,1

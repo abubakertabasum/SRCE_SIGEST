@@ -1,0 +1,69 @@
+*CC or SCC
+Century; S prefixes BC dates with "-" sign
+*YYYY or SYYYY
+Year; S prefixes BC dates with "-" sign
+*YYY or YY or Y
+Last 3, 2, or 1 digits of the year
+*IYYY
+ISO, 4 digit standard year
+*IYY or IY or I
+Last 3, 2, or 1 digits of ISO year
+*Y,YYY
+Year with comma in thousands position
+*YEAR or SYEAR
+Year spelled out; S prefixes BC dates with "-" sign.
+
+E.g., to_char(sysdate, 'YEAR') returns: NINETEEN NINETY-SEVEN
+*RR
+Last two digits of year
+*BC or AD
+BC or AD designator
+*B.C. or A.D.
+BC or AD designator with the periods
+*Q
+Quarter of the year in numeric form (1-4)
+*MM
+Two digit month (01-12)
+*RM
+Roman numeral month (I-XII)
+*MONTH
+Month name padded to 9 characters
+*MON
+Name of month abbreviated to 3 characters
+*WW or W
+Week of the Year as number (1-52) or Week of the Month (1-5)
+*IW
+ISO standard week of the year (1-53)
+*DDD or DD or D
+DDD Day of the year (1-366), DD Day of the Month (1-31), or D Day of the Week (1-7)
+*DAY
+Name of the day padded to 9 characters
+*DY
+3 char abbreviation for the day
+*J
+Julian Date (since January 1, 4712 BC)
+*AM or PM
+Meridian designator
+*A.M. or P.M.
+Meridian designator with periods
+*HH or HH12
+Hour of the day non-military format (1-12)
+*HH24
+Hour of the day, military format (0-23)
+*MI
+Minute of the hour (0-59)
+*SS or SSSSS
+Seconds in 0-59, or seconds since midnight (0-86399)
+*FM Prefix designator
+Omits blanks normally padded to DAY and MONTH.  E.g., 'FMMonth'
+*FX Suffix designator
+TO_CHAR(sysdate,'DDTH') returns '4TH'
+TO_CHAR(to_date('02/02/97', 'MM/DD/YY'), 'DDTH') returns '02ND'
+TO_CHAR(sysdate, 'DDSP') returns 'TWENTY-SEVEN'
+TO_CHAR(sysdate,'DDSPTH') returns 'FOURTH'
+*Case Sensitivity
+Many formatting designators return case-sensitive results
+TO_CHAR(sysdate,'Day') returns 'Monday'
+TO_CHAR(sysdate,'DAY') returns 'MONDAY'
+TO_CHAR(sysdate,'day') returns 'monday'
+

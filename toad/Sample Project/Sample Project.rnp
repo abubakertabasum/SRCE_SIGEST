@@ -1,0 +1,35 @@
+<FMTPROJECT name="Sample Project" file="*.*" recurse="yes">
+<FILE name="ReadMe.txt" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project" sourcecode="no"/>
+<CONTAINER name="employee" file="*.*" recurse="yes">
+<FILE name="employee.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="employee.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="employee_test.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="employee_test.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+</CONTAINER>
+<CONTAINER name="job" file="*.*" recurse="yes">
+<FILE name="job.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="job_test.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="job_test.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+</CONTAINER>
+<CONTAINER name="location" file="*.*" recurse="yes">
+<FILE name="loc.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="loc.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="loc_test.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="loc_test.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="locemp.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="locemp.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="locemp_test.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="locemp_test.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+</CONTAINER>
+<CONTAINER name="department" file="*.*" recurse="yes">
+<FILE name="department.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="department_test.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="department_test.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+</CONTAINER>
+<CONTAINER name="Salary History" file="*.*" recurse="yes">
+<FILE name="salhist.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="salhist.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="salhist_test.spb" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+<FILE name="salhist_test.sps" path="C:\Program Files\RevealNet\Formatter Plus\Sample Project"/>
+</CONTAINER>
+</FMTPROJECT>

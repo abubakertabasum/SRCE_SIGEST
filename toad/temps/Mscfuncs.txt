@@ -1,0 +1,25 @@
+*DECODE(expr, value1 [, return1, value2, return2....,] default )
+Translates expr to a return value.
+
+If expr equals value1, function returns Return1.
+If expr equals value2, function returns Return2. Etc.
+If expr does not equal any Value in the list, the default value is returned.
+*GREATEST(expr [,expr2, expr3...])
+Returns the greatest of the list of exprs.
+*LEAST(expr [,expr2, expr3...])
+Returns the least of the list of exprs.
+*NVL(expr1, expr2)
+If expr1 is null, returns expr2.  If expr1 is not null, returns expr1.
+*UID
+Returns an integer that uniquely identifies the current user.
+*USER
+Returns the current Oracle user with the datatype VARCHAR2.
+*USERENV(option)
+Returns information about the current session.
+
+Valid options are 'ENTRYID', 'SESSIONID', 'TERMINAL', 'LANGUAGE', 'LANG', 'CLIENT_INFO' and 'LABEL'.
+*VSIZE(expr)
+Returns the number of bytes in the internal representation of expr.
+*SYSDATE
+Returns the current system date and time of the database server.
+

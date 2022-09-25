@@ -1,0 +1,59 @@
+*ACCESS_INTO_NULL
+ORA-06530 Your program attempts to assign values to the attributes of an uninitialized (atomically null) object.
+
+*COLLECTION_IS_NULL
+ORA-06531 Your program attempts to apply collection methods other than EXISTS to an uninitialized (atomically null) nested table or varray, or the program attempts to assign values to the elements of an uninitialized nested table or varray.
+
+*CURSOR_ALREADY_OPEN
+ORA-06511 Your program attempts to open an already open cursor. A cursor must be closed before it can be reopened.  A cursor FOR loop automatically opens the cursor to which it refers. So, your program cannot open that cursor inside the loop.
+
+*DUP_VAL_ON_INDEX
+ORA-00001 Your program attempts to store duplicate values in a database column that is constrained by a unique index.
+
+*INVALID_CURSOR
+ORA-01001 Your program attempts an illegal cursor operation such as closing an unopened cursor.
+
+*INVALID_NUMBER
+ORA-01722 In a SQL statement, the conversion of a character string into a number fails because the string does not represent a valid number. (In procedural statements, VALUE_ERROR is raised.)
+
+*LOGIN_DENIED
+ORA-01017 Your program attempts to log on to Oracle with an invalid username and/or password.
+
+*NO_DATA_FOUND
+ORA-01403 A SELECT INTO statement returns no rows, or your program references a deleted element in a nested table or an uninitialized element in an index-by table.  SQL aggregate functions such as AVG and SUM always return a value or a null. So, a SELECT INTO statement that calls a aggregate function will never raise NO_DATA_FOUND. The FETCH statement is expected to return no rows eventually, so when that happens, no exception is raised.
+
+*NOT_LOGGED_ON
+ORA-01012 Your program issues a database call without being connected to Oracle.
+
+*PROGRAM_ERROR
+ORA-06501 PL/SQL has an internal problem.
+
+*ROWTYPE_MISMATCH
+ORA-06504 The host cursor variable and PL/SQL cursor variable involved in an assignment have incompatible return types. For example, when an open host cursor variable is passed to a stored subprogram, the return types of the actual and formal parameters must be compatible.
+
+*SELF_IS_NULL
+ORA-30625 Your program attempts to call a MEMBER method on a null instance. That is, the built-in parameter SELF (which is always the first parameter passed to a MEMBER method) is null.
+
+*STORAGE_ERROR
+ORA-06500 PL/SQL runs out of memory or memory has been corrupted.
+
+*SUBSCRIPT_BEYOND_COUNT
+ORA-06533 Your program references a nested table or varray element using an index number larger than the number of elements in the collection.
+
+*SUBSCRIPT_OUTSIDE_LIMIT
+ORA-06532 Your program references a nested table or varray element using an index number (-1 for example) that is outside the legal range.
+
+*SYS_INVALID_ROWID
+ORA-01410 The conversion of a character string into a universal rowid fails because the character string does not represent a valid rowid.
+
+*TIMEOUT_ON_RESOURCE
+ORA-00051 A time-out occurs while Oracle is waiting for a resource.
+
+*TOO_MANY_ROWS
+ORA-01422 A SELECT INTO statement returns more than one row.
+
+*VALUE_ERROR
+ORA-06502 An arithmetic, conversion, truncation, or size-constraint error occurs. For example, when your program selects a column value into a character variable, if the value is longer than the declared length of the variable, PL/SQL aborts the assignment and raises VALUE_ERROR. In procedural statements, VALUE_ERROR is raised if the conversion of a character string into a number fails. (In SQL statements, INVALID_NUMBER is raised.)
+
+*ZERO_DIVIDE
+ORA-01476 Your program attempts to divide a number by zero.

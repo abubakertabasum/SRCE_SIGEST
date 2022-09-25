@@ -1,0 +1,63 @@
+
+
+***********************************************************************
+Fatal NI connect error 12203, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.0.8)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=drc)(CID=(PROGRAM=C:\orant\bin\ifbld60.exe)(HOST=TISSA)(USER=user))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 8.0.6.0.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 8.0.6.0.0 - Production
+  Time: 19-NOV-20 11:36:32
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 12203
+    TNS-12203: TNS : connexion à la destination impossible
+    ns main err code: 12535
+    TNS-12535: TNS : le délai imparti à l'opération est écoulé
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Temps imparti à l'opération écoulé
+    nt secondary err code: 60
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12203, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.0.8)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=drc)(CID=(PROGRAM=C:\orant\bin\ifbld60.exe)(HOST=TISSA)(USER=user))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 8.0.6.0.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 8.0.6.0.0 - Production
+  Time: 19-NOV-20 11:36:58
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 12203
+    TNS-12203: TNS : connexion à la destination impossible
+    ns main err code: 12535
+    TNS-12535: TNS : le délai imparti à l'opération est écoulé
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Temps imparti à l'opération écoulé
+    nt secondary err code: 60
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12203, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.0.8)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=drc)(CID=(PROGRAM=C:\orant\bin\ifbld60.exe)(HOST=TISSA)(USER=user))))
+
+  VERSION INFORMATION:
+	TNS for 32-bit Windows: Version 8.0.6.0.0 - Production
+	Windows NT TCP/IP NT Protocol Adapter for 32-bit Windows: Version 8.0.6.0.0 - Production
+  Time: 19-NOV-20 14:45:35
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 12203
+    TNS-12203: TNS : connexion à la destination impossible
+    ns main err code: 12535
+    TNS-12535: TNS : le délai imparti à l'opération est écoulé
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Temps imparti à l'opération écoulé
+    nt secondary err code: 60
+    nt OS err code: 0

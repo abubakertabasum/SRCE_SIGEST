@@ -1,0 +1,1139 @@
+<p align = center>TOAD (r) Copyright (c) 1995-2001 Quest Software All Rights Reserved</p>
+
+<p align=center><font size="12"><b>TOAD 7.2 ReleaseNotes</b></font></p>
+
+
+<p>LAST REVISED: December 7, 2001</p>
+
+<b><font size="5">Table of Contents</font></b>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#upgrade_info">Important Installation and Upgrade Information</a>
+	<ul>
+	<li>Knowledge Xpert 6.0</li>
+	<li>Upgrade to the TOAD Schema</li>
+	<li>Script Manager files</li>
+	<li>Changes to the PLSQL parser script</li>
+	<li>TOAD Security</li>
+	</ul>
+</li>
+<li><a href="#oracle9i">Oracle 9i</a>
+	<ul>
+	<li><a href="#enh9i">Enhancements for Oracle 9i Support</a></li>
+	<li><a href="#fixes9i">Fixes for Oracle 9i Support</a></li>
+	</ul>
+</li>
+<li><a href="#enhancements">Enhancements</a>
+	<ul>
+	<li><a href="#enhBASE">Enhancements in Base TOAD</a></li>
+	<li><a href="#enhDebug">Enhancements in Debugger</a></li>
+	<li><a href="#enhDBA">DBA Module Enhancements</a></li>
+	</ul>
+</li>
+<li><a href="#caveats">Caveats</a>
+	<ul>
+	<li>TOAD making itself the active application</li>
+	<li>Schema definition files not backward-compatible</li>
+	<li>SQL*Loader and Oracle 8.0.x</li>
+	<li>Space Manager collects statistics <= 1x per day</li>
+	</ul>
+</li>
+<li><a href="#changes">Other Changes to Note</a></li>
+<li><a href="#bug_fixes">Bug Fixes</a></li>
+</ul>
+
+<a name="intro"></a>
+<p><font size="5"><b>Introduction</b></font></p>
+<p>These Release Notes are intended to provide an overview of new functionality  
+and to list many of the fixes that have been implemented in this release of TOAD.  The 
+Release Notes are also intended to help you upgrade to the new version. For an introduction to TOAD, also see readme.txt.</p>
+<p>TOAD 7.2 includes a Script Manager for managing your scripts, a Configure Tools window, from which you can configure TOAD to launch
+other applications, and an optional Task Bar that shows your open connections.  The Schema Browser has 3 new tabs.  The Queues and Queue Tables 
+tabs are for use with Oracle Advanced Queuing.  The Types tab, which shows Object Types and Collection Types, has taken over the functionality of the earlier Object Browser, which has been removed from TOAD.  
+TOAD 7.2 is also the first version of TOAD to be tested on Oracle 9i.  A Space Manager for collecting statistics on tablespace usage has been added to the DBA module.  The Procedure Editor 
+has been rewritten, and many fixes have been implemented for the Debugger, the Compare Schemas window, and the Generate Schema Script window, as well as in other
+places throughout TOAD.  We believe that you will be very pleased with this new version.
+</p>
+
+
+<a name="upgrade_info"></a>
+<p><font size="5"><b>Important Installation and Upgrade Information</b></font></p>
+
+<table border="0" width="100%">
+<tr><td><font size="4"><b>Knowledge Xpert 6.0</b></font></td></tr>
+<tr><td>Quest Software Knowledge Xpert 6.0 is integrated with TOAD 7.2, although the interface
+still refers to the RevealNet Knowledge Bases, which will continue to work with TOAD 7.2.</td></tr>
+  <tr>    <td><font size="4"><b>Upgrade to the TOAD schema</b></font></td> </tr>
+<tr>    <td><p>
+A function has been added to the TOAD schema, which is created through toadprep.sql.
+Compile this function in the TOAD schema to speed up the Blocking locks tab in Kill/Trace:
+<br><br>
+CREATE OR REPLACE function TOAD.ObjectName(in_object_id in number) return <br>
+varchar <br> 
+is <br>
+  return_string varchar2(100); <br>
+begin <br>
+  select OWNER||'.'||OBJECT_NAME <br>
+    into return_string <br>
+    from all_objects <br>
+    where object_id = in_object_id; <br>
+  return return_string; <br>
+end ObjectName; <br>
+/ <br>
+<br>
+Grant execute on TOAD.ObjectName to public;<br>
+</p></td>
+  </tr>
+  <tr>    <td><font size="4"><b>Script Manager files</b></font></td>
+ </tr><tr>   <td>The files "DBA.sdf" and "Oracle 8i Dictionary.sdf" have been installed into the TOAD directory for use with the Script Manager.  When you load them into the Script Manager, you will need to press "Move" and update the directory path for the scripts.
+<br></td>
+  </tr>
+  <tr>    <td><font size="4"><b>Changes to the PLSQL parser script</b></font></td>
+ </tr><tr>   <td>In order to use the new syntax highlighting features for views and synonyms, some changes to plsqlscr.txt are necessary.  In order to upgrade an existing plsqlscr.txt for the new features, add the following lines:
+</p><p>
+Below the line:<br>
+#define st_KEYWORD     26<br>
+Add the lines:<br>
+#define st_VIEWNAMES      27<br>
+#define st_SYNNAMES       28<br>
+</p><p>
+Below the line:<br>
+#define ss_D4  203<br>
+Add the lines:<br>
+#define ss_D5  205<br>
+#define ss_D6  206<br>
+</p><p>
+Under "%%language", change StartState to <br>
+StartState  = [0, ss_D1, ss_D2, ss_D3, ss_D4, ss_D5, ss_D6]
+</p><p>
+Add the following to the list of EditableStyles<br>
+('View Names',   st_VIEWNAMES),<br>
+('Synonyms',     st_SYNNAMES),<br>
+</p><p>
+Under "%%effects", add<br>
+st_VIEWNAMES        [UpperCase]  clOlive      _DEFAULT_BACKGROUND<br>
+st_SYNNAMES         [UpperCase]  clOlive      _DEFAULT_BACKGROUND<br>
+</p><p>
+Under "%%kwtables", add<br>
+  ForState [ss_D5] endswith _non_alpha_<br>
+    ( st_VIEWNAMES is  'SALES'<br>
+    )
+<br><br>
+  ForState [ss_D6] endswith _non_alpha_<br>
+    ( st_SYNNAMES is  'SYNS'<br>
+    )
+</p>
+<p>
+Under "%%map", add<br>
+st_VIEWNAMES              st_VIEWNAMES<br>
+st_SYNNAMES               st_SYNNAMES
+</p>
+<br>
+</td>
+  </tr>
+  <tr>    <td><font size="4"><b>TOAD Security</b></font></td>
+</tr><tr>    <td>The TOAD Security Feature has new functionality. If you are upgrading to TOAD 7.2 and have already set up your security features in a previous version of TOAD, you can run an upgrade script so you do not have to recreate the security tables and reassign all of the privileges.  You will need to open the TOADSECURITY_Update.SQL file in the SQL Editor and execute in the TOAD schema on the target instance. This will truncate the TOAD_FEATURES table and insert the new and / or relabeled features.  After you run the upgrade script, you will need to go back into the TOAD Features Security window and make sure everyone has the correct privileges for TOAD 7.2.  If you are upgrading from 7.1 to 7.2, then instead of running the upgrade script, you can simply run the following statement in order to upgrade:
+<p></p>
+INSERT INTO TOAD.TOAD_FEATURES ( NAME, DESCR ) VALUES (
+'CHAINED ROWS', 'DBA Menu, Chained Rows Window');</td>
+  </tr>
+</table>
+
+<a name="oracle9i"></a>
+<p><font size="5"><b>Oracle 9i Support</b></font></p>
+
+<p>TOAD 7.2 has been fully tested on Oracle 9i.  If TOAD supports a feature on an Oracle 8i database, then it is also expected
+to support that feature on an Oracle 9i database.  However, support for most new features of Oracle 9i has not yet been added to TOAD.
+</p>
+<a name="enh9i"></a>
+<p><font size="4"><b>Enhancements for Oracle 9i Support</b></font></p>
+
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Window</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>   <td>Database Creation Wizard</td>
+    <td>Can now create a database for Oracle 9i</td>
+  </tr>
+  <tr>   <td>Server Login</td>
+    <td>Server Login window now supports login as SYSDBA or SYSOPER</td>
+  </tr>
+  <tr>   <td>TOAD</td>
+    <td>Users with SELECT ANY DICTIONARY are recognized as having access to the DBA views on 9i.  SELECT ANY TABLE, however, does NOT grant a user access to the DBA views on 9i, and TOAD recognizes this.</td>
+  </tr>
+</table>
+
+<a name="fixes9i"></a>
+<p><font size="4"><b>Fixes for Oracle 9i Support</b></font></p>
+
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Feature</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Support Case #</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>51993</td>
+    <td>Procedure arguments not filled in for Set Parameters window on 9i</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>&nbsp;</td>    <td>Call Stack tab enabled on 9i</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>&nbsp;</td>    <td>Watches enabled on package variables for 9i</td>
+  </tr>
+  <tr>    <td>Export and Import Wizards</td>
+    <td>&nbsp;</td>    <td>Wizards were opening with "tablespaces" disabled for 9i</td>
+  </tr>
+  <tr>   <td>Instance Manager</td>
+  <td>&nbsp;</td>  <td>Instance Manager works with 9i</td>
+  </tr>
+  <tr>    <td>Profiler</td>
+    <td>49872 32574</td>
+    <td>Profiler enabled on 9i</td>
+  </tr>
+  <tr>    <td>SB > Indexes</td>
+    <td>56053</td>
+    <td>"Field 4 does not exist" on 9i when viewing Indexes tab</td>
+  </tr>
+  <tr>    <td>SB > Java</td>
+    <td>&nbsp;</td>    <td>Java tab enabled on 9i</td>
+  </tr>
+  <tr>    <td>SB > Policies</td>
+    <td>&nbsp;</td>    <td>Policies tab enabled on 9i</td>
+  </tr>
+  <tr>    <td>SQL*Net Help</td>
+    <td>&nbsp;</td>    <td>SQL*Net Help now recognizes the Oracle 9i client dll as valid</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>58235</td>    <td>TOAD is now querying the correct views for the Auto Trace tab on Oracle 9i</td>
+  </tr>
+  <tr>    <td>Table Script</td>
+    <td>51993</td>
+    <td>"Invalid variant option" on 9i when generating primary key storage clause.  Probably related to Oracle error when generating script for an IOT on 9i.</td>
+  </tr>
+</table>
+
+<a name="enhancements"></a>
+<p><font size="5"><b>Enhancements</b></font></p>
+
+<a name="enhBASE"></a>
+<p><font size="4"><b>Enhancements in Base TOAD</b></font></p>
+
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Feature</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Support Case #</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>    <td>Bookmarks</td>
+    <td>&nbsp;</td>    <td>Bookmark menus in the SQL Editor and Procedure Editor now show which bookmarks are in use.</td>
+  </tr>
+  <tr>    <td>Commit</td>
+    <td>&nbsp;</td>    <td>The microhelp response after pressing "Commit" now specifies the connection where the commit was executed</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Options to compare PL/SQL now separated into Packages, Procs, and Functions</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Option to write dependencies for each object as comments into the synchronization script</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Allows running the migration script directly from the window</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>56475</td>
+    <td>Option to ignore whitespace when comparing PL/SQL</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Now detects the situation where the 2 users' tables are alike, but the columns are in different orders.</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Comparison can be cancelled.</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Allows user to put an "Object name like" condition on the objects to compare</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Window will use the ALL_* views if the DBA_* views are not accessible.</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Entirely new tab for viewing differences</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Option to display difference statistics when comparing PL/SQL</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Option to ignore case when comparing PL/SQL</td>
+  </tr>
+  <tr>    <td>Configure TOAD Tools</td>
+    <td>&nbsp;</td>    <td>New button with dropdown to configure/execute external programs.</td>
+  </tr>
+  <tr>    <td>Connection Taskbar</td>
+    <td>&nbsp;</td>    <td>Options > General > "Show task bar at bottom of main window"
+Task bar shows the connections that TOAD currently has open.  Pressing a task bar button will bring the last window used by a given connection to the front.  The right-click menu over the task bar lets you end a connection, commit, rollback, or go to certain windows that belong to the connection.
+</td>
+  </tr>
+  <tr>    <td>DBMS Output</td>
+    <td>&nbsp;</td>    <td>New option on Oracle tab to specify font for DBMS Output window.</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>&nbsp;</td>    <td>RM menu option on the data grid to export column data to file</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>&nbsp;</td>    <td>New option to color grid rownum same as border</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>&nbsp;</td>    <td>Carriage returns in data grid filters are now saved and restored.</td>
+  </tr>
+  <tr>    <td>Dependencies</td>
+    <td>&nbsp;</td>    <td>"Used" and "Used By" tabs in the Schema Browser and View Dependencies window are now populated by a faster query.  The tabs display not only the name of each dependent object, but also the type of object and its status.  The right-click menu provides options to compile the object or load it into the procedure editor.  Compiling object dependencies in the schema browser and in the procedure editor now also uses this new, faster query.</td>
+  </tr>
+  <tr>    <td>Describe</td>
+    <td>&nbsp;</td>    <td>When describing a package that has no body, the Describe Package window will show the code for the spec</td>
+  </tr>
+  <tr>    <td>Editors</td>
+    <td>&nbsp;</td>    <td>There is a new option to load view names when entering an editor.  This option is on the Editors options panel and the Load tablenames option is moved there too.  The PLSQL parser script, plsqlscr.txt, has been updated accordingly.</td>
+  </tr>
+  <tr>    <td>Explain Plan</td>
+    <td>&nbsp;</td>    <td>"TABLE ACCESS FULL" is now shown in red</td>
+  </tr>
+  <tr valign="top">    <td>Export Table Scripts</td>
+    <td>33157</td>
+    <td>The database/Export/table scripts window has a new option to export into separate files.  Each file is the table name + 'sql'</td>
+  </tr>
+  <tr>    <td>InitCap</td>
+    <td>&nbsp;</td>    <td>An InitCap button and right-click menu item has been added next to the upper and lower case options in the SQL Editor.  An InitCap button has been added in the Procedure Editor.</td>
+  </tr>
+  <tr>    <td>Kill/Trace</td>
+    <td>31580</td>
+    <td>Block SID and Wait SID displayed on the Blocking Locks tab.</td>
+  </tr>
+  <tr>    <td>Kill/Trace</td>
+    <td>&nbsp;</td>    <td>A function has been added to the TOAD schema (created in toadprep.sql) to speed up the Blocking locks tab.  See "Important Upgrade Notes" above.</td>
+  </tr>
+  <tr>    <td>Kill/Trace</td>
+    <td>50972</td>
+    <td>SID displayed on the All Locks tab</td>
+  </tr>
+  <tr>    <td>Object Search</td>
+    <td>&nbsp;</td>    <td>Can click on column headers to sort results</td>
+  </tr>
+  <tr>    <td>Options</td>
+    <td>40118</td>
+    <td>New button on main toolbar to launch options window</td>
+  </tr>
+  <tr>    <td>Options</td>
+    <td>&nbsp;</td>    <td>View > Options > StartUp: File to AutoExecute on new connections.  You can now select a script file to execute for each new connection that you make through TOAD.</td>
+  </tr>
+  <tr>    <td>Options</td>
+    <td>&nbsp;</td>    <td>View > Options > SQL Editor: New option for Script Output tab font</td>
+  </tr>
+  <tr>    <td>Procedure Editor</td>
+    <td>&nbsp;</td>    <td>Load source from existing object can now load the package spec, package body, or both</td>
+  </tr>
+  <tr>    <td>Procedure Editor</td>
+    <td>&nbsp;</td>    <td>Navigator list: Highlighting of current position in Navigator tree relative to cursor position</td>
+  </tr>
+  <tr>    <td>Procedure Editor</td>
+    <td>&nbsp;</td>    <td>"Reload from database" is back, and will reload the package spec, body, or both, based on what is in the tab.</td>
+  </tr>
+  <tr>    <td>Procedure Editor</td>
+    <td>&nbsp;</td>    <td>Alt+PageUp and Alt+PageDown to switch tabs</td>
+  </tr>
+  <tr>    <td>Save As</td>
+    <td>&nbsp;</td>    <td>Grid > Save As now exports to an XML file</td>
+  </tr>
+  <tr>    <td>SB</td>
+    <td>&nbsp;</td>    <td>New SB option to not automatically load RHS when LHS changes.</td>
+  </tr>
+  <tr>    <td>SB</td>
+    <td>&nbsp;</td>    <td>New SB option to determine whether you want to use your optimizer hint when populating the Dependencies tabs.</td>
+  </tr>
+  <tr>    <td>SB > Java</td>
+    <td>&nbsp;</td>    <td>Query to populate list of Java objects is now cancellable.</td>
+  </tr>
+  <tr>    <td>SB > Procs</td>
+    <td>55577</td>
+    <td>New dropdown list next to the compile button for compiling package spec, body, or both.  Similarly, a new dropdown list next to the "load in procedure editor" button for loading package spec, body, or both.</td>
+  </tr>
+  <tr>    <td>SB > Queue Tables</td>
+    <td>&nbsp;</td>    <td>New tab on schema browser for creating and managing queue tables for Advanced Queuing.  (Oracle 8 and up)</td>
+  </tr>
+  <tr>    <td>SB > Queues</td>
+    <td>&nbsp;</td>    <td>New tab on schema browser for managing queues for Advanced Queuing.  (Oracle 8 and up)</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>New button and right-click menu option to load selected table into a SQL Modeler.  A dialog will ask how many levels of relational tables to
+also load.</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>Advanced Queuing tables are shown, unless the LHS Tables filter has "Omit tables created for Advanced Queues" checked.</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>RHS > Data: checkbox for "Sort by Primary Key"</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>RHS > Triggers: Now has a column for "Owner" and shows all triggers on the selected table, even if they belong to another schema.</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>New table filter checkbox to allow loading list of tables to be cancelled.  Saved with other filter info, by schema.</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>Create Table now allows the creation of an Advanced Queueing table</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>New right-click menu option to restore original columns layout in data grid</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>&nbsp;</td>    <td>RHS > Data: new right-click menu item to create insert statements for the selected rows.  This only works if multi-select is toggled on.  Otherwise, INSERT statements will be created for ALL rows.</td>
+  </tr>
+  <tr>    <td>SB > Types</td>
+    <td>&nbsp;</td>    <td>Integration of the Object Browser with the Schema Browser.  There is a new tab - 'Types' which will be Objects & Collections. </td>
+  </tr>
+  <tr>    <td>SB > Users</td>
+    <td>&nbsp;</td>    <td>New buttons and right-click menu items to lock and unlock accounts.</td>
+  </tr>
+  <tr>    <td>SB > Users</td>
+    <td>&nbsp;</td>    <td>Icons display next to users whose accounts are expired, locked, or both.</td>
+  </tr>
+  <tr>    <td>SB > Users</td>
+    <td>&nbsp;</td>    <td>Right-click menu for Users tab.  Contains item to "Expire User".</td>
+  </tr>
+  <tr>    <td>SB > Views</td>
+    <td>&nbsp;</td>    <td>RHS > Source tab will now describe tables or views on F4</td>
+  </tr>
+  <tr>    <td>SGA Trace</td>
+    <td>&nbsp;</td>    <td>Method of retrieving text from SGA changed to avoid the "body not available error"</td>
+  </tr>
+  <tr valign="top">    <td>SGA Trace and Kill/Trace</td>
+    <td>51478</td>
+    <td>"Alter user set current_schema" issued before explaining a sql on the SGA and Kill/Trace windows.  This should help those with sufficient privileges to explain other users' statements.</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>New option: "Automatically poll for output if DBMS Output detected"</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>New items on popup window when processing Insert, Update, and Delete statements in threads: DBMS Output polling, commit, rollback, re-run.</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>"Clear" and "Save to file" buttons added to Script Output tab in SQL Editor</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>New option to run anonymous blocks in a separate thread</td>
+  </tr>
+  <tr>    <td>SQL Modeler</td>
+    <td>&nbsp;</td>    <td>SQL Modeler has a Zoom feature that allows you to specify the size that tables will be shown</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>F5 is now a shortcut key to run scripts</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>48722</td>
+    <td>Scripts now pass arguments to subscripts</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>COLUMN ... NOPRINT new_value ...
+and <br>
+COLUMN ... new_value ... NOPRINT <br>
+are now supported.<br>
+
+Example:<br>
+
+COLUMN myval NOPRINT new_value myval<br>
+
+select user myval from dual;<br>
+
+select '&myval' from dual;</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>A run count is shown on the status bar to let you know how many statements have been executed out of the total number of statements in the script.  Does not count statements in sub-scripts.</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>Scripts now display the number of compile errors in addition to the number of syntax errors after execution.</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>EXEC statement now supported in script processing</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>If any text is highlighted when you Execute As Script, only the highlighted portion will be executed.</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>Support for the SQL*Plus "@@" syntax</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>SET ESCAPE ON, SET ESCAPE OFF, and SET ESCAPE '<char>' are now supported.  ESC can also be used instead of ESCAPE.</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>44893</td>
+    <td>Subst vars not defined will prompt in scripts</td>
+  </tr>
+  <tr>    <td>Script Manager</td>
+    <td>&nbsp;</td>    <td>Provides a quick and easy way to execute scripts, either from the script manager window (File | Script Manager) or from a new main toolbar button: 'Run Script'.  For items to appear on the Run Script drop down, they must first be checked as 'QuickScript' items within the Script Manager window.</td>
+  </tr>
+  <tr>    <td>Server Login</td>
+    <td>51761</td>
+    <td>Password expired error will prompt for new password and attempt to change pwd.</td>
+  </tr>
+  <tr valign="top">    <td>Server Login</td>
+    <td>&nbsp;</td>    <td>TOAD now also makes an additional check for SELECT_CATALOG_ROLE to determine
+whether the user has access to the DBA views.</td>
+  </tr>
+  <tr>    <td>Server Login</td>
+    <td>&nbsp;</td>    <td>List of previous connections now allows multi-select</td>
+  </tr>
+  <tr>    <td valign="top">Server Login</td>
+    <td valign="top">50398-1 31861 30469 56076</td>
+    <td valign="top">Added SYSDBA and SYSOPER connection options, which are now saved and displayed on the login window.</td>
+  </tr>
+  <tr>    <td>Set Sequence Field</td>
+    <td>&nbsp;</td>    <td>Can now remove selected sequence columns by choosing "none" from the list of sequences</td>
+  </tr>
+  <tr>    <td>Syntax Highlighting</td>
+    <td>&nbsp;</td>    <td>Schema Browser has buttons on the Views and Synonyms tabs to save lists of views and synonyms to a file for syntax highlighting, instead of loading the lists from database each time.</td>
+  </tr>
+  <tr>    <td>TOAD Security</td>
+    <td>55508</td>
+    <td>Option to disable Chained Rows window added</td>
+  </tr>
+  <tr>    <td>Table Duplicates</td>
+    <td>&nbsp;</td>    <td>Duplicate Data tab now has a right-click menu</td>
+  </tr>
+  <tr>    <td>User Editor</td>
+    <td>&nbsp;</td>    <td>The user editor now has a Quotas tab, which allows you to view, add, and drop tablespace quotas in the Alter User window.  (Not enabled in Create User)</td>
+  </tr>
+</table>
+
+<a name="enhDebug"></a>
+<p><font size="4"><b>Enhancements in the Debugger</b></font></p>
+
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Feature</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>"Run to cursor" button added to toolbar</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>"Set Parameters" window pops up for triggers and packages, in addition to functions and procedures</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>Debugger should now properly declare Ref Cursors, objects, varrays, and records when constructing the anonymous block.  User must still edit the anonymous block in order to initialize parameters with these data types. </td>
+  </tr>
+</table>
+
+<a name="enhDBA"></a>
+<p><font size="4"><b>DBA Module Enhancements</b></font></p>
+
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Feature</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Support Case #</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>&nbsp;</td>    <td>Buttons added to (a) load migration script into SQL Editor, and (b) load migration script into SQL Editor and run it</td>
+  </tr>
+  <tr>    <td>Create Snapshot</td>
+    <td>&nbsp;</td>    <td>Snapshot can now be created with both "Start With" and "Next" parameters</td>
+  </tr>
+  <tr>    <td>Database Monitor</td>
+    <td>39760-1</td>
+    <td>Indexed Queries graph added</td>
+  </tr>
+  <tr>    <td>Database Monitor</td>
+    <td>&nbsp;</td>    <td>Button in the Alerts window to save the alerts to a text file.</td>
+  </tr>
+  <tr>    <td>Export and Import Wizards</td>
+    <td>&nbsp;</td>    <td>Cancel button added to the Watch window</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>44430-1 59239</td>
+    <td>Table, then Index, then Primary Key is created, so that the correct storage information will be generated for primary keys.</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Checkboxes to extract Contexts and Outlines</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Can choose to filter objects extracted by name</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Saves and restores checked options to Toad.ini file</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Options to include counts and list of dependencies in script comments</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Cancel button will cancel extraction</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Has a "Storage Clause Options" tab to allow user to set options related to the storage clauses of items in the generated script</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>123075 44430-1</td>
+    <td>Freelists, Freelist Groups, and Cache/Nocache are now included in DDL</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Has checkboxes to create script for user and user's tablespaces</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>No longer requires access to DBA views</td>
+  </tr>
+  <tr>    <td>Instance Manager</td>
+    <td>53985</td>
+    <td>Saves connection information from session to session</td>
+  </tr>
+  <tr>    <td>SB > Tablespaces</td>
+    <td>49097</td>
+    <td>Datafiles tab now shows tempfiles</td>
+  </tr>
+  <tr  valign="top">    <td>SQL*Loader</td>
+    <td>52026</td>
+    <td>"SQL Operators" can now be added to the end of column datatypes via the 'Operator' field on the Column Parameters tab.  SQL Operators are commonly used to load external data with an implied decimal point:
+<br><br>
+field1 POSITION(1:9) DECIMAL EXTERNAL(8) ":field1/1000" 
+<br><br>
+or to truncate fields that could be too long: 
+<br><br>
+field1 CHAR TERMINATED BY "," "SUBSTR(:field1, 1, 10)" 
+</td>
+    </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>45232-1</td>
+    <td>Date masks for columns of type DATE are now supported</td>
+  </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>&nbsp;</td>    <td>Oracle syntax of X'hexstr' is now supported for field delimiters.  Field delimiter dropdowns also contain "TAB" as an option.</td>
+  </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>28464</td>
+    <td>You can now specify a log file name</td>
+  </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>&nbsp;</td>    <td>"Length" field added to the Column Parameters tab for character columns</td>
+  </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>34685</td>
+    <td>Converted to a wizard format, with options at the end to "Execute Now" and Watch Progress (cancelable), Schedule, or just build the control file.  Previewing the control file is possible through the Preview button on the last pane.  An option at the beginning of the wizard allows the user to execute or schedule a load with an existing SQL*Loader control file.</td>
+  </tr>
+  <tr valign="top">    <td>Space Manager</td>
+    <td>&nbsp;</td>    <td>There are two new tabs on the DBA | View Tablespace window: Space History and IO History.  These tabs, along with the set of tables and views in the TOAD schema that populate the graphs on these tabs as well as the new Toad_Spaceman package in the TOAD schema, comprise what is
+called the TOAD Space Manager.
+
+The Space History tab provides a graph showing historical
+space usage of tablespaces and datafiles.
+
+The IO History tab shows a historical graph of various IO
+metrics, such as physical reads and writes.
+
+To begin using this new feature, one must first create the
+tables and job which drives the population of the tables.  To do so:
+<ul>
+<li>connect as TOAD and open DBA | Tablespaces</li>
+<li>click the toolbar button on the far left of either of the new tabs, whose hint reads 'Create/Recreate Space Manager Tables'.  If you are not the TOAD user you will be prevented from doing this.</li>
+</ul>
+Clicking OK for first time setup creates the tables, views, SM package and job, and backfills the tables if specified.
+<p></p>
+Afterward, any user can then click the 'Edit Space Manager Settings' button to modify the job and history retention settings.
+<ul>
+<li>The collection status group box at the top gives you the status of the SM job and allows you to toggle the status.</li>
+
+<li>The collection schedule controls operate like the Create Job
+window. The user can choose the frequency with which the SM job executes the TOAD_SPACEMAN.Collect() procedure.</li>
+
+<li>The 'History Retention' group box specifies how much data should be kept in the SM tables.  Whenever the SM job runs it first removes old data.</li>
+
+<li>The 'Data Initialization' group box offers the user the choice of starting with empty tables or 'back filling' the tables with data showing increasing space usage over time given the current space utitlization as the start.  This only applies to first time setup.</li>
+
+</td>
+   </tr>
+  <tr>    <td>Tablespace Editor</td>
+    <td>28211</td>
+    <td>Now supports CREATE TEMPORARY TABLESPACE on 8i and 9i for locally-managed temporary tablespaces</td>
+  </tr>
+  <tr>    <td>Tablespace Map</td>
+    <td>&nbsp;</td>    <td>The "Segments" window is now two-tabbed: Segments and Extents.  The Segments tab shows the segments for the current cell, as it did before.  The Extents tab shows extent level information for the current cell - Segment, Block ID, Extent ID, and Datafile.</td>
+  </tr>
+</table>
+
+<a name="caveats"></a>
+<p><font size="5"><b>Caveats</b></font></p>
+<table border="0" width="100%">
+  <tr>    <td><font size="4"><b>TOAD making itself the active application<b></font></td>
+   </tr><tr>   <td>Some users have reported problems with TOAD making itself the active application while the user is working in another application while on Windows 2000.  This problem is fixed with Windows 2000 Service Pack 2.</td>
+  </tr>
+  <tr>    <td><font size="4"><b>Schema definition files not backward-compatible<b></font></td>
+  </tr><tr>  <td>Compare Schemas and Generate Schema Script are not compatible with pre-7.2 .def files.</td>
+  </tr>
+  <tr>    <td><font size="4"><b>SQL*Loader and Oracle 8.0.x<b></font></td>
+   </tr><tr>   <td>Using "Watch Progress" with an 8.0.x version of SQL*Loader on Windows 2000 causes a 100% CPU usage.  The recommended solution is to uncheck "Watch Progress" on the last screen of the SQL*Loader Wizard, so that the SQL*Loader is launched outside of TOAD.</td>
+  </tr>
+  <tr>    <td><font size="4"><b>Space Manager collects stats <= 1x per day<b></font></td>
+    </tr><tr>  <td>The TOAD Space Manager will not store statistics for a collection interval of more than once per day.</td>
+  </tr>
+</table>
+
+<a name="changes"></a>
+<p><font size="5"><b>Other Changes to Note</b></font></p>
+
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Feature</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Support Case #</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>    <td>DDL windows</td>
+    <td>&nbsp;</td>    <td>DDL creation windows when launched from the Schema Browser for a different schema were defaulting to the connected schema.  They now default to the schema currently being viewed in the Schema Browser.</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>&nbsp;</td>    <td>"Enable compiling multiple objects from a single file" will now disable the debugger.  This configuration was not recommended in earlier versions of TOAD.</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>&nbsp;</td>    <td>"Shift+F9" used to start the debugger.  It now executes the loaded object outside of the debugger.</td>
+  </tr>
+  <tr>    <td>Explain Plan</td>
+    <td>&nbsp;</td>    <td>Option to "Use temps\explan.sql to fetch Explain Plan results removed</td>
+  </tr>
+  <tr>    <td>Kill/Trace</td>
+    <td>&nbsp;</td>    <td>If the KILLSESS*.INI files exist, TOAD will automatically remove them ONCE.</td>
+  </tr>
+  <tr>    <td>Object Browser</td>
+    <td>&nbsp;</td>    <td>Object Browser has been removed.  Schema Browser now has a new tab called "Types" that covers the functionality of the old Object Browser.</td>
+  </tr>
+  <tr>    <td>Options</td>
+    <td>&nbsp;</td>    <td>Options > Instance Manager > Email Alerts window > "Enable email alerts" checkbox removed, since it was not used.
+</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>    <td>Button to shrink Navigator list is removed.</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>55040</td>
+    <td>Print button will print selected text, if there is any selected text.</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>
+    <td>The Procedure Editor will no longer compile code unless it starts with a "CREATE" or "CREATE OR REPLACE" keyword.</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>    <td>Option to "Hide errors panel unless errors are raised following a compile" has been removed.  Now the errors panel will always be hidden until errors are raised.</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>    <td>Wrapped code is now displayed in the procedure editor, but it is read only if loaded from the database.</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>    <td>The default procedure templates Newproc.sql, Newpack.sql, Newfunc.sql, and Newtrig.sql have a different error handler than in previous releases.  It ends in "WHEN OTHERS THEN RAISE" instead of "WHEN OTHERS THEN NULL".</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>    <td>Options > Procedure Editor > "Only show one procedure editor per database connection" now defaults to ON</td>
+  </tr>
+  <tr>    <td>SB > Java</td>
+    <td>&nbsp;</td>    <td>Right-click option to load java into procedure editor removed.  Was non-functional.</td>
+  </tr>
+  <tr>    <td>SB > Procs</td>
+    <td>&nbsp;</td>    <td>"CREATE OR REPLACE" will now be added to the source on the RHS Code tab.</td>
+  </tr>
+  <tr>    <td>SB > Triggers</td>
+    <td>&nbsp;</td>    <td>"CREATE OR REPLACE" will now be added to the source on the RHS Source tab.</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>Output will no longer automatically enable in the SQL Editor (it was causing buffer overflows).</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>36824-3</td>
+    <td>Options > Oracle > "Commit automatically ..." now applies to anonymous blocks</td>
+  </tr>
+  <tr>    <td>TOAD Options</td>
+    <td>&nbsp;</td>    <td>View > Options > Object Browser is now View > Options > Types tab</td>
+  </tr>
+  <tr>    <td>TOAD Security</td>
+    <td>&nbsp;</td>    <td>New option "DBA Menu, Chained Rows Window" added.  This means that in order for a user subject to TOAD Security to have access to the Chained Rows window, the user must be granted this privilege through TOAD Security.</td>
+  </tr>
+  <tr>    <td>TOAD Security</td>
+    <td>&nbsp;</td>    <td>Read-only user now has access to Kill/Trace, Oracle Parameters, View Extents, and View Tablespace.  These items were available to read-only users in version 6.5, but not in 7.0 or 7.1.</td>
+  </tr>
+  <tr>    <td>Table Scripts</td>
+    <td>&nbsp;</td>    <td>The SB Table RHS scripts tab option for Synonyms will only include the synonym if a syn already exits.  Ditto for Database/Export/Table Scripts</td>
+  </tr>
+</table>
+
+<a name="bug_fixes"></a>
+<p><font size="5"><b>Bug Fixes</b></font></p>
+<table border="0" width="100%">
+  <tr>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Feature</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Support Case #</th>
+  <th align="left" bgcolor="#C0C0C0" bordercolor="#FFFFFF">Description</th>
+  </tr>
+  <tr>    <td>Alter Table</td>
+    <td>&nbsp;</td>    <td>Lockup following Alter Table Editor > adding blank rows fixed</td>
+  </tr>
+  <tr valign="top">    <td>Compare Schemas</td>
+    <td>46970 45369 55133</td>
+    <td>TOAD was checking for the DBA role when opening the window instead of checking for access to DBA views.  The window now checks for the views correctly and will use the ALL_* views if the DBA_* views are unavailable.</td>
+  </tr>
+  <tr>    <td>Compare Schemas</td>
+    <td>30030 27523</td>
+    <td>"Alter Table ... Add Primary Key" syntax was generated wrong</td>
+  </tr>
+  <tr>    <td>Connections</td>
+    <td>&nbsp;</td>    <td>If you End Connection with the option to leave windows open, the closed session will not appear in the connections selection menu/list</td>
+  </tr>
+  <tr>    <td>Copy User</td>
+    <td>54819</td>
+    <td>Script granted quotas to the source user, not the new user</td>
+  </tr>
+  <tr>    <td>Create Snapshot</td>
+    <td>&nbsp;</td>    <td>Now submits Start With and Next dates with a TO_DATE transformation, so that the parameters will work regardless of the server's NLS_DATE_FORMAT</td>
+  </tr>
+  <tr>    <td>Create Table</td>
+    <td>52494</td>
+    <td>List of object types is loaded each time this window is open, if Options > Data Types > Include Object Types is checked.</td>
+  </tr>
+  <tr>    <td>DDL Windows</td>
+    <td>&nbsp;</td>    <td>Schema list is now updated at the same time as the schema list for the schema browser.</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>&nbsp;</td>    <td>Grid BACK to not loading all rows in the dataset</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>&nbsp;</td>    <td>If columns have been hidden through the "Select Columns" dialog, Single Record View now does not show those columns.</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>28379</td>
+    <td>Problems with "Size columns to data"</td>
+  </tr>
+  <tr>    <td>Data Grids</td>
+    <td>60864</td>
+    <td>"Record Count" message box disappearing in SQL Editor</td>
+  </tr>
+  <tr valign="top">    <td>Database Creation Wizard</td>
+    <td>45223</td>
+    <td>Problems executing .bat file to create database</td>
+  </tr>
+  <tr>    <td>Database Monitor</td>
+    <td>&nbsp;</td>    <td>Now divides by time since last refresh instead of selected refresh rate when calculating Waits/sec and IO/sec.</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>40390</td>
+    <td>Greater stability.  Debugger was using 100% of CPU.</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>&nbsp;</td>    <td>Faster performance of proc editor.  Debugger not loaded until you start debugging.</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>28142 45840</td>
+    <td>Package dependencies invalidated when stepping into the debugger</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>53916</td>
+    <td>Wrong line highlighted, Debugger steps into false codelines</td>
+  </tr>
+  <tr>    <td>Debugger</td>
+    <td>55899</td>
+    <td>"Row offset" problem</td>
+  </tr>
+  <tr>    <td>FTP</td>
+    <td>&nbsp;</td>    <td>Date format error when sorting on date</td>
+  </tr>
+  <tr>    <td>Find</td>
+    <td>44433-1</td>
+    <td>Pasted text was replacing instead of appending in "Text to find" combo box.</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>29140 27523</td>
+    <td>Foreign key references were empty</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>29246</td>
+    <td>Varrays created correctly</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Many issues involving IOT, Partition, Constraint compares and scripts addressed.</td>
+  </tr>
+  <tr valign="top">    <td>Generate Schema Script</td>
+    <td>25988</td>
+    <td>Some collection types created twice</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>&nbsp;</td>    <td>Table, View, and Column comments were omitted</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>34175</td>
+    <td>Invalid syntax for primary key and unique constraint on same column</td>
+  </tr>
+  <tr>    <td>Generate Schema Script</td>
+    <td>26074 32283</td>
+    <td>No indexes extracted if Oracle 7 and only "Indexes" is checked</td>
+  </tr>
+  <tr>    <td>Help> Debugging a Procedure or</td>
+    <td>57692</td>
+    <td>Added step to initialize INVAL:=17 so the breakpoint would work in the example.</td>
+  </tr>
+  <tr>    <td>Installation</td>
+    <td>38203</td>
+    <td>Network installation of SQLab Xpert failed</td>
+  </tr>
+  <tr>    <td>Instance Manager</td>
+    <td>&nbsp;</td>    <td>No longer opens a new window for every new user when set to open on startup</td>
+  </tr>
+  <tr>    <td>Instance Manager</td>
+    <td>44725-1</td>
+    <td>Note added to docs that Instance Manager can't start up an Oracle 7 db from an 8i client</td>
+  </tr>
+  <tr>    <td>Kill/Trace</td>
+    <td>44899</td>
+    <td>Blinking behavior when refreshing</td>
+  </tr>
+  <tr>    <td>Kill/Trace</td>
+    <td>&nbsp;</td>    <td>All Locks > Open Cursors was always using the current SID and not the highlighted lock SID.</td>
+  </tr>
+  <tr  valign="top">    <td>Login</td>
+    <td>55284 55107 54595</td>
+    <td>User had connection problems if user had a table called USER_TYPES.  Now TOAD queries SYS.USER_TYPES.</td>
+  </tr>
+  <tr>    <td>Login</td>
+    <td>&nbsp;</td>    <td>Login now looks for SELECT_CATALOG_ROLE on 8i</td>
+  </tr>
+  <tr valign="top">    <td>Master/Detail Browser</td>
+    <td>36454</td>
+    <td>Invalid Where clause was getting stuck in the filter and couldn't be removed.  The filter will now be cleared if the syntax is invalid.</td>
+  </tr>
+  <tr>    <td>Named SQLs</td>
+    <td>43003</td>
+    <td>The Single SQLs tab wasn't updated when selecting different Named SQLs from the left hand side</td>
+  </tr>
+  <tr valign="top">    <td>Print Grid</td>
+    <td>47100-3 45943 55368</td>
+    <td>First row # printed was 0, but first row # displayed was 1.  Now both are 1.</td>
+  </tr>
+  <tr valign="top">    <td>Privileges Window</td>
+    <td>&nbsp;</td>    <td>Looking at another user's object, could't see grants you didn't make because query was hitting all_tab_privs rather than
+dba_tab_privs</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>30301-1 26244</td>
+    <td>Proc editor not remembering that the "Show status toolbar" was checked</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>&nbsp;</td>    <td>Show All is now working correctly</td>
+  </tr>
+  <tr>    <td>Proc Editor</td>
+    <td>19618</td>
+    <td>Tabs disappearing in Procedure Editor when mutiple tabs are opened, then closed.</td>
+  </tr>
+  <tr>    <td>Rebuild Table</td>
+    <td>68893 50065</td>
+    <td>Unique constraint wasn't getting created.</td>  </tr>
+  <tr>    <td>Repair Chained Rows</td>
+    <td>&nbsp;</td>    <td>When repairing just one table out of a list, the chained rows table was being emptied which meant that attempts to fix the others in the list would fail until re-analyzed.</td>
+  </tr>
+  <tr>    <td>SB</td>
+    <td>&nbsp;</td>    <td>Splitter on the SB should be saving for users running Maxed windows.</td>
+  </tr>
+  <tr>    <td>SB > Indexes</td>
+    <td>&nbsp;</td>    <td>Schema Browser options > Automatically Show Filter Dialog now applies to Indexes too.</td>
+  </tr>
+  <tr>    <td>SB > Indexes</td>
+    <td>&nbsp;</td>    <td>Stats for Partitioned Indexes shown</td>
+  </tr>
+  <tr>    <td>SB > Indexes</td>
+    <td>58851</td>
+    <td>Script for Unique function-based index omits 'UNIQUE'</td>
+  </tr>
+  <tr>    <td>SB > Indexes</td>
+    <td>&nbsp;</td>    <td>Indexes filter > "not like" wasn't working</td>
+  </tr>
+  <tr>    <td>SB > Procs</td>
+    <td>&nbsp;</td>    <td>Redundant queries for object status with each click of a proc within the same package is eliminated.</td>
+  </tr>
+  <tr>    <td>SB > Sequences</td>
+    <td>41214 43157</td>
+    <td>Only the 1st 2 digits of the cache value were displayed</td>
+  </tr>
+  <tr>    <td>SB > Sequences</td>
+    <td>40891</td>
+    <td>RHS was populated from all_sequences even when user had privileges on dba_sequences</td>
+  </tr>
+  <tr>    <td>SB > Snapshots</td>
+    <td>38141</td>
+    <td>Docs said Alter Snapshot and Refresh Snapshot were present, but they weren't</td>
+  </tr>
+  <tr>    <td>SB > Snapshots</td>
+    <td>48748</td>
+    <td>User without access to DBA_SNAPSHOTS wasn't able to see own snapshots</td>
+  </tr>
+  <tr>    <td>SB > Synonyms</td>
+    <td>35340</td>
+    <td>Couldn't resolve synonym that pointed to a synonym for a table with a DB Link.</td>
+  </tr>
+  <tr>    <td>SB > Tables</td>
+    <td>41179</td>
+    <td>Problem doing enable/disable of ref. integrity contraints with Create Script button.</td>
+  </tr>
+  <tr>    <td>SB > Tables > Data</td>
+    <td>29835 26264</td>
+    <td>Editing data grid was failing for tables with lowercase letters in their names</td>
+  </tr>
+  <tr>    <td>SB > Tables > Data</td>
+    <td>&nbsp;</td>    <td>User name now double quoted in ALL uses for the RHS Tables data tab.</td>
+  </tr>
+  <tr>    <td>SB > Tablespaces</td>
+    <td>56163</td>
+    <td>"File ID" and "Block #" were transposed on the right-hand-side Extents tab</td>
+  </tr>
+  <tr>    <td>SB > Tablespaces</td>
+    <td>50396-1</td>
+    <td>Negative value shown for maximum datafile size.</td>
+  </tr>
+  <tr>    <td>SB > Types</td>
+    <td>47797</td>
+    <td>New method was being put in the wrong place when it was added to an object</td>
+  </tr>
+  <tr>    <td>SB > Users</td>
+    <td>39474-1</td>
+    <td>Schema dropdown box was adding new user twice</td>
+  </tr>
+  <tr valign="top">    <td>SB > Views</td>
+    <td>41091 38159 45604</td>
+    <td>Compile All Views was broken on 8.1.7</td>
+  </tr>
+  <tr>    <td>SB> Tables</td>
+    <td>41890</td>
+    <td>Stats for Partitioned Tables shown</td>
+  </tr>
+  <tr>    <td>SGA Trace</td>
+    <td>50843</td>
+    <td>Docs mentioned a cost "tab" that should have been a cost "label"</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>48722</td>
+    <td>Execute statement in Sql Editor now recognizes substitution variables in quotes.  If & is escaped, TOAD will not prompt for a value.  If & is the last char in a string, it is not considered a substitution variable.</td>
+  </tr>
+  <tr valign="top">    <td>SQL Editor</td>
+    <td>50798 43017 42374 45606</td>
+    <td>Comments and hints were being removed from code compiled in SQL Editor</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>36824-5</td>
+    <td>Process Update, Insert, and Delete statements in threads wasn't allowing user to continue working while the statements ran.</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>37450</td>
+    <td>Bind variables not always recognizing substitution variables in quotes</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>27419</td>
+    <td>"Cancel" button for queries was only responding to its "South-West" corner</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>38867</td>
+    <td>Error position for certain Oracle errors wasn't being highlighted</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>55366</td>
+    <td>Editor froze after query, then F2, then Shift+F2</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>54805</td>
+    <td>Wrong list of columns popping up on the line after a commented statement with same table alias</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>42392</td>
+    <td>Inconsistent recognition of '&' bind variables</td>
+  </tr>
+  <tr valign="top">    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>Bound variables window now uses Windows API call to convert dates rather than the more limited Delphi procedure.</td>
+  </tr>
+  <tr>    <td>SQL Editor</td>
+    <td>&nbsp;</td>    <td>Shift+F2 was causing problems when the Data tab was not selected</td>
+  </tr>
+  <tr>    <td>SQL Impact Integration</td>
+    <td>58833</td>
+    <td>Sql Impact buttons are not enabled on the Sql Editor if Sql Impact not detected</td>
+  </tr>
+  <tr>    <td>SQL Modeler</td>
+    <td>&nbsp;</td>    <td>"Zoom to table" is fixed</td>
+  </tr>
+  <tr>    <td>SQL Modeler</td>
+    <td>26604</td>
+    <td>The Generated Query tab calls the global TOAD formatting routine, so queries no longer wrap mid-string</td>
+  </tr>
+  <tr>    <td>SQL Modeler</td>
+    <td>32025</td>
+    <td>Join line could get cut off when model image was copied to clipboard</td>
+  </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>5012</td>
+    <td>SQL*Loader no longer validates that input datafile exists on the machine with TOAD.</td>
+  </tr>
+  <tr>    <td>SQL*Loader</td>
+    <td>48809</td>
+    <td>SQL*Loader puts double quotes around the schema name and around the table name, not around both (e.g. "SCOTT"."EMP")</td>
+  </tr>
+  <tr>    <td>Save As</td>
+    <td>&nbsp;</td>    <td>Columns deselected through Select Columns window are now not being saved to XLS file</td>
+  </tr>
+  <tr>    <td>Save As</td>
+    <td>46986 40545</td>
+    <td>Save as XLS was writing all columns to file, not just the ones chosen in the Select Columns dialog</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>&nbsp;</td>    <td>Now supports spool paths with spaces</td>
+  </tr>
+  <tr>    <td>Script Execution</td>
+    <td>51538</td>
+    <td>Savepoints and partial rollbacks are now supported</td>
+  </tr>
+  <tr>    <td>Single Record View</td>
+    <td>42743</td>
+    <td>Fields sometimes not wide enough to show whole strings</td>
+  </tr>
+  <tr>    <td>TOAD Reports</td>
+    <td>26199</td>
+    <td>Dr. Watson error on "Close"</td>
+  </tr>
+  <tr valign="top">    <td>TOAD Reports</td>
+    <td>46483</td>
+    <td>"Could not open DataSet" when re-running "Tables & Columns", "Views & Columns", or "Triggers & Columns"</td>
+  </tr>
+  <tr>    <td>TOAD Security</td>
+    <td>&nbsp;</td>    <td>Privileges checked on a change session in Server Stats, Rebuild Table, and User/Privileges windows</td>
+  </tr>
+  <tr>    <td>Table Script</td>
+    <td>39314</td>
+    <td>PCTINCREASE 0 was omitted from the table script</td>
+  </tr>
+  <tr>    <td>Table Script</td>
+    <td>36819</td>
+    <td>"Separate Unique Constraints" only included the first unique constraint</td>
+  </tr>
+  <tr>    <td>Table Script</td>
+    <td>26173</td>
+    <td>Columns in script generated as "NUMBER" instead of "INTEGER"</td>
+  </tr>
+  <tr>    <td>Tablespace Script</td>
+    <td>36437</td>
+    <td>Tablespace script now generated correctly for locally managed tablespace</td>
+  </tr>
+  <tr>    <td>Tablespaces</td>
+    <td>51516</td>
+    <td>Tablespace names > 20 characters were being truncated</td>
+  </tr>
+  <tr>    <td>Tablespaces</td>
+    <td>45390 30021</td>
+    <td>Print button now working for the Space tab</td>
+  </tr>
+  <tr>    <td>Unix Monitor</td>
+    <td>51907 45307</td>
+    <td>"Expected server time" error when using Unix monitor on client OS with non-English date format</td>
+  </tr>
+  <tr>    <td>View Dependencies</td>
+    <td>&nbsp;</td>    <td>All Objects tab not refreshing correctly when changing sessions</td>
+  </tr>
+  <tr>    <td>View Extents</td>
+    <td>&nbsp;</td>    <td>Oracle error when switching from connection with DBA view access to connection without access to DBA views</td>
+  </tr>
+</table>

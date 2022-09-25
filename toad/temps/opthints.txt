@@ -1,0 +1,57 @@
+*/*+ RULE */
+Use the old rule based optimizer.  See Notes.
+*/*+ CHOOSE */
+If any of the tables or indexes in the statement are analyzed, use the Cost Based Optimizer otherwise use the Rule Based.  See Notes.
+*/*+ ALL_ROWS */
+Uses the Cost Based Optimizer if tables or indexes are analyzed.  Recommended for predominantly for batch processing systems.  See Notes.
+*/*+ FIRST_ROWS */
+Uses the Cost Based Optimizer if tables or indexes are analyzed. Recommended for OLTP processing.  See Notes.
+*Notes
+Consider using the INIT.ora OPTIMIZER_MODE parameter rather than using RULE, CHOOSE, ALL_ROWS, or FIRST_ROWS.
+*/*+ AND_EQUAL (table_name index_name index_name2)*/
+Use to join single column indexes.  At least 2 indexes must be specified.
+*/*+ APPEND */
+Inserts statements add data at the end of a table without using any freespace in the table. v8
+*/*+ CACHE */
+Moves blocks read into the most recently used area of the buffer cache so the data in the buffer cache will be retained longer.
+*/*+ CLUSTER(table_name) */
+Forces a cluster scan for a specified table.
+*/*+ COST */
+Use cost-based optimizer
+*/*+ FULL(table_name) */
+Use a full table scan on the specified table
+*/*+ HASH(table_name) */
+Use a hash scan to access the specified table.
+*/*+ HASH_AJ(table_name)*/
+Use a hash anti-join to speed up NOT IN clause. v7.3 and later.
+*/*+ INDEX(table_name index_name)*/
+Force the use of a specific index for the specified table.
+*/*+ INDEX_ASC(table_name index_name) */
+Same as INDEX
+*/*+ INDEX_DESC(table_name index_name)*/
+Same as INDEX but in descending order.
+*/*+ INDEX_COMBINE(table_name index_name)*/
+Use a specific index on the specified table.  Used with bitmap indexes. v8 only.
+*/*+ INDEX_FFS(table_name index_name)*/
+Use a full index scan on the specified index.  v8 only
+*/*+ MERGE_AJ(table_name) */
+NOT IN will be processed using a Merge Join
+*/*+ NOAPPEND */
+Overrides APPEND (inserts in parallel mode default to APPEND) to add data using any freespace. v8
+*/*+ NOCACHE */
+Moves blocks read into the least recently used area of the buffer cache so the data in the buffer cache will be purged sooner.
+*/*+ NOPARALLEL (table_name num_processes)*/
+Overrides parallelism set for a table and runs in non parallel mode.
+*/*+ ORDERED */
+Access tables using the order in the FROM statement, from left to right.
+*/*+ PARALLEL (table_name num_processes)*/
+Sets the number of parallel processors to scan the specified table.  Variation: PARALLEL (table_name num_processes, num_servers)
+*/*+ USE_CONCAT */
+Any ORs in the WHERE statement will be transformed into UNION ALLs.
+*/*+ USE_HASH */
+Tables are joined using a hash join. v8
+*/*+ USE_MERGE */
+Use nested loop join technique on specified tables
+*/*+ USE_NL (table_name table_name2)*/
+Use nested loop join technique between specified tables
+

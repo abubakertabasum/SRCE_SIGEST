@@ -1,0 +1,11 @@
+*CURRVAL
+Returns the current value of a sequence.
+*NEXTVAL
+Increments the sequence and returns the next value.
+*LEVEL
+For each row returned by a hierarchial query, LEVEL returns 1 for a root node, 2 for a child of a root, and so on.
+*ROWID
+Returns a row's address, which contains information necessary to locate a row: which data block in the data file, which row in the data block, which data file.
+*ROWNUM
+Returns a number indicating the order in which Oracle selects the row from a table or set of joined rows, before any ORDER BY clause is applied.
+

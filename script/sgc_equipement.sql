@@ -1,0 +1,58 @@
+insert into sgc_equipement values('G01','groupe 1');
+insert into sgc_equipement values('G01B','groupe 1 SIH');
+insert into sgc_equipement values('G02','groupe 2');
+insert into sgc_equipement values('G03','groupe 3');
+insert into sgc_equipement values('G04','groupe 4');
+insert into sgc_equipement values('G05','groupe 5');
+insert into sgc_equipement values('G06','groupe 6');
+insert into sgc_equipement values('G07','groupe 7');
+insert into sgc_equipement values('G08','groupe 8');
+insert into sgc_equipement values('G09','groupe 9');
+insert into sgc_equipement values('G10','groupe 10');
+insert into sgc_equipement values('G11','groupe 11');
+insert into sgc_equipement values('GS1','groupe de secours 1');
+insert into sgc_equipement values('GS2','groupe de secours 2');
+insert into sgc_equipement values('TSA1','transfo auxiliaire 1');
+insert into sgc_equipement values('TSA2','transfo auxiliaire 2');
+insert into sgc_equipement values('TSA3','transfo auxiliaire 3');
+insert into sgc_equipement values('TSA4','transfo auxiliaire 4');
+insert into sgc_equipement values('TSA5','transfo auxiliaire 5');
+insert into sgc_equipement values('TSA6','transfo auxiliaire 6');
+insert into sgc_equipement values('COC1','compensation 1');
+insert into sgc_equipement values('COC2','compensation 2');
+insert into sgc_equipement values('D01','départ réseau de distribution ville 01');
+insert into sgc_equipement values('D02','départ réseau de distribution ville 02');
+insert into sgc_equipement values('D03','départ réseau de distribution ville 03');
+insert into sgc_equipement values('D04','départ réseau de distribution ville 04');
+insert into sgc_equipement values('D05','départ réseau de distribution ville 05');
+insert into sgc_equipement values('D06','départ réseau de distribution ville 06');
+insert into sgc_equipement values('D07','départ réseau de distribution ville 07');
+insert into sgc_equipement values('D08','départ réseau de distribution ville 08');
+insert into sgc_equipement values('D09','départ réseau de distribution ville 09');
+insert into sgc_equipement values('D10','départ réseau de distribution ville 10');
+insert into sgc_equipement values('D11','départ réseau de distribution ville 11');
+insert into sgc_equipement values('D12','départ réseau de distribution ville 12');
+insert into sgc_equipement values('DN1','départ distribution interurbaine 1');
+insert into sgc_equipement values('DN2','départ distribution interurbaine 2');
+insert into sgc_equipement values('DN3','départ distribution interurbaine 3');
+insert into sgc_equipement values('DN4','départ distribution interurbaine 4');
+insert into sgc_equipement values('DR1','départ répartition 1');
+insert into sgc_equipement values('DR2','départ répartition 2');
+insert into sgc_equipement values('DR3','départ répartition 3');
+insert into sgc_equipement values('DT1','départ transport 1');
+insert into sgc_equipement values('DT2','départ transport 2');
+insert into sgc_equipement values('DT3','départ transport 3');
+insert into sgc_equipement values('DD1','départ dérivation 1');
+insert into sgc_equipement values('DD2','départ dérivation 2');
+insert into sgc_equipement values('DD3','départ dérivation 3');
+insert into sgc_equipement values('EAU1','branchement eau centrale 1');
+insert into sgc_equipement values('EAU2','branchement eau centrale 2');
+insert into sgc_equipement values('EAUF','forage centrale');
+insert into sgc_equipement values('CENTR','autres équipements centrale');
+insert into sgc_equipement values('POSTE','autres équipements poste');
+insert into sgc_equipement values('CENT1','compteur général 1');
+insert into sgc_equipement values('CENT2','compteur général 2');
+
+
+
+

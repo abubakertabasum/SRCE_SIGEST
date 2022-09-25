@@ -1,0 +1,356 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>RevealNet Formatter Plus Release Notes</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border="0" cellpadding="0" cellspacing="0" width="750">
+  <tr>
+    <td valign="top" width="16"><br>
+    </td>
+    <td valign="top" width="634"><img border="0" src="relnotes_top.gif" width="624" height="84"> <br>
+
+    <ul>
+      <li><a href="#document">About this document</a></li>
+      <li><a href="#new">Version History</a></li>
+      <li><a href="#restrictions">Known restrictions</a></li>
+      <li><a href="#remarks">General remarks</a></li>
+    </ul>
+    <hr>
+    <h2><a name="document">About this document</a></h2>
+    <p>This document describes the new features and components of Quest
+    Software's Formatter Plus.  Information about the use of the GUI component is included in the Formatter Plus help system.</p>
+      <h2>
+    <a name="new">Version History</a></h2>
+	
+      <p><u>Version 4.5:</u>
+      <p><b>Syntax</b>
+      <ul>
+        <li>Added PL/SQL datatype STRING (subtype of VARCHAR).</li>
+        <li>CREATE [OR REPLACE] TYPE ... TABLE OF .. INDEX BY BINARY_INTEGER
+          removed, since this PL/SQL construct does not exist in SQL.</li>
+        <li>Fixed GPF when the input stream consists of an interrupted (unended)
+          tag line only.</li>
+        <li>table@dblink%TYPE and %ROWTYPE was not supported</li>
+        <li>When the cursor is positioned somewhere on the tagline on the first
+          line (but not at the very beginning) then the formatter produces a
+          general protection fault window (GPF when the input file is an
+          incomplete tagline ONLY)</li>
+        <li>ALTER USER &lt;user&gt; DEFAULT ROLE RESOURCE;&nbsp; was not
+          accepted (nor DEFAULT ROLE CONNECT)</li>
+        <li>Variable/constant declarations have to precede any
+          function/procedure bodies, but not necessarily function/procedure
+          declarations.</li>
+        <li>Added 8.0 LOB index clause (deprecated as of 8i)</li>
+        <li>PRAGMA RESTRICT_REFERENCES didn't support assertions (RNDS etc.)
+          between single quotes</li>
+        <li>A single period (.) at the end of a PL/SQL definition shouldn't
+          cause 'Expecting end of statement' error. This is the legitimate
+          method of telling the SQLPlus interpreter that the PL/SQL definition
+          is complete.</li>
+        <li>In ALTER TABLESPACE, the autoextend clause was mandatory and caused
+          the token AUTOEXTEND to be expected.</li>
+        <li>An enumeration of REUSEd files in an ALTER TABLESPACE ADD DATAFILE
+          now works :<br>
+          &nbsp;&nbsp;&nbsp;&nbsp; ALTER TABLESPACE stocks ADD DATAFILE<br>
+          &nbsp;&nbsp;&nbsp;&nbsp; 'diskc:stock4.dat' REUSE AUTOEXTEND ON NEXT
+          100K,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp; 'diskc:stock5.dat' REUSE AUTOEXTEND OFF</li>
+        <li>AUTHID / DETERMINISTIC / PARALLEL_ENABLE clauses : only one keyword
+          is supported instead of a list of them.</li>
+        <li>ESCAPE &lt;expression&gt; in a LIKE predicate was not supported.</li>
+        <li>The col attribute in the INFO XML structure was erroneous (it
+          actually had the value 1 + lineno)&nbsp;</li>
+      </ul>
+      <p><b>&nbsp;Formatting</b></p>
+      <ul>
+        <li>Added capability to indent and undent code depending on procedure
+          names, useful when writing HTML generating code using HTP procedures.
+          In Options GUI : see Indenting page.</li>
+        <li>Some keywords were not capitalized. Now, some keywords only used in
+          DDL will always be capitalized as keywords. This will be enhanced in a
+          the next release.</li>
+        <li>The keyword AND in the WHERE clauses of DML statements was aligned
+          to the leftmost margin when the keywords where left aligned.</li>
+        <li>AUTHID / DETERMINISTIC / PARALLEL_ENABLE clauses : these tokens were
+          not output, and yielded an output difference</li>
+        <li>The linefeed switch &quot;Around a DML statement&quot; didn't work
+          for SELECT statements.&nbsp;&nbsp;</li>
+      </ul>
+      <p><b>Profiler&nbsp;</b>
+      <ul>
+        <li># code lines was increased with the # leading blank lines</li>
+        <li>List of built-in functions and packages updated to 9.0.1</li>
+        <li>Function BITAND now flagged as 8.1.7 rather than 8.1.6&nbsp;&nbsp;</li>
+      </ul>
+      <p><b>Code Review</b>
+      <ul>
+        <li>Message for advice #101 &quot;<i>Comparison with NULL always yields
+          FALSE, try using IS [NOT] NULL&quot;</i> fixed to &quot;<i>... always
+          yields NULL ...</i>&quot;</li>
+        <li>Message for advice #111 &quot;<i>In Oracle 8, VARCHAR2 variables of
+          zero length are not equivalent to a NULL&quot;</i> changed to:<br>
+          <br>
+          <font size="2">&quot;<i>In Oracle 8, VARCHAR2 variables of zero length
+          assigned to CHAR variables will blank-pad these rather than making
+          them NULL</i>&quot;</font><br>
+          <br>
+          Changed rationale to :<br>
+          <br>
+          <font size="2">&quot;<i>In Oracle 8, VARCHAR2 variables of zero length
+          are not equivalent to a NULL assigned to CHAR variables will blank-pad
+          these rather than making them NULL.</i>&nbsp; <i>According to the ANSI
+          SQL 1992 Transitional standard, a zero-length or empty string is not
+          the same as NULL.The following example shows this behaviour :</i><br>
+          <i>&nbsp;&nbsp; DECLARE</i><br>
+          <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v&nbsp; varchar2(3);</i><br>
+          <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c&nbsp; char(3);</i><br>
+          <i>&nbsp;&nbsp; BEGIN</i><br>
+          <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v := null;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          -- (v IS NULL) yields TRUE</i><br>
+          <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c := v;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          -- (c IS NULL) yields TRUE</i><br>
+          <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v := '';&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          -- (v IS NULL) yields TRUE</i><br>
+          <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c := v;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          -- (c IS NULL) yields FALSE (c is blank-padded)</i><br>
+          <i>&nbsp;&nbsp; END;</i><br>
+          <i>Currently the Oracle kernel does not comply with this aspect of the
+          standard, but PL/SQL does. This non-agreement with the kernel is seen
+          as a bug.</i><br>
+          <i>Currently the appropriate bugfix (727361) is disabled so that
+          PL/SQL remains ANSI compliant. </i>&quot;</font></li>
+        <li>Added advice #125 (Test on implicit cursor is not reliable)<br>
+          Severity: warning<br>
+          Rationale: &quot;<i>A procedure or function between the SQL operation
+          and the test (SQL%...) may influence the test result.</i>&quot;</li>
+        <li>Added advice #126 (Test on implicit cursor follows explicit cursor
+          operation)<br>
+          Severity: warning<br>
+          Rationale : &quot;<i>An explicit cursor operation (cursor%...) was
+          followed by a test designed for implicit cursors (SQL%...).</i>&quot;</li>
+        <li>Added advice #127 (Label undefined)<br>
+          Severity: severe<br>
+          Rationale : &quot;<i>At least one statement referred to the label, but
+          its definition was not found.</i>&quot;</li>
+        <li>Added advice #130 (At most one declaration for this item is
+          permitted).<br>
+          Severity: severe.<br>
+          Rationale &quot;<i>The item has been declared multiple times, possibly
+          one time as label. Labels share the name space of variables so that
+          labels and variables with a same name. The Oracle equivalent error
+          message is PLS-00371.</i>&quot;</li>
+        <li>Added advice #131 (This item has not been declared, or it refers to
+          a label).<br>
+          Severity: severe.<br>
+          Rationale &quot;<i>The Oracle equivalent error messages are&nbsp;
+          PLS-00320 and PLS-0321.</i>&quot;.</li>
+        <li>Rationale added to message #313 (Use of DELETE or UPDATE without
+          WHERE clause) :<br>
+          &quot;<i>The abscense of the WHERE clause will cause the statement to
+          affect the whole table.</i><br>
+          <i>This could be an inefficient operation, unless the table is
+          relatively small.</i></li>
+      </ul>
+      <blockquote>
+        <p><i>Consider using TRUNCATE if you want to delete all records&quot;,</i>&quot;</p>
+      </blockquote>
+      <ul>
+        <li>Added advice #420 (The label near the END of the block doesn't match
+          the block label, or a block label is missing)<br>
+          Severity : warning.<br>
+          Rationale : &quot;<i>Oracle allows any label to be associated with the
+          END statement. However, for clarity it should match the start label.</i>&quot;</li>
+        <li>Added advice #421 (The label near the END of the loop doesn't match
+          the loop label, or a loop label is missing)<br>
+          Severity : warning.<br>
+          Rationale : &quot;<i>Oracle allows any label to be associated with the
+          END statement. However, for clarity it should match the start label.</i>&quot;</li>
+        <li>Added advice #422 (This label looks like a procedure call)<br>
+          Severity : warning.<br>
+          Rationale : &quot;<i>Since the END or END LOOP label has not been
+          written on the same line, it looks as if it was the intention to call
+          a procedure. Add a semicolon after the END [LOOP] if it was not.</i>&quot;</li>
+        <li>Added advice #530 (Use of <b>Backward</b> GOTO).<br>
+          Severity : warning.<br>
+          Rationale : &quot;<i>A GOTO statement is an unstructured change in the
+          control flow. Worse, the label does not require an indicator of where
+          the corresponding GOTO statement(s) are. This makes code unreadable
+          and makes its correct execution suspect.</i><br>
+          <i>Other languages use GOTO statements to implement loop exits and
+          exception handling. PL/SQL's support of these constructs makes the
+          GOTO statement extremely rare.</i><br>
+          <i>Maybe a forward GOTO can be tolerated, since it may simulate an
+          exit or a return, but a backward GOTO should definitely be replaced by
+          a LOOP statement.</i>&quot;</li>
+        <li>Rationale of message #556 (This definition hides another one) fixed
+          as follows :<br>
+          &quot;<i>(Is it a FOR LOOP variable ?)</i>&quot; replaced by &quot;<i>(Is
+          it a FOR loop index or record ?)</i>&quot;</li>
+        <li>Rationale of message #558 (This item should be defined in a deeper
+          scope) extended with this phrase : &quot;<i>It may be required to add
+          extra anonymous blocks and move top level declarations down to these
+          blocks.</i>&quot;&nbsp;<br>
+        </li>
+      </ul>
+    <p><u>Version 4.4</u>:</p>
+	
+	<B>Syntax issues:</B>
+      <ul>
+        <li>Add full support for 8i syntax (DML and DDL)</li>
+        <li>Enhanced overall formatting of lists and nested statements</li>
+      </ul>
+	
+      <p>
+	
+	<B>Options issues:</B><ul>
+    <li>Added controls for INSERT, UPDATE, DELETE formatting</li>
+    <li>Add ability to align SELECT statement lists at a specific column or use
+      dynamic alignment.</li>
+    <li>Added capitalization for DDL statements</li>
+    <li>Added line feed for around program units, anonymous blocks, views,
+      triggers, and object types</li>
+    <li>Add ability to left align the association operator (=&gt;) in parameter
+      lists.</li>
+    <li>Add ability to left align the assignment operator (:=) in assignment
+      lists.</li>
+    <li>Added additional controls for comment alignment</li>
+    <li>Added controls for alignment of AND and OR statements</li>
+    <li>Added optional Tagline text field</li>
+    <li>Added controls for Code Review and inline advice</li>
+    <li>Added controls for layout of arithmetic operators</li>
+	</ul>
+
+	<B>Dependency issues:</B><ul>
+    <li>Fixed flagging built-in package DBMS_DEBUG as 7.3 instead of 8.1</li>
+	</ul>
+		
+	
+      <b>Other&nbsp; issues:</b><ul>
+    <li>In declaration of blocks, procedures and functions, Formatter Plus now
+      checks that local procedures/functions are declared <i>after</i> variables
+      and types</li>
+    <li>Fixed extra line feeds inserted after formatting header</li>
+    <li><font face="Times New Roman">Fixed formatting of ORDER BY. ORDER BY did
+      not follow the alignment of the other SELECT keywords and lists.</font></li>
+    <li><font face="Times New Roman">Removed extra line inserted before stacked
+      lists.</font></li>
+    <li><font face="Times New Roman">Fixed alignment of stacked
+      parameters.&nbsp; The first parameter was sometimes indented an extra
+      space.</font></li>
+    <li><font face="Times New Roman">Fixed line breaks on long concatenation
+      assignments.</font></li>
+    <li><font face="Times New Roman">Fixed auto-removal of comments inserted by
+      Formatter Plus.</font></li>
+    <li><font face="Times New Roman">Formatter Plus comments are reviewed for
+      obsolescence each time you format.&nbsp; Obsolete comments are
+      automatically removed now.</font></li>
+	</ul>
+		
+	
+	<h2>
+    <a name="restrictions">Known restrictions</a></h2>
+    <p>Here are the main restrictions that apply to this version of the
+    product&nbsp;:
+      <ul>
+	
+      <li><strong>Constructs that are not (yet) parsed<br>
+        </strong>The constructs listed here will be supported in a future release :<ul>
+          <li>Wrapped program units (especially as part of a large script)</li>
+          <li>Oracle Context SQL.</li>
+		  
+        </ul>
+      </li>
+      <li>Formatter Plus will not parse the package <tt>SYS</tt>.<tt><strong>STANDARD</strong></tt>.
+        Its code is not considered to be regular and documented user code. It is rarely modified, and interpreting it each time would decrease
+        processing speed. </li>
+      <li>SQL*Plus code with <strong>substitution variables </strong>(<tt>&amp;varname</tt>) will be parsed by Formatter Plus. However, if you use the substitution mechanism to replace a
+        single word by many words then parsing is impossible.<br>
+        In general, any preprocessed SQL or PL/SQL like language will not parse.</li>
+    </ul>
+    
+    <h2><br>
+    <a name="remarks">General remarks</a></h2>
+    <ul>
+      <li>Formatter Plus works on code that has <strong>no Oracle syntax errors</strong>, i.e. the code must be compilable or executable on Oracle. When a piece of code has Oracle errors, in many cases Formatter Plus will fail too. However, Formatter Plus is more permissive than the PL/SQL compiler or SQL*Plus environment.<br>  Formatter Plus can thus be used to do a quick syntax check on your code.</li>
+    </ul>
+    <ul>
+      <li>The <strong>right margin</strong> setting is only a guideline for Formatter Plus.  It is  not a hard limit. Although Formatter Plus will do the very best to keep all text within that margin it cannot guarantee it, especially with very large comments.<br>
+        An exception to this is when Forms 3 is formatted, then a right margin of 73 is enforced,
+        i.e. any overflowing text is word wrapped to a new line.</li>
+    </ul>
+    <ul>
+      <li>Formatter Plus distinguishes two kind of comments :<ul>
+          <li><strong>Comment on a line(s) by itself</strong><br>
+            These kind of comments are always associated with the token <em>following</em> the comment. They will align to that token. Header blocks belong to this type of comments.</li>
+          <li><strong>End-of-line (and inline) comment<br>
+            </strong>Comments written at the end of a line after a token (e.g<tt>. a := 1; -- addition</tt>)
+            and comments in between instructions (e.g.<tt>, a /*total*/ := b /*amount*/ * c /*price*/</tt>)
+            are always associated with the token <em>preceding</em> them.</li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+      <li>Formatter Plus <strong>always compares its output data to the input data</strong>. When it finds differences other than white space (spaces, tabs, new lines), Lowercase-Uppercase differences or special Formatter Plus comments, then it will <em>never</em> produce output data.<br>
+        Single line comments (- - .....) are guarded by special program logic that ensures that
+        any program code token following such line <em>must</em> appear on a new line.<em><strong><br>
+        When Formatter Plus finds even the smallest difference then it will NOT reformat your input file(s).<br>
+        </strong></em>This is particularly important during physical replacement of files and database texts by reformatted versions. Comparison is done in memory and consumes only a minimal fraction of the total CPU processing time.</li>
+    </ul>
+    <ul>
+      <li>You can always run Formatter Plus <strong>multiple times</strong> against the same source file. The data produced by running
+        Formatter Plus on a previously formatted source is identical to that source (except the timestamp on the tag line). Reformatting multiple times does <em>not</em> further improve formatting.</li>
+    </ul>
+    <ul>
+      <li><a name="view about formatting"><strong>Our view about formatting</strong></a><br>
+        We targeted the &quot;hard stuff&quot; first, i.e. trying to answer questions such as :
+        &quot;<em>I have queries with subqueries and complex WHERE clauses with many nested levels
+        of ANDs and ORs, and nested function calls. They are extremely hard to understand. How can
+        I have these large and complex statements formatted as clear and transparent as possible?
+        Which format is the best to help me to instantly discover any logical errors? What is a
+        good common style such that any member of our team will have less difficulty in
+        understanding the colleague's code?&quot;</em><P>
+        In this perspective Formatter Plus is not merely a &quot;pretty printer&quot;. Pretty
+        printers, beautifiers and code polishers mostly traverse input while trying to recognize
+        patterns, after which they rearrange pieces and output them. Formatter Plus on the other
+        hand could never succeed in formatting very complex constructs without parsing and
+        analyzing the source code first, just the same way a compiler does.<br>
+        <br>
+        Formatter Plus' <em>structured source code formatting</em>  allows any PL/SQL programmer to be able to read and understand
+		a colleague's code. This means that switching people between projects will be
+        less costly, because now there is one less obstacle to overcome : they
+        already formally understand the code of their colleagues and can begin immediately to work on it.  In this way, Formatter Plus boosts the flexibility in your team.<br>
+        <br>
+        Formatting can always be improved. We're certainly not through yet. We'll continue adding
+        new functions and polishing existing functionalities. Your feedback is welcome at any
+        time.  We will read it and address the issues raised. We'll add more preferences over time.
+        Cosmetic issues are at least as important as the pure code formatting, although likely
+        more subject to personal preferences (and there are many of them ...). Again, we would
+        certainly appreciate your comments in helping us adding or enhancing Formatter Plus' functionalities.<br>
+        <br>
+        Write to us at <a href="mailto:support@revealnet.com">support@quest.com</a></li>
+    </ul>
+    <hr>
+    <p align="center"><font color="#0000FF"><em>Formatter Plus is a product of
+    Quest Software, Inc. (<a href="http://www.revealnet.com">www.quest.com</a>)<br>
+    phone 1.800.306.9329 or 949.754.8000<br>
+    </em></font></p>
+    <hr>
+    <p align="center"><font size="1">Copyright © 1998 - 2001 Quest Software,Inc. All Rights
+    Reserved<br>
+    Certain names, logos, designs, titles, words, or phrases on this page may constitute
+    trademarks,<br>
+    service marks, or trade names of Quest Software, Inc. or other entities and may<br>
+    be registered in certain jurisdictions. </font></td>
+  </tr>
+  <tr>
+    <td valign="top" width="16"></td>
+    <td valign="top" width="734"><font size="1"></font></td>
+  </tr>
+</table>
+</body>
+</html>

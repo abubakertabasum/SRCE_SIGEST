@@ -1,0 +1,403 @@
+
+create or replace package body department_tst
+is
+  g_norow department%rowtype;
+  g_norow_set boolean := false;
+
+  -- Display header for a new set of information.
+  procedure newset(str in varchar2, gr in varchar2 := '=')
+  is
+  begin
+  dbms_output.put_line(rpad(gr, 60, gr));
+  dbms_output.put_line(str);
+  dbms_output.put_line(rpad(gr, 60, gr));
+  end;
+
+  -- Show the contents of a table record.
+  procedure showrow(row_in in department%rowtype)
+  is
+  begin  dbms_output.put_line('**COL department_id: ' || row_in.department_id);
+  dbms_output.put_line('**COL name: ' || row_in.name);
+  dbms_output.put_line('**COL loc_id: ' || row_in.loc_id);
+  dbms_output.put_line('**COL created_by: ' || row_in.created_by);
+  dbms_output.put_line('**COL created_on: ' || row_in.created_on);
+  dbms_output.put_line('**COL changed_by: ' || row_in.changed_by);
+  dbms_output.put_line('**COL changed_on: ' || row_in.changed_on);
+  end;
+
+  -- Sets contents of record that does NOT match a row in the database table.
+  procedure set_norow(department_id_in in department.department_id%type,
+  name_in in department.name%type default null,
+  loc_id_in in department.loc_id%type default null,
+  created_by_in in department.created_by%type default user,
+  created_on_in in department.created_on%type default sysdate,
+  changed_by_in in department.changed_by%type default user,
+  changed_on_in in department.changed_on%type default sysdate
+  )
+  is
+  begin
+  newset('Defining "No Row" Values for Primary and Foreign Keys');
+  g_norow.department_id := department_id_in;
+  g_norow.name := name_in;
+  g_norow.loc_id := loc_id_in;
+  g_norow.created_by := created_by_in;
+  g_norow.created_on := created_on_in;
+  g_norow.changed_by := changed_by_in;
+  g_norow.changed_on := changed_on_in;
+  g_norow_set := true;
+  end;
+  function norowset
+  return boolean
+  is
+  begin
+  return g_norow_set;
+  end;
+  -- Test unique index related functionality.
+  procedure uind(maxrows in integer := null)
+  is
+    v_row department%rowtype;
+
+    --// Test record structures and functions to retrieve rows. --//
+    i_department_name_r department.i_department_name_rt;
+    v_pky department.pky_rt;
+  begin
+  newset('Unique Index-Related Fetch Activity', '*');
+
+  -- Exercise "by primary key" cursor
+  for rec in department.allbypky_cur loop
+  exit when department.allbypky_cur%rowcount > nvl(maxrows, 5);
+
+  -- Perform a lookup based on the primary key values.
+  v_pky := department.i_department_name$pky(rec.name);
+
+  -- Display contents to verify the results.
+  dbms_output.put_line('Primary key from I_DEPARTMENT_NAME:');
+  dbms_output.put_line('**IND name: ' || rec.name);
+  dbms_output.put_line('**PKY department_id: ' || v_pky.department_id);
+
+  -- If user has set a "no row", use it to test a failed lookup
+  -- by primary key.
+  if norowset then
+  v_pky := department.i_department_name$pky(g_norow.name);
+
+  -- If primary key is null, then the lookup failed.
+  if department.isnullpky(v_pky) then
+  dbms_output.put_line('"No row" value from I_DEPARTMENT_NAME is invalid/NULL.'
+  );  end if;  end if;
+
+  newset('Look up index entry for a primary key.');
+
+  -- Use the primary key to return an index entry
+  i_department_name_r := department.i_department_name$val(rec.department_id);
+
+  dbms_output.put_line('Index i_department_name values from Primary Key');
+  dbms_output.put_line('**PKY department_id: ' || rec.department_id);
+  dbms_output.put_line('**IND name: ' || i_department_name_r.name);
+  newset('Look up row for unique index');
+  -- Get all row information for the contents of a unique index entry.
+  v_row := department.i_department_name$row(rec.name);
+  dbms_output.put_line('Entire row from I_DEPARTMENT_NAME:');
+  dbms_output.put_line('**IND name: ' || rec.name);
+  showrow(v_row);  end loop; end uind;
+
+  procedure pky(maxrows in integer := null)
+  is  v_row department.allforpky_cur%rowtype;
+
+    v_pky department.pky_rt;
+
+  begin
+  newset('Primary Key-Related Activity', '*');
+
+  -- Use the by primary key cursor.
+  for rec in department.allbypky_cur loop
+  exit when department.allbypky_cur%rowcount > nvl(maxrows, 5);
+
+  newset('Cursor by primary key');
+
+  -- Open the cursor for the current primary key and fetch the row
+  -- it identifies.
+
+  open department.allforpky_cur(rec.department_id);
+
+  fetch department.allforpky_cur into v_row;
+
+  dbms_output.put_line('**PKY department_id: ' || v_row.department_id);
+
+  if department.allforpky_cur%notfound then
+  dbms_output.put_line('!! Row not found for primary key.');
+  else
+  dbms_output.put_line('Row found for primary key');
+  dbms_output.put_line('**COL name: ' || v_row.name);
+  dbms_output.put_line('**COL loc_id: ' || v_row.loc_id);
+  dbms_output.put_line('**COL created_by: ' || v_row.created_by);
+  dbms_output.put_line('**COL created_on: ' || v_row.created_on);
+  dbms_output.put_line('**COL changed_by: ' || v_row.changed_by);
+  dbms_output.put_line('**COL changed_on: ' || v_row.changed_on);
+  end if;
+
+  -- Close the cursor.
+  department.close_allforpky_cur;
+
+  end loop;  end pky;
+
+  -- Test FKY related functionality.
+  procedure fky(maxrows in integer := null)
+  is
+    v_pky department.department_id%type;
+    -- Declare a cursor to obtain distinct foreign key values in the table.
+    cursor dept_loc_lookup_all_cur
+    is
+    select distinct   loc_id    from     department;
+  begin  newset('Foreign Key-Related Activity', '*');
+
+  -- For each value in this foreign key cursor...
+  for orec in dept_loc_lookup_all_cur loop
+  exit when dept_loc_lookup_all_cur%rowcount > nvl(maxrows, 5);
+  newset('Retrieve Data for Foreign Key dept_loc_lookup');
+  dbms_output.put_line('**FKY loc_id: ' || orec.loc_id);
+  -- Display all records identified for that foreign key.
+  for irec in department.dept_loc_lookup_all_cur(orec.loc_id) loop
+  if department.dept_loc_lookup_all_cur%rowcount > nvl(maxrows, 5) then
+  --// Test close cursor program and then exit. --//
+  department.close_dept_loc_lookup_all_cur;
+  exit;
+  else
+  showrow(irec);
+  end if;  end loop;  end loop;  end fky;
+
+  -- Test lookup functionality
+  procedure lookups(maxrows in integer := null)
+  is    v_row department%rowtype;
+
+  begin  newset('Retrieve one row at a time.', '*');
+
+  for rec in department.allbypky_cur loop  exit when department.allbypky_cur%rowcount > nvl(maxrows, 5);
+
+  newset('Retrieve and display row and desc columns for primary key.');
+
+  dbms_output.put_line('**PKY department_id: ' || rec.department_id);
+
+  -- Use onerow function to lookup row for this primary key value.
+  v_row := department.onerow(rec.department_id);
+
+  if not department.isnullpky(v_row) then
+  showrow(v_row);
+  else  dbms_output.put_line('!! Row not found for primary key.');
+  end if;  end loop;  end lookups;
+
+  -- Test the validation programs.
+  procedure validate
+  is
+    v_row department%rowtype;
+    v_valuesok boolean;
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+  begin
+  --// Check Constraint Validation --//
+
+  --// Check Constraint: DEPARTMENT_ID IS NOT NULL --//
+  if not department.notnull_department_id$chk(department_id_in => null) then
+  dbms_output.put_line('Constraint NOTNULL_DEPARTMENT_ID failed.');
+  end if;
+
+  --// Check Constraint: CREATED_BY IS NOT NULL --//
+  if not department.notnull_created_by$chk(created_by_in => null) then
+  dbms_output.put_line('Constraint NOTNULL_CREATED_BY failed.');
+  end if;
+
+  --// Check Constraint: CREATED_ON IS NOT NULL --//
+  if not department.notnull_created_on$chk(created_on_in => null) then
+  dbms_output.put_line('Constraint NOTNULL_CREATED_ON failed.');
+  end if;
+
+  --// Check Constraint: CHANGED_BY IS NOT NULL --//
+  if not department.notnull_changed_by$chk(changed_by_in => null) then
+  dbms_output.put_line('Constraint NOTNULL_CHANGED_BY failed.');
+  end if;
+
+  --// Check Constraint: CHANGED_ON IS NOT NULL --//
+  if not department.notnull_changed_on$chk(changed_on_in => null) then
+  dbms_output.put_line('Constraint NOTNULL_CHANGED_ON failed.');
+  end if;
+
+  department.validate(department_id_in => null, created_by_in => null,
+  created_on_in => null, changed_by_in => null, changed_on_in => null,
+  record_error => false                                    --// no record //--
+  );
+
+  department.validate(v_row, false);
+  end validate;
+
+  -- Test insert activity.
+  procedure ins(maxrows in integer := null)
+  is
+    v_row department%rowtype;
+    v_pky department.pky_rt;
+    v_pkycol integer;
+    v_nxtpky integer;
+
+    --// Variable for every primary key column //--
+    v_department_id department.department_id%type;
+
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+  begin
+  newset('INS: function-based record init');
+  v_row := department.initrec;
+  showrow(v_row);
+
+  newset('INS: procedure-based record init');
+  department.initrec(v_row);
+  showrow(v_row);
+
+  rollback;
+
+  newset('INS: Pass in primary key');
+
+  department.ins(v_department_id, substr('name', 1, 14), 22,
+  substr('created_by', 1, 100), sysdate, substr('changed_by', 1, 100),
+  sysdate, false  );
+
+  rollback;
+
+  newset('INS: Record-based insert');
+
+  --// Populate the row! //--
+  department.ins(v_row, false);
+
+  rollback;
+  for rec in department.allbypky_cur loop
+  exit when department.allbypky_cur%rowcount > 1;
+
+  --// Move primary key information to the PKY record. //--
+  v_pky.department_id := rec.department_id;
+
+  --// Try to reinsert same record with update-on-dup option. //--
+  --// Double all nonprimary key column values. //--
+  v_row.name := substr(v_row.name || v_row.name, 1, 14);
+  v_row.loc_id := v_row.loc_id + v_row.loc_id;
+  v_row.created_by := substr(v_row.created_by || v_row.created_by, 1, 100);
+  v_row.created_on :=
+          v_row.created_on + (
+                             v_row.created_on - trunc(v_row.created_on, 'YY')
+                             );
+  v_row.changed_by := substr(v_row.changed_by || v_row.changed_by, 1, 100);
+  v_row.changed_on :=
+          v_row.changed_on + (
+                             v_row.changed_on - trunc(v_row.changed_on, 'YY')
+                             );
+
+  department.ins(v_row, true);
+  rollback;
+  --// Try to reinsert same record with no-update option. //--
+  department.ins(v_row, false);
+  rollback;
+  end loop;  end ins;
+  procedure upd(maxrows in integer := null)
+  is
+    v_row department%rowtype;
+    v_pky department.pky_rt;
+    v_name department.name%type;
+    v_loc_id department.loc_id%type;
+    v_created_by department.created_by%type;
+    v_created_on department.created_on%type;
+    v_changed_by department.changed_by%type;
+    v_changed_on department.changed_on%type;
+
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+    v_rowcount integer;
+  begin
+  newset('UPD: Update Processing', '*');
+
+  for rec in department.allbypky_cur loop
+  exit when department.allbypky_cur%rowcount > nvl(maxrows, 5);
+
+  --// Move primary key information to the PKY record. //--
+  v_pky.department_id := rec.department_id;
+
+  newset('UPD: Turn off all force fields with reset, update all NULLs');
+  department.reset$frc;
+  department.upd(rec.department_id, null, null, null, null, null, null,
+  v_rowcount, true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount);
+  rollback;
+
+  newset('UPD: Turn on force fields, update all NULLs');
+  department.upd(rec.department_id, 'a', 1, 'a', sysdate, 'a', sysdate,
+  v_rowcount, true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount);
+
+  rollback;
+
+  newset('UPD: Record-based Update');
+
+  department.upd(v_row, v_rowcount, true);
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount);
+  end loop;
+  end upd;
+
+
+  procedure del(maxrows in integer := null)
+  is
+    v_pky department.pky_rt;
+    v_name department.name%type;
+    v_loc_id department.loc_id%type;
+    v_created_by department.created_by%type;
+    v_created_on department.created_on%type;
+    v_changed_by department.changed_by%type;
+    v_changed_on department.changed_on%type;
+    v_rowcount integer;
+
+    procedure showcount(str in varchar2 := null)
+    is
+    begin
+    select   count(*)
+    into    v_rowcount
+    from     department;
+
+    dbms_output.put_line('# of rows in table ' || str || ': ' || v_rowcount);
+    end;
+  begin
+  newset('DEL: Delete Processing', '*');
+
+  showcount('before delete - individual fields');
+  for rec in department.allbypky_cur loop
+  exit when department.allbypky_cur%rowcount > nvl(maxrows, 5);
+  department.del(rec.department_id, v_rowcount);
+  end loop;
+  showcount('after delete');
+
+  rollback;
+
+  showcount('before delete - by record');
+  for rec in department.allbypky_cur loop
+  exit when department.allbypky_cur%rowcount > nvl(maxrows, 5);
+  v_pky.department_id := rec.department_id;
+  department.del(v_pky, v_rowcount);
+  end loop;
+  showcount('after delete');
+
+  rollback;
+
+  if norowset then
+  showcount('Delete "No Row"');
+  department.del(g_norow.department_id, v_rowcount);
+  dbms_output.put_line('Number of "no rows" deleted:' || v_rowcount);
+  end if;
+
+  end;
+
+  procedure load
+  is
+  begin
+  dbms_output.put_line('LOAD: Pre-loading not performed for this table.');
+  end;
+
+end department_tst;
+/

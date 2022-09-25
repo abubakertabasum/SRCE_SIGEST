@@ -1,0 +1,32 @@
+:Base sig.hlp>w_sig
+:Title Système d'Information et de Gestion
+1 Bienvenue !
+2 Qu'est ce que le Système d'Information et de Gestion?=sigpresentation
+2 Utilisation de l'aide en ligne=sigaideligne
+2 A propos de la documentation=sigdocumentation
+1 Fonctionnalités
+2 Description des différents modules=sigdescription
+2 Règles générales de présentation
+3 A pros des éléments=signotionschamps
+3 Les boutons d'actions=signotionsboutons
+3 Les listes de valeurs=signotionslov
+1 Administration
+2 Gestion des opérateurs de l'application
+3 Mise à jour des opérateurs=f_sig_operateur
+3 Affectation de sites aux opérateurs=f_sig_operateur_site
+3 Affectation de centres presataires aux opérateurs=f_sig_operateur_prestataire
+2 Raffraichissement des données provenant des autres applications
+3 Données de la gestion clientèle=f_sig_gescli_refresh
+3 Données sur le personnel=f_sig_personnel_refresh
+3 Données du budget d'investissements=f_sig_budget_refresh
+2 Changement du mot de passe=f_sig_password
+1 Mise à jour des tables référentielles
+1 Production, transport et mouvement d'énergie
+1 Formation du personnel
+1 Données sur le personnel
+1 Prestations internes
+1 Buget d'investissements
+1 Facturation et ventes d'énergie
+2 Description du module=sigfacturation
+2 Rapport des ventes d'énergie par tranche tarifaire=f_sig_vte_tranche
+1 Conseils et astuces

@@ -1,0 +1,590 @@
+
+create or replace package body loc_tst
+is
+  g_norow loc%rowtype;
+  g_norow_set boolean := false;
+
+  -- Display header for a new set of information.
+  procedure newset(
+  str in varchar2,
+  gr in varchar2 := '='
+  )
+  is
+  begin
+  dbms_output.put_line(rpad(gr,
+                       60,
+                       gr
+                       )
+  );
+  dbms_output.put_line(str
+  );
+  dbms_output.put_line(rpad(gr,
+                       60,
+                       gr
+                       )
+  );
+  end;
+
+  -- Show the contents of a table record.
+  procedure showrow(
+  row_in in loc%rowtype
+  )
+  is
+  begin
+  dbms_output.put_line('**COL loc_id: ' || row_in.loc_id
+  );
+  dbms_output.put_line('**COL regional_group: ' || row_in.regional_group
+  );
+  dbms_output.put_line('**COL created_by: ' || row_in.created_by
+  );
+  dbms_output.put_line('**COL created_on: ' || row_in.created_on
+  );
+  dbms_output.put_line('**COL changed_by: ' || row_in.changed_by
+  );
+  dbms_output.put_line('**COL changed_on: ' || row_in.changed_on
+  );
+  end;
+
+  -- Sets contents of record that does NOT match a row in the database table.
+  procedure set_norow(
+  loc_id_in in loc.loc_id%type,
+  regional_group_in in loc.regional_group%type default null,
+  created_by_in in loc.created_by%type default user,
+  created_on_in in loc.created_on%type default sysdate,
+  changed_by_in in loc.changed_by%type default user,
+  changed_on_in in loc.changed_on%type default sysdate
+  )
+  is
+  begin
+  newset('Defining "No Row" Values for Primary and Foreign Keys'
+  );
+  g_norow.loc_id := loc_id_in;
+  g_norow.regional_group := regional_group_in;
+  g_norow.created_by := created_by_in;
+  g_norow.created_on := created_on_in;
+  g_norow.changed_by := changed_by_in;
+  g_norow.changed_on := changed_on_in;
+  g_norow_set := true;
+  end;
+
+  function norowset
+  return boolean
+  is
+  begin
+  return g_norow_set;
+  end;
+
+  -- Test unique index related functionality.
+  procedure uind(
+  maxrows in integer := null
+  )
+  is
+    v_row loc%rowtype;
+
+    --// Test record structures and functions to retrieve rows. --//
+    i_regional_group_r loc.i_regional_group_rt;
+    v_pky loc.pky_rt;
+  begin
+  newset('Unique Index-Related Fetch Activity',
+  '*'
+  );
+
+  -- Exercise "by primary key" cursor
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > nvl(maxrows,
+                                        5
+                                        );
+
+  -- Perform a lookup based on the primary key values.
+  v_pky := loc.i_regional_group$pky(rec.regional_group
+           );
+
+  -- Display contents to verify the results.
+  dbms_output.put_line('Primary key from I_REGIONAL_GROUP:'
+  );
+  dbms_output.put_line('**IND regional_group: ' || rec.regional_group
+  );
+  dbms_output.put_line('**PKY loc_id: ' || v_pky.loc_id
+  );
+
+  -- If user has set a "no row", use it to test a failed lookup
+  -- by primary key.
+  if norowset then
+  v_pky := loc.i_regional_group$pky(g_norow.regional_group
+           );
+
+  -- If primary key is null, then the lookup failed.
+  if loc.isnullpky(v_pky
+     ) then
+  dbms_output.put_line('"No row" value from I_REGIONAL_GROUP is invalid/NULL.'
+  );
+  end if;
+  end if;
+
+  newset('Look up index entry for a primary key.'
+  );
+
+  -- Use the primary key to return an index entry
+  i_regional_group_r := loc.i_regional_group$val(rec.loc_id
+                        );
+
+  dbms_output.put_line('Index i_regional_group values from Primary Key'
+  );
+  dbms_output.put_line('**PKY loc_id: ' || rec.loc_id
+  );
+  dbms_output.put_line('**IND regional_group: ' ||
+                       i_regional_group_r.regional_group
+  );
+
+  newset('Look up row for unique index'
+  );
+
+  -- Get all row information for the contents of a unique index entry.
+  v_row := loc.i_regional_group$row(rec.regional_group
+           );
+  dbms_output.put_line('Entire row from I_REGIONAL_GROUP:'
+  );
+  dbms_output.put_line('**IND regional_group: ' || rec.regional_group
+  );
+  showrow(v_row
+  );
+
+  end loop;
+  end uind;
+
+  procedure pky(
+  maxrows in integer := null
+  )
+  is
+    v_row loc.allforpky_cur%rowtype;
+
+    v_pky loc.pky_rt;
+
+  begin
+  newset('Primary Key-Related Activity',
+  '*'
+  );
+
+  -- Use the by primary key cursor.
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > nvl(maxrows,
+                                        5
+                                        );
+
+  newset('Cursor by primary key'
+  );
+
+  -- Open the cursor for the current primary key and fetch the row
+  -- it identifies.
+
+  open loc.allforpky_cur(rec.loc_id
+  );
+
+  fetch loc.allforpky_cur into v_row;
+
+  dbms_output.put_line('**PKY loc_id: ' || v_row.loc_id
+  );
+
+  if loc.allforpky_cur%notfound then
+  dbms_output.put_line('!! Row not found for primary key.'
+  );
+  else
+  dbms_output.put_line('Row found for primary key'
+  );
+  dbms_output.put_line('**COL regional_group: ' || v_row.regional_group
+  );
+  dbms_output.put_line('**COL created_by: ' || v_row.created_by
+  );
+  dbms_output.put_line('**COL created_on: ' || v_row.created_on
+  );
+  dbms_output.put_line('**COL changed_by: ' || v_row.changed_by
+  );
+  dbms_output.put_line('**COL changed_on: ' || v_row.changed_on
+  );
+  end if;
+
+  -- Close the cursor.
+  loc.close_allforpky_cur;
+
+  end loop;
+  end pky;
+
+  -- Test FKY related functionality.
+  procedure fky(
+  maxrows in integer := null
+  )
+  is
+    v_pky loc.loc_id%type;
+  begin
+  newset('Foreign Key-Related Activity',
+  '*'
+  );
+
+  end fky;
+
+  -- Test lookup functionality
+  procedure lookups(
+  maxrows in integer := null
+  )
+  is
+    v_row loc%rowtype;
+
+  begin
+  newset('Retrieve one row at a time.',
+  '*'
+  );
+
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > nvl(maxrows,
+                                        5
+                                        );
+
+  newset('Retrieve and display row and desc columns for primary key.'
+  );
+
+  dbms_output.put_line('**PKY loc_id: ' || rec.loc_id
+  );
+
+  -- Use onerow function to lookup row for this primary key value.
+  v_row := loc.onerow(rec.loc_id
+           );
+
+  if not loc.isnullpky(v_row
+     ) then
+  showrow(v_row
+  );
+  else
+  dbms_output.put_line('!! Row not found for primary key.'
+  );
+  end if;
+  end loop;
+
+
+  end lookups;
+
+  -- Test the validation programs.
+  procedure validate
+  is
+    v_row loc%rowtype;
+    v_valuesok boolean;
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+  begin
+  --// Check Constraint Validation --//
+
+  --// Check Constraint: loc_ID IS NOT NULL --//
+  if not loc.notnull_loc_id$chk(loc_id_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_LOC_ID failed.'
+  );
+  end if;
+
+  --// Check Constraint: CREATED_BY IS NOT NULL --//
+  if not loc.notnull_created_by$chk(created_by_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CREATED_BY failed.'
+  );
+  end if;
+
+  --// Check Constraint: CREATED_ON IS NOT NULL --//
+  if not loc.notnull_created_on$chk(created_on_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CREATED_ON failed.'
+  );
+  end if;
+
+  --// Check Constraint: CHANGED_BY IS NOT NULL --//
+  if not loc.notnull_changed_by$chk(changed_by_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CHANGED_BY failed.'
+  );
+  end if;
+
+  --// Check Constraint: CHANGED_ON IS NOT NULL --//
+  if not loc.notnull_changed_on$chk(changed_on_in => null
+     ) then
+  dbms_output.put_line('Constraint NOTNULL_CHANGED_ON failed.'
+  );
+  end if;
+
+  loc.validate(loc_id_in => null,
+  created_by_in => null,
+  created_on_in => null,
+  changed_by_in => null,
+  changed_on_in => null,
+  record_error => false                                    --// no record //--
+  );
+
+  loc.validate(v_row,
+  false
+  );
+  end validate;
+
+  -- Test insert activity.
+  procedure ins(
+  maxrows in integer := null
+  )
+  is
+    v_row loc%rowtype;
+    v_pky loc.pky_rt;
+    v_pkycol integer;
+    v_nxtpky integer;
+
+    --// Variable for every primary key column //--
+    v_loc_id loc.loc_id%type;
+
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+  begin
+  newset('INS: function-based record init'
+  );
+  v_row := loc.initrec;
+  showrow(v_row
+  );
+
+  newset('INS: procedure-based record init'
+  );
+  loc.initrec(v_row
+  );
+  showrow(v_row
+  );
+
+  rollback;
+
+  newset('INS: Pass in primary key'
+  );
+
+  loc.ins(v_loc_id,
+  substr('regional_group',
+  1,
+  20
+  ),
+  substr('created_by',
+  1,
+  100
+  ),
+  sysdate,
+  substr('changed_by',
+  1,
+  100
+  ),
+  sysdate,
+  false
+  );
+
+  rollback;
+
+  newset('INS: Record-based insert'
+  );
+
+  --// Populate the row! //--
+  loc.ins(v_row,
+  false
+  );
+
+  rollback;
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > 1;
+
+  --// Move primary key information to the PKY record. //--
+  v_pky.loc_id := rec.loc_id;
+
+  --// Try to reinsert same record with update-on-dup option. //--
+  --// Double all nonprimary key column values. //--
+  v_row.regional_group :=
+                  substr(v_row.regional_group || v_row.regional_group,
+                  1,
+                  20
+                  );
+  v_row.created_by := substr(v_row.created_by || v_row.created_by,
+                      1,
+                      100
+                      );
+  v_row.created_on :=
+          v_row.created_on + (
+                             v_row.created_on - trunc(v_row.created_on,
+                                                'YY'
+                                                )
+                             );
+  v_row.changed_by := substr(v_row.changed_by || v_row.changed_by,
+                      1,
+                      100
+                      );
+  v_row.changed_on :=
+          v_row.changed_on + (
+                             v_row.changed_on - trunc(v_row.changed_on,
+                                                'YY'
+                                                )
+                             );
+
+  loc.ins(v_row,
+  true
+  );
+
+  rollback;
+
+  --// Try to reinsert same record with no-update option. //--
+  loc.ins(v_row,
+  false
+  );
+
+  rollback;
+  end loop;
+  end ins;
+  procedure upd(
+  maxrows in integer := null
+  )
+  is
+    v_row loc%rowtype;
+    v_pky loc.pky_rt;
+    v_regional_group loc.regional_group%type;
+    v_created_by loc.created_by%type;
+    v_created_on loc.created_on%type;
+    v_changed_by loc.changed_by%type;
+    v_changed_on loc.changed_on%type;
+
+    v_errnum integer;
+    v_errmsg varchar2(2000);
+    v_rowcount integer;
+  begin
+  newset('UPD: Update Processing',
+  '*'
+  );
+
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > nvl(maxrows,
+                                        5
+                                        );
+
+  --// Move primary key information to the PKY record. //--
+  v_pky.loc_id := rec.loc_id;
+
+  newset('UPD: Turn off all force fields with reset, update all NULLs'
+  );
+  loc.reset$frc;
+  loc.upd(rec.loc_id,
+  null,
+  null,
+  null,
+  null,
+  null,
+  v_rowcount,
+  true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount
+  );
+  rollback;
+
+  newset('UPD: Turn on force fields, update all NULLs'
+  );
+  loc.upd(rec.loc_id,
+  'a',
+  'a',
+  sysdate,
+  'a',
+  sysdate,
+  v_rowcount,
+  true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount
+  );
+
+  rollback;
+
+  newset('UPD: Record-based Update'
+  );
+
+  loc.upd(v_row,
+  v_rowcount,
+  true
+  );
+
+  dbms_output.put_line('Rows updated: ' || v_rowcount
+  );
+  end loop;
+  end upd;
+
+
+  procedure del(
+  maxrows in integer := null
+  )
+  is
+    v_pky loc.pky_rt;
+    v_regional_group loc.regional_group%type;
+    v_created_by loc.created_by%type;
+    v_created_on loc.created_on%type;
+    v_changed_by loc.changed_by%type;
+    v_changed_on loc.changed_on%type;
+    v_rowcount integer;
+
+    procedure showcount(
+    str in varchar2 := null
+    )
+    is
+    begin
+    select   count(*)
+    into    v_rowcount
+    from     loc;
+
+    dbms_output.put_line('# of rows in table ' || str || ': ' || v_rowcount
+    );
+    end;
+  begin
+  newset('DEL: Delete Processing',
+  '*'
+  );
+
+  showcount('before delete - individual fields'
+  );
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > nvl(maxrows,
+                                        5
+                                        );
+  loc.del(rec.loc_id,
+  v_rowcount
+  );
+  end loop;
+  showcount('after delete'
+  );
+
+  rollback;
+
+  showcount('before delete - by record'
+  );
+  for rec in loc.allbypky_cur loop
+  exit when loc.allbypky_cur%rowcount > nvl(maxrows,
+                                        5
+                                        );
+  v_pky.loc_id := rec.loc_id;
+  loc.del(v_pky,
+  v_rowcount
+  );
+  end loop;
+  showcount('after delete'
+  );
+
+  rollback;
+
+  if norowset then
+  showcount('Delete "No Row"'
+  );
+  loc.del(g_norow.loc_id,
+  v_rowcount
+  );
+  dbms_output.put_line('Number of "no rows" deleted:' || v_rowcount
+  );
+  end if;
+
+  end;
+
+  procedure load
+  is
+  begin
+  dbms_output.put_line('LOAD: Pre-loading not performed for this table.'
+  );
+  end;
+
+end loc_tst;
+/

@@ -1,0 +1,203 @@
+***  Installation Started 01/09/2004 15:20  ***
+Title: Quest Software TOAD 7.2 Installation
+Source: G:\Toad\ToadStandard7.2.exe | 02-15-2002 | 07:33:50 | 11296223
+File Copy: F:\Quest Software\toad\Uninstall.exe | 05-24-2001 | 11:59:30 | | 162304 | 432c52a3
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\Quest Software TOAD  Standard Edition 7.2
+RegDB Val: Quest Software TOAD  Standard Edition 7.2
+RegDB Name: DisplayName
+RegDB Root: 2
+RegDB Old: Quest Software TOAD  Standard Edition 7.2
+RegDB Key: Software\Microsoft\Windows\CurrentVersion\Uninstall\Quest Software TOAD  Standard Edition 7.2
+RegDB Val: F:\QUESTS~1\toad\UNINST~1.EXE
+RegDB Name: UninstallString
+RegDB Root: 2
+RegDB Old: D:\PROGRA~1\QUESTS~1\toad\UNINST~1.EXE
+RegDB Key: Software\Quest Software\TOAD
+RegDB Val: F:\Quest Software\toad
+RegDB Name: CLIENT
+RegDB Root: 2
+RegDB Old: D:\Program Files\Quest Software\toad
+RegDB Key: Software\Quest Software
+RegDB Val: F:\Quest Software\toad
+RegDB Name: LFPathTOAD
+RegDB Root: 2
+RegDB Old: D:\Program Files\Quest Software\toad
+RegDB Key: Software\Quest Software
+RegDB Val: 11
+RegDB Name: Product
+RegDB Root: 2
+RegDB Old: 11
+RegDB Key: Software\Quest Software\TOAD
+RegDB Val: F:\Quest Software\toad
+RegDB Name: SERVER
+RegDB Root: 2
+RegDB Old: D:\Program Files\Quest Software\toad
+File Copy: F:\Quest Software\toad\Install.txt | 11-22-1998 | 14:52:36 | | 1195 | 743c1cc9
+File Copy: F:\Quest Software\toad\FullToad.lic | 04-22-1997 | 18:16:52 | | 1024 | b0e89b9b
+File Copy: F:\Quest Software\toad\Hints.txt | 08-02-2000 | 12:40:12 | | 2549 | d7f0c448
+File Copy: F:\Quest Software\toad\Readme.txt | 12-10-2001 | 11:19:46 | | 14339 | 145b17c3
+File Copy: F:\Quest Software\toad\ReleaseNotes.htm | 12-11-2001 | 12:23:12 | | 54415 | 8a3e8e10
+File Copy: F:\Quest Software\toad\readonly.lic | 04-22-1997 | 18:16:52 | | 1024 | 2b9b714f
+File Copy: F:\Quest Software\toad\TOAD.exe | 12-11-2001 | 12:14:56 | 7.2.0.0 | 9357312 | 6c10fbf2
+File Copy: F:\Quest Software\toad\TOAD.hlp | 12-10-2001 | 11:20:36 | | 6803645 | d49c80c4
+File Copy: F:\Quest Software\toad\TOAD.cnt | 12-10-2001 | 11:20:26 | | 23034 | d79cc51f
+File Copy: F:\Quest Software\toad\ROBOEX32.DLL | 08-03-2000 | 13:50:30 | 9.0.79.0 | 1056768 | 487c8094
+File Copy: F:\Quest Software\toad\TOADReports.exe | 12-10-2001 | 11:20:26 | 7.2.0.0 | 2758144 | bef07d21
+File Copy: F:\Quest Software\toad\ReportParams.ini | 03-14-2001 | 13:09:12 | | 2185 | d13aad8f
+Made Dir: F:\Quest Software\toad\Reports
+File Copy: F:\Quest Software\toad\Reports\Analyzed Objects cached.RTM | 03-01-2001 | 15:52:32 | | 10002 | 139bcbab
+File Copy: F:\Quest Software\toad\Reports\Arguments of Stand-alone Stored Programs (portrait).RTM | 03-23-2001 | 11:07:36 | | 13398 | 5b2200a7
+File Copy: F:\Quest Software\toad\Reports\Clusters (portrait).RTM | 03-23-2001 | 11:07:36 | | 17828 | 8fe718c
+File Copy: F:\Quest Software\toad\Reports\Indexes (portrait).RTM | 07-06-2001 | 12:11:18 | | 21284 | ae0d6e49
+File Copy: F:\Quest Software\toad\Reports\Invalid Objects.RTM | 03-23-2001 | 11:07:38 | | 9790 | 432c110f
+File Copy: F:\Quest Software\toad\Reports\Loads Into Shared Pool.RTM | 03-01-2001 | 15:52:34 | | 9121 | c7adf570
+File Copy: F:\Quest Software\toad\Reports\Non-indexed Tables (portrait).RTM | 03-23-2001 | 11:07:40 | | 8231 | ce213175
+File Copy: F:\Quest Software\toad\Reports\NonSystemObjectsInSystemTablspace.RTM | 07-06-2001 | 12:11:18 | | 8400 | d7050e59
+File Copy: F:\Quest Software\toad\Reports\Object Type Bodies (portrait).RTM | 07-06-2001 | 12:11:18 | | 14061 | 1b6c6dd7
+File Copy: F:\Quest Software\toad\Reports\Object Types (portrait).RTM | 07-06-2001 | 12:11:18 | | 11151 | 3447952d
+File Copy: F:\Quest Software\toad\Reports\OraInitParams.RTM | 07-06-2001 | 12:11:20 | | 7376 | e2716ea3
+File Copy: F:\Quest Software\toad\Reports\Package Bodies (portrait).RTM | 07-06-2001 | 12:11:20 | | 12218 | e4616e87
+File Copy: F:\Quest Software\toad\Reports\Package Specifications (portrait).RTM | 07-06-2001 | 12:11:20 | | 12193 | 6b2138e6
+File Copy: F:\Quest Software\toad\Reports\Resource Usage.RTM | 03-01-2001 | 15:52:36 | | 8863 | ad7acd0f
+File Copy: F:\Quest Software\toad\Reports\Sequences (portrait).RTM | 03-23-2001 | 11:07:42 | | 12782 | 6ba7f6df
+File Copy: F:\Quest Software\toad\Reports\Sequences MaxVal (portrait).RTM | 07-06-2001 | 12:11:20 | | 12827 | e3f1befb
+File Copy: F:\Quest Software\toad\Reports\Shared Pool Reload Stats.RTM | 07-06-2001 | 12:11:20 | | 8137 | 2e5f07aa
+File Copy: F:\Quest Software\toad\Reports\Stored Functions (portrait).RTM | 07-06-2001 | 12:11:20 | | 11260 | 68eb2900
+File Copy: F:\Quest Software\toad\Reports\Stored Objects with Source (portrait).RTM | 07-06-2001 | 12:11:22 | | 14617 | 12241d82
+File Copy: F:\Quest Software\toad\Reports\Stored Procedures (portrait).RTM | 07-06-2001 | 12:11:22 | | 11212 | 82a22d41
+File Copy: F:\Quest Software\toad\Reports\Stored Procs & Funcs (portrait).RTM | 07-06-2001 | 12:11:22 | | 12075 | 98fb18e5
+File Copy: F:\Quest Software\toad\Reports\Stored Program Size Summary (portrait).RTM | 03-01-2001 | 15:52:42 | | 20962 | bdcf5ab3
+File Copy: F:\Quest Software\toad\Reports\Synonyms (portrait).RTM | 07-06-2001 | 12:11:22 | | 11400 | 98b5d973
+File Copy: F:\Quest Software\toad\Reports\TableComments.RTM | 12-10-2001 | 11:20:46 | | 8436 | 955a6305
+File Copy: F:\Quest Software\toad\Reports\TableConstraints.RTM | 03-23-2001 | 11:07:48 | | 12693 | 658d2884
+File Copy: F:\Quest Software\toad\Reports\Tables & Columns (portrait).RTM | 07-06-2001 | 12:11:24 | | 21688 | 51330fa7
+File Copy: F:\Quest Software\toad\Reports\Tables & Indexes.RTM | 03-23-2001 | 11:07:50 | | 15251 | 695eadc3
+File Copy: F:\Quest Software\toad\Reports\TablespaceAtCapacity.RTM | 07-06-2001 | 12:11:24 | | 9508 | a693cd58
+File Copy: F:\Quest Software\toad\Reports\Triggers & Columns (portrait).RTM | 11-30-2001 | 10:39:28 | | 15267 | 1aa651ce
+File Copy: F:\Quest Software\toad\Reports\User Hit Ratios.RTM | 03-01-2001 | 15:52:44 | | 9915 | 92d5fb2d
+File Copy: F:\Quest Software\toad\Reports\ViewComments.RTM | 12-10-2001 | 11:20:48 | | 8264 | 62d4c359
+File Copy: F:\Quest Software\toad\Reports\Views & Columns (portrait).RTM | 12-10-2001 | 11:20:50 | | 14065 | 5deb6937
+File Copy: F:\Quest Software\toad\Reports\Toad.rdf | 12-10-2001 | 11:20:48 | | 42815 | 72c0222b
+File Copy: F:\Quest Software\toad\Revbase.dll | 11-07-2001 | 16:51:44 | 5.0.0.4 | 98304 | a82a77d1
+Made Dir: F:\Quest Software\toad\temps
+File Copy: F:\Quest Software\toad\temps\plsql.dci | 04-19-2001 | 18:07:34 | | 1894 | e8fdceeb
+File Copy: F:\Quest Software\toad\temps\html.dci | 11-26-2000 | 10:42:10 | | 34 | b1bb0116
+File Copy: F:\Quest Software\toad\temps\text.dci
+File Copy: F:\Quest Software\toad\temps\Newfunc.sql | 11-30-2001 | 10:40:56 | | 1354 | d47f2d5a
+File Copy: F:\Quest Software\toad\temps\Newpack.sql | 11-30-2001 | 10:40:56 | | 1968 | 582458bb
+File Copy: F:\Quest Software\toad\temps\Newproc.sql | 11-30-2001 | 10:40:56 | | 1303 | 18250f0
+File Copy: F:\Quest Software\toad\temps\Newtrig.sql | 11-30-2001 | 10:40:56 | | 1417 | 5ff92903
+File Copy: F:\Quest Software\toad\temps\Cnvfuncs.txt | 11-26-2000 | 10:42:42 | | 1752 | 1063bc72
+File Copy: F:\Quest Software\toad\temps\Datefmts.txt | 11-26-2000 | 10:42:44 | | 1896 | 6b4a1a2
+File Copy: F:\Quest Software\toad\temps\Datfuncs.txt | 11-26-2000 | 10:42:44 | | 1788 | 33165b00
+File Copy: F:\Quest Software\toad\temps\Grpfuncs.txt | 11-26-2000 | 10:42:44 | | 993 | 5bcfc467
+File Copy: F:\Quest Software\toad\temps\Mscfuncs.txt | 11-26-2000 | 10:42:46 | | 1001 | d08ef7d5
+File Copy: F:\Quest Software\toad\temps\Nmbrfmts.txt | 11-26-2000 | 10:42:46 | | 1416 | 92ed3087
+File Copy: F:\Quest Software\toad\temps\Numfuncs.txt | 11-26-2000 | 10:42:46 | | 2175 | f18d8455
+File Copy: F:\Quest Software\toad\temps\opthints.txt | 11-26-2000 | 10:42:46 | | 2854 | 86745282
+File Copy: F:\Quest Software\toad\temps\Strfuncs.txt | 11-26-2000 | 10:42:48 | | 3797 | 874e9ab9
+File Copy: F:\Quest Software\toad\temps\pseudo.txt | 11-26-2000 | 10:42:48 | | 565 | bef06b7e
+File Copy: F:\Quest Software\toad\temps\predfxcp.txt | 11-26-2000 | 10:42:48 | | 3658 | 9ec3fed0
+File Copy: F:\Quest Software\toad\temps\usrfuncs.txt | 11-26-2000 | 10:42:48 | | 70 | 7f4b6c01
+File Copy: F:\Quest Software\toad\toad.lic | 05-13-1997 | 16:21:12 | | 1024 | 3cdab6c
+File Copy: F:\Quest Software\toad\toadload.wav | 03-20-1996 | 05:34:32 | | 6194 | 24945c2e
+Made Dir: F:\Quest Software\toad\BACKUP
+File Overwrite: F:\Quest Software\toad\Revbase.dll | 11-07-2001 | 16:51:44 | 5.0.0.4 | 98304 | a82a77d1
+File Copy: F:\Quest Software\toad\FmtOptions.INI | 03-08-2001 | 11:28:50 | | 128 | ceaaa11b
+File Copy: F:\Quest Software\toad\FmtPlus_v1.2_IDE.exe | 12-03-2001 | 11:42:26 | 1.2.0.1 | 2183574 | 58ae11ed
+File Copy: F:\Quest Software\toad\TOAD.fts
+File Copy: F:\Quest Software\toad\TOAD.gid
+File Overwrite: F:\Quest Software\toad\temps\Cnvfuncs.txt | 11-26-2000 | 10:42:42 | | 1752 | 1063bc72
+File Overwrite: F:\Quest Software\toad\temps\Datefmts.txt | 11-26-2000 | 10:42:44 | | 1896 | 6b4a1a2
+File Overwrite: F:\Quest Software\toad\temps\Datfuncs.txt | 11-26-2000 | 10:42:44 | | 1788 | 33165b00
+File Overwrite: F:\Quest Software\toad\temps\Grpfuncs.txt | 11-26-2000 | 10:42:44 | | 993 | 5bcfc467
+File Overwrite: F:\Quest Software\toad\temps\Mscfuncs.txt | 11-26-2000 | 10:42:46 | | 1001 | d08ef7d5
+File Overwrite: F:\Quest Software\toad\temps\Nmbrfmts.txt | 11-26-2000 | 10:42:46 | | 1416 | 92ed3087
+File Overwrite: F:\Quest Software\toad\temps\Numfuncs.txt | 11-26-2000 | 10:42:46 | | 2175 | f18d8455
+File Overwrite: F:\Quest Software\toad\temps\opthints.txt | 11-26-2000 | 10:42:46 | | 2854 | 86745282
+File Overwrite: F:\Quest Software\toad\temps\Strfuncs.txt | 11-26-2000 | 10:42:48 | | 3797 | 874e9ab9
+File Overwrite: F:\Quest Software\toad\temps\pseudo.txt | 11-26-2000 | 10:42:48 | | 565 | bef06b7e
+File Overwrite: F:\Quest Software\toad\temps\predfxcp.txt | 11-26-2000 | 10:42:48 | | 3658 | 9ec3fed0
+File Overwrite: F:\Quest Software\toad\temps\usrfuncs.txt | 11-26-2000 | 10:42:48 | | 70 | 7f4b6c01
+File Copy: F:\Quest Software\toad\temps\longscr.txt | 12-10-2001 | 11:21:08 | | 50790 | 3be93d8e
+File Copy: F:\Quest Software\toad\temps\shortscr.txt | 12-10-2001 | 11:21:08 | | 38523 | a40f280d
+File Copy: F:\Quest Software\toad\temps\plsqlscr.txt | 11-30-2001 | 10:40:50 | | 38523 | a40f280d
+File Copy: F:\Quest Software\toad\temps\htmlscr.txt | 05-21-2001 | 09:32:28 | | 34709 | 724d2d83
+File Copy: F:\Quest Software\toad\temps\iniscr.txt | 05-21-2001 | 09:35:46 | | 1394 | b04831e2
+File Copy: F:\Quest Software\toad\temps\javascr.txt | 05-21-2001 | 09:36:24 | | 24567 | ed8e2450
+File Copy: F:\Quest Software\toad\temps\textscr.txt | 05-21-2001 | 09:36:08 | | 1398 | 6431b391
+File Copy: F:\Quest Software\toad\temps\notoad.sql | 06-28-2001 | 12:57:38 | | 2628 | c83616a9
+File Copy: F:\Quest Software\toad\temps\toadprep.sql | 12-10-2001 | 11:21:20 | | 3490 | 176aeaae
+File Copy: F:\Quest Software\toad\temps\aliases.txt | 11-26-2000 | 10:42:50 | | 132 | 534faf1c
+File Copy: F:\Quest Software\toad\temps\explan.sql | 03-08-2001 | 09:08:00 | | 388 | 3cb82aa0
+File Copy: F:\Quest Software\toad\temps\HTMLKEYS.BIN | 11-26-2000 | 10:42:16 | | 1299 | ae0cdc90
+File Copy: F:\Quest Software\toad\temps\HTMLOPTS.TXT | 11-26-2000 | 10:42:18 | | 747 | ba35d7de
+File Copy: F:\Quest Software\toad\temps\INIKEYS.BIN | 11-26-2000 | 10:42:20 | | 1299 | 7b301b73
+File Copy: F:\Quest Software\toad\temps\INIOPTS.TXT | 11-26-2000 | 10:42:20 | | 268 | 37b6f005
+File Copy: F:\Quest Software\toad\temps\plsqlkeys.bin | 11-26-2000 | 10:42:20 | | 1339 | 495528a7
+File Copy: F:\Quest Software\toad\temps\plsqlopts.txt | 11-26-2000 | 10:42:20 | | 495 | c65ab7ee
+File Copy: F:\Quest Software\toad\temps\TEXTKEYS.BIN | 11-26-2000 | 10:42:22 | | 1299 | ae0cdc90
+File Copy: F:\Quest Software\toad\temps\TEXTOPTS.TXT | 11-26-2000 | 10:42:22 | | 268 | fce02f87
+File Copy: F:\Quest Software\toad\temps\TOADProfiler.sql | 06-28-2001 | 12:57:38 | | 13441 | fde507a1
+File Copy: F:\Quest Software\toad\temps\TOADSecurity.sql | 11-30-2001 | 10:40:58 | | 5054 | a474d3fa
+File Copy: F:\Quest Software\toad\temps\TOADSecurity_Upgrade.sql | 11-30-2001 | 10:40:58 | | 3877 | 773fc4e6
+File Copy: F:\Quest Software\toad\temps\htmlsub.txt | 11-26-2000 | 10:42:06 | | 11 | 2bc0d89c
+File Copy: F:\Quest Software\toad\temps\inisub.txt | 11-26-2000 | 10:42:08 | | 11 | 2bc0d89c
+File Copy: F:\Quest Software\toad\temps\plsqlsub.txt | 11-26-2000 | 10:42:10 | | 60 | 89ac3112
+File Copy: F:\Quest Software\toad\temps\textsub.txt | 11-26-2000 | 10:42:10 | | 11 | 2bc0d89c
+File Copy: F:\Quest Software\toad\temps\toadstats.ini | 11-26-2000 | 10:42:38 | | 1940 | 2da58516
+File Copy: F:\Quest Software\toad\temps\jobdates.txt | 04-16-2001 | 08:51:42 | | 151 | c3bbaf33
+Made Dir: F:\Quest Software\toad\docs
+File Copy: F:\Quest Software\toad\docs\TOAD Getting Started Guide.pdf | 04-03-2001 | 16:01:38 | | 494753 | e6de626e
+File Copy: F:\Quest Software\toad\docs\TOAD User's Guide 7_2.pdf | 12-04-2001 | 15:39:32 | | 2429557 | 919d53d4
+Made Dir: F:\Quest Software\toad\ScriptMgr
+Made Dir: F:\Quest Software\toad\ScriptMgr\DBA
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\rbs.sql | 11-30-2001 | 10:40:40 | | 439 | cf3365e4
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\rbs_off.sql | 11-30-2001 | 10:40:42 | | 259 | 7df29e1c
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\rbs_on.sql | 11-30-2001 | 10:40:42 | | 257 | 52446f6e
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\trig.sql | 11-30-2001 | 10:40:42 | | 149 | 4fe8f603
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\trig_off.sql | 11-30-2001 | 10:40:42 | | 259 | 68982e36
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\trig_on.sql | 11-30-2001 | 10:40:42 | | 257 | 8ccc41
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\tspc.sql | 11-30-2001 | 10:40:42 | | 2291 | 58e03fb
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\tspc_coal.sql | 11-30-2001 | 10:40:44 | | 198 | 4dea175a
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\tspc_off.sql | 11-30-2001 | 10:40:44 | | 267 | b36a3cf5
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\tspc_on.sql | 11-30-2001 | 10:40:44 | | 265 | bbe7210d
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\users.sql | 11-30-2001 | 10:40:44 | | 277 | 694e962e
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\what.sql | 11-30-2001 | 10:40:44 | | 210 | 511714bf
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\when.sql | 11-30-2001 | 10:40:44 | | 121 | fa1f3d6f
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\who.sql | 11-30-2001 | 10:40:44 | | 290 | 5c4a12f6
+File Copy: F:\Quest Software\toad\ScriptMgr\DBA\whoami.sql | 11-30-2001 | 10:40:44 | | 87 | 1b32e79a
+File Copy: F:\Quest Software\toad\DBA.sdf | 12-10-2001 | 11:19:28 | | 1823 | 25cf9bc
+File Copy: F:\Quest Software\toad\Oracle 8i Data Dictionary.sdf | 11-29-2001 | 16:08:48 | | 4151 | 81ec5b06
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD.lnk
+Link Info: F:\Quest Software\toad\TOAD.exe |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Help.lnk
+Link Info: F:\Quest Software\toad\TOAD.hlp |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD Help.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Readme.lnk
+Link Info: F:\Quest Software\toad\Readme.txt |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD Readme.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Release Notes.lnk
+Link Info: F:\QUESTS~1\toad\ReleaseNotes.txt |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD Release Notes.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\Uninstall TOAD.lnk
+Link Info: F:\Quest Software\toad\Uninstall.exe |  |  | 0 | 1 | 0 | F:\QUESTS~1\toad\INSTALL.LOG
+Backup Copy: F:\Quest Software\toad\BACKUP\Uninstall TOAD.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD Getting Started Guide.lnk
+Link Info: F:\Quest Software\toad\docs\TOAD Getting Started Guide.pdf |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD Getting Started Guide.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD User's Guide.lnk
+Link Info: F:\QUESTS~1\toad\docs\TOAD User's Guide.pdf |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD User's Guide.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD User's Guide Addendum.lnk
+Link Info: F:\QUESTS~1\toad\docs\TOAD User's Guide Addendum.pdf |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD User's Guide Addendum.lnk
+Shell Link: C:\Documents and Settings\All Users\Menu Démarrer\Programmes\Quest Software\TOAD\TOAD SQL Loader Overview.lnk
+Link Info: F:\QUESTS~1\toad\docs\TOAD SQL Loader Overview.pdf |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD SQL Loader Overview.lnk
+Shell Link: C:\Documents and Settings\Ouangraoua\Bureau\TOAD.lnk
+Link Info: F:\Quest Software\toad\TOAD.exe |  |  | 0 | 1 | 0 | 
+Backup Copy: F:\Quest Software\toad\BACKUP\TOAD.001
+File Copy: C:\WINNT\logs\Quest Software TOAD  Standard Edition 7.2.log
+User Rights: Admin

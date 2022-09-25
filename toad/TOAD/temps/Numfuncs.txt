@@ -1,0 +1,61 @@
+*ABS(n)
+Returns the absolute value of N.
+*ACOS(n)
+Returns the arc cosine of N.
+
+Inputs are in the range of -1 to 1, and outputs are in the range of 0 to pi and are expressed in radians.
+*ASIN(n)
+Returns the arc sine of N.
+
+Inputs are in the range of -1 to 1, and outputs are in the range of -pi/2 to pi/2 and are expressed in radians.
+*ATAN(n)
+Returns the arc tangent of N.
+
+Inputs are in an unbounded range, and outputs are in the range of -pi/2 to pi/2 and are expressed in radians.
+*ATAN2(n,m)
+Returns the arc tangent of N and M.
+
+Inputs are in an unbounded range, and outputs are in the range of -pi to pi, depending on the signs of x and y, and are expressed in radians.  Atan2(x,y) is the same as Atan2(x/y).
+*CEIL(n)
+Returns the smallest integer greater than or equal to N.  (see FLOOR)
+*COS(n)
+Returns the cosine of N (an angle expressed in radians).
+*COSH(n)
+Returns the hyperbolic cosine of N.
+*EXP(n)
+Returns e raised to the Nth power, where e = 2.71828183...
+*FLOOR(n)
+Returns largest integer equal to or less than N.  (see CEIL)
+*LN(n)
+Returns the natural logarithm of N where N > 0
+*LOG(m,n)
+Returns the logarithm, base M, of N.
+
+The base M can be any positive number other than 0 or 1 and N can be any positive number.
+*MOD(m,n)
+Returns remainder of M divided by N.  Returns M if N is 0.
+*POWER(m,n)
+Returns M raised to the Nth power.
+
+The base M and the exponent N can by any numbers, but if M is negative, N must be an integer.
+*ROUND(n [,m])
+Returns N rounded to M places right of the decimal point.  M defaults to 0.
+
+M can be negative to round off digits left of the decimal point.  M must be an integer.
+*SIGN(n)
+if N < 0 then -1;  if N = 0 then 0;  if N > 0 then 1
+*SIN(n)
+Returns the sine of N (an angle expressed in radians).
+*SINH(n)
+Returns the hyperbolic sine of N.
+*SQRT(n)
+Returns square root of N;  if N < 0 then NULL
+*TAN(n)
+Returns the tangent of N (an angle expressed in radians).
+*TANH(n)
+Returns the hyperbolic tangent of N.
+*TRUNC(n [,m])
+Returns N truncated to M decimal places;  M defaults to 0.
+
+M can be negative to truncate (make zero) M digits left of the decimal point.
+

@@ -1,0 +1,507 @@
+/*
+ * TSyntaxMemoParser Script
+ * ------------------------
+ *
+ * Author  :          David Brock
+ * Date    :          June 8 1998
+ * Language:          Java
+ *
+ */
+
+#define jt_DEFAULT              0
+#define jt_RESERVED             1
+#define jt_COMMENT              2
+#define jt_COMMENT_STAR         3
+#define jt_COMMENT_LINE         4
+#define jt_STRING               5
+#define jt_STRING_CHAR          6
+#define jt_IDENTIFIER           7
+#define jt_NUMBER               8
+#define jt_SYMBOL               9
+
+#define _LANG_WORDS             20
+
+#define jt_ABSTRACT             (_LANG_WORDS + 00)
+#define jt_BOOLEAN              (_LANG_WORDS + 01)
+#define jt_BREAK                (_LANG_WORDS + 02)
+#define jt_BYTE                 (_LANG_WORDS + 03)
+#define jt_CASE                 (_LANG_WORDS + 04)
+#define jt_BYVALUE              (_LANG_WORDS + 05)
+#define jt_CHAR                 (_LANG_WORDS + 06)
+#define jt_CLASS                (_LANG_WORDS + 07)
+#define jt_CONST                (_LANG_WORDS + 08)
+#define jt_CONTINUE             (_LANG_WORDS + 09)
+#define jt_DEFAULT              (_LANG_WORDS + 10)
+#define jt_DO                   (_LANG_WORDS + 11)
+#define jt_DOUBLE               (_LANG_WORDS + 12)
+#define jt_ELSE                 (_LANG_WORDS + 13)
+#define jt_EXTENDS              (_LANG_WORDS + 14)
+#define jt_FALSE                (_LANG_WORDS + 15)
+#define jt_FINAL                (_LANG_WORDS + 16)
+#define jt_FINALLY              (_LANG_WORDS + 17)
+#define jt_FLOAT                (_LANG_WORDS + 18)
+#define jt_FOR                  (_LANG_WORDS + 19)
+#define jt_FUNCTION             (_LANG_WORDS + 20)
+#define jt_GOTO                 (_LANG_WORDS + 21)
+#define jt_IF                   (_LANG_WORDS + 22)
+#define jt_IMPLEMENTS           (_LANG_WORDS + 23)
+#define jt_IMPORT               (_LANG_WORDS + 24)
+#define jt_IN                   (_LANG_WORDS + 25)
+#define jt_INSTANCEOF           (_LANG_WORDS + 26)
+#define jt_INT                  (_LANG_WORDS + 27)
+#define jt_INTERFACE            (_LANG_WORDS + 28)
+#define jt_LONG                 (_LANG_WORDS + 29)
+#define jt_NATIVE               (_LANG_WORDS + 30)
+#define jt_NEW                  (_LANG_WORDS + 31)
+#define jt_NULL                 (_LANG_WORDS + 32)
+#define jt_PACKAGE              (_LANG_WORDS + 33)
+#define jt_PRIVATE              (_LANG_WORDS + 34)
+#define jt_PROTECTED            (_LANG_WORDS + 35)
+#define jt_PUBLIC               (_LANG_WORDS + 36)
+#define jt_RETURN               (_LANG_WORDS + 37)
+#define jt_SHORT                (_LANG_WORDS + 38)
+#define jt_STATIC               (_LANG_WORDS + 39)
+#define jt_SUPER                (_LANG_WORDS + 40)
+#define jt_SWITCH               (_LANG_WORDS + 41)
+#define jt_SYCHRONIZ            (_LANG_WORDS + 42)
+#define jt_THIS                 (_LANG_WORDS + 43)
+#define jt_THROW                (_LANG_WORDS + 44)
+#define jt_THROWS               (_LANG_WORDS + 45)
+#define jt_TRANSIENT            (_LANG_WORDS + 46)
+#define jt_TRUE                 (_LANG_WORDS + 47)
+#define jt_TRY                  (_LANG_WORDS + 48)
+#define jt_VAR                  (_LANG_WORDS + 49)
+#define jt_VOID                 (_LANG_WORDS + 50)
+#define jt_WHILE                (_LANG_WORDS + 51)
+#define jt_CAST                 (_LANG_WORDS + 52)
+#define jt_FUTURE               (_LANG_WORDS + 53)
+#define jt_GENERIC              (_LANG_WORDS + 54)
+#define jt_INNER                (_LANG_WORDS + 55)
+#define jt_OPERATOR             (_LANG_WORDS + 56)
+#define jt_OUTER                (_LANG_WORDS + 57)
+#define jt_REST                 (_LANG_WORDS + 58)
+#define jt_VOLATILE             (_LANG_WORDS + 59)
+#define jt_CATCH                (_LANG_WORDS + 60)
+
+#define _LANG_OPS               _LANG_WORDS  + 70
+
+#define jt_COMMA                (_LANG_OPS   + 00)
+#define jt_EQUALS               (_LANG_OPS   + 01)
+#define jt_AUTOINC              (_LANG_OPS   + 02)
+#define jt_AUTODEC              (_LANG_OPS   + 03)
+#define jt_AUTOMULT             (_LANG_OPS   + 04)
+#define jt_AUTODIV              (_LANG_OPS   + 05)
+#define jt_AUTOMOD              (_LANG_OPS   + 06)
+#define jt_AUTOSHL              (_LANG_OPS   + 07)
+#define jt_AUTOSHR              (_LANG_OPS   + 08)
+#define jt_AUTOSHR_SIGNED       (_LANG_OPS   + 09)
+#define jt_AUTOAND              (_LANG_OPS   + 10)
+#define jt_AUTOXOR              (_LANG_OPS   + 11)
+#define jt_AUTOOR               (_LANG_OPS   + 12)
+#define jt_CONDITIONAL          (_LANG_OPS   + 13)
+#define jt_LOGOR                (_LANG_OPS   + 14)
+#define jt_LORAND               (_LANG_OPS   + 15)
+#define jt_BITOR                (_LANG_OPS   + 16)
+#define jt_BITXOR               (_LANG_OPS   + 17)
+#define jt_BITAND               (_LANG_OPS   + 18)
+#define jt_EQUALTO              (_LANG_OPS   + 19)
+#define jt_NOTEQUALTO           (_LANG_OPS   + 20)
+#define jt_LESS                 (_LANG_OPS   + 21)
+#define jt_LESSTHANEQ           (_LANG_OPS   + 22)
+#define jt_GREATER              (_LANG_OPS   + 23)
+#define jt_GREATERTHANEQ        (_LANG_OPS   + 24)
+#define jt_SHL                  (_LANG_OPS   + 25)
+#define jt_SHR                  (_LANG_OPS   + 26)
+#define jt_SHR_SIGNED           (_LANG_OPS   + 27)
+#define jt_PLUS                 (_LANG_OPS   + 28)
+#define jt_MINUS                (_LANG_OPS   + 29)
+#define jt_TIMES                (_LANG_OPS   + 30)
+#define jt_DIV                  (_LANG_OPS   + 31)
+#define jt_MOD                  (_LANG_OPS   + 32)
+#define jt_NOT                  (_LANG_OPS   + 33)
+#define jt_NEGATE               (_LANG_OPS   + 34)
+#define jt_INCREMENT            (_LANG_OPS   + 35)
+#define jt_DECREMENT            (_LANG_OPS   + 36)
+#define jt_LBRACKET             (_LANG_OPS   + 37)
+#define jt_RBRACKET             (_LANG_OPS   + 39)
+#define jt_LSBRACKET            (_LANG_OPS   + 40)
+#define jt_RSBRACKET            (_LANG_OPS   + 41)
+#define jt_DOT                  (_LANG_OPS   + 42)
+
+#define _LANG_METHODS           _LANG_OPS    + 50
+
+
+#define _non_alpha_                 '[^_A-Za-z0-9]'
+#define _all_chars_                 '[\x00-\xFF]'
+#define _no_chars_                  '[]'
+#define _dont_care_                 _all_chars_
+#define _DEFAULT_BACKGROUND         clWhite
+#define _DEFAULT_FOREGROUND         clBlack
+
+%%language
+Name                     = 'Java'
+Case                      = __SENSITIVE
+Options                   = __DEFAULT_OPTIONS
+WordWrapColumn            = _EDGE
+Gutter                    = _DEFAULT_GUTTER
+Anchor                    = _DEFAULT_START_ANCHOR
+ExampleText               = '/* Java syntax highlighting */\n\
+                            \public class HelloWorld {\n\
+                            \  public static void main(String argv[]) {\n\
+                            \    System.out.println("Hello World!");\n\
+                            \  }\n\
+                            \}\n'
+
+EditableStyles              ('Reserved word', jt_RESERVED),
+                            ('Comment',       jt_COMMENT),
+                            ('Identifier',    jt_IDENTIFIER),
+                            ('String',        jt_STRING),
+                            ('Number',        jt_NUMBER),
+                            ('Symbols',       jt_SYMBOL),
+                            ('Default',       jt_DEFAULT)
+
+%%templates
+Hotkey =  ([Ctrl] ' ')
+
+%%words
+'abstract'                  _non_alpha_       jt_ABSTRACT
+'boolean'                   _non_alpha_       jt_BOOLEAN
+'break'                     _non_alpha_       jt_BREAK
+'byte'                      _non_alpha_       jt_BYTE
+'byvalue'                   _non_alpha_       jt_BYVALUE
+'case'                      _non_alpha_       jt_CASE
+'cast'                      _non_alpha_       jt_CAST
+'catch'                     _non_alpha_       jt_CATCH
+'char'                      _non_alpha_       jt_CHAR
+'class'                     _non_alpha_       jt_CLASS
+'const'                     _non_alpha_       jt_CONST
+'continue'                  _non_alpha_       jt_CONTINUE
+'default'                   _non_alpha_       jt_DEFAULT
+'do'                        _non_alpha_       jt_DO
+'double'                    _non_alpha_       jt_DOUBLE
+'else'                      _non_alpha_       jt_ELSE
+'extends'                   _non_alpha_       jt_EXTENDS
+'false'                     _non_alpha_       jt_FALSE
+'final'                     _non_alpha_       jt_FINAL
+'finally'                   _non_alpha_       jt_FINALLY
+'float'                     _non_alpha_       jt_FLOAT
+'for'                       _non_alpha_       jt_FOR
+'future'                    _non_alpha_       jt_FUTURE
+'generic'                   _non_alpha_       jt_GENERIC
+'goto'                      _non_alpha_       jt_GOTO
+'if'                        _non_alpha_       jt_IF
+'implements'                _non_alpha_       jt_IMPLEMENTS
+'import'                    _non_alpha_       jt_IMPORT
+'inner'                     _non_alpha_       jt_INNER
+'instanceof'                _non_alpha_       jt_INSTANCEOF
+'int'                       _non_alpha_       jt_INT
+'interface'                 _non_alpha_       jt_INTERFACE
+'long'                      _non_alpha_       jt_LONG
+'native'                    _non_alpha_       jt_NATIVE
+'new'                       _non_alpha_       jt_NEW
+'null'                      _non_alpha_       jt_NULL
+'operator'                  _non_alpha_       jt_OPERATOR
+'outer'                     _non_alpha_       jt_OUTER
+'package'                   _non_alpha_       jt_PACKAGE
+'private'                   _non_alpha_       jt_PRIVATE
+'protected'                 _non_alpha_       jt_PROTECTED
+'public'                    _non_alpha_       jt_PUBLIC
+'rest'                      _non_alpha_       jt_REST
+'return'                    _non_alpha_       jt_RETURN
+'short'                     _non_alpha_       jt_SHORT
+'static'                    _non_alpha_       jt_STATIC
+'super'                     _non_alpha_       jt_SUPER
+'switch'                    _non_alpha_       jt_SWITCH
+'synchronized'              _non_alpha_       jt_SYCHRONIZ
+'this'                      _non_alpha_       jt_THIS
+'throw'                     _non_alpha_       jt_THROW
+'throws'                    _non_alpha_       jt_THROWS
+'transient'                 _non_alpha_       jt_TRANSIENT
+'true'                      _non_alpha_       jt_TRUE
+'try'                       _non_alpha_       jt_TRY
+'var'                       _non_alpha_       jt_VAR
+'void'                      _non_alpha_       jt_VOID
+'volatile'                  _non_alpha_       jt_VOLATILE
+'while'                     _non_alpha_       jt_WHILE
+
+
+','                         _dont_care_       jt_COMMA
+'='                         _dont_care_       jt_EQUALS
+'+='                        _dont_care_       jt_AUTOINC
+'-='                        _dont_care_       jt_AUTODEC
+'*='                        _dont_care_       jt_AUTOMULT
+'/='                        _dont_care_       jt_AUTODIV
+'%='                        _dont_care_       jt_AUTOMOD
+'<<='                       _dont_care_       jt_AUTOSHL
+'>>='                       _dont_care_       jt_AUTOSHR
+'>>>='                      _dont_care_       jt_AUTOSHR_SIGNED
+'&='                        _dont_care_       jt_AUTOAND
+'^='                        _dont_care_       jt_AUTOXOR
+'|='                        _dont_care_       jt_AUTOOR
+'?:'                        _dont_care_       jt_CONDITIONAL
+'||'                        _dont_care_       jt_LOGOR
+'&&'                        _dont_care_       jt_LORAND
+'|'                         _dont_care_       jt_BITOR
+'^'                         _dont_care_       jt_BITXOR
+'&'                         _dont_care_       jt_BITAND
+'=='                        _dont_care_       jt_EQUALTO
+'!='                        _dont_care_       jt_NOTEQUALTO
+'<'                         _dont_care_       jt_LESS
+'<='                        _dont_care_       jt_LESSTHANEQ
+'>'                         _dont_care_       jt_GREATER
+'>='                        _dont_care_       jt_GREATERTHANEQ
+'<<'                        _dont_care_       jt_SHL
+'>>'                        _dont_care_       jt_SHR
+'>>>'                       _dont_care_       jt_SHR_SIGNED
+'+'                         _dont_care_       jt_PLUS
+'-'                         _dont_care_       jt_MINUS
+'*'                         _dont_care_       jt_TIMES
+'/'                         _dont_care_       jt_DIV
+'%'                         _dont_care_       jt_MOD
+'!'                         _dont_care_       jt_NOT
+'~'                         _dont_care_       jt_NEGATE
+'++'                        _dont_care_       jt_INCREMENT
+'--'                        _dont_care_       jt_DECREMENT
+'('                         _dont_care_       jt_LBRACKET
+')'                         _dont_care_       jt_RBRACKET
+'['                         _dont_care_       jt_LSBRACKET
+']'                         _dont_care_       jt_RSBRACKET
+'.'                         _dont_care_       jt_DOT
+
+'\/*'                       _dont_care_       jt_COMMENT_STAR
+'\/\/'                      _dont_care_       jt_COMMENT_LINE
+
+%%handler
+jt_COMMENT_LINE         '[^\n]'?                    '\n'           _discard_
+jt_COMMENT_STAR         _all_chars_?                '*\/'          _use_
+
+%%tokens
+jt_STRING               __STD_C_STRING
+jt_STRING_CHAR          __STD_C_CHAR
+jt_IDENTIFIER           __STD_IDENTIFIER
+jt_NUMBER               __STD_NUMBER_OR_FP
+
+%%effects
+jt_DEFAULT              []                          _DEFAULT_FOREGROUND         _DEFAULT_BACKGROUND
+jt_IDENTIFIER           []                          _DEFAULT_FOREGROUND         _DEFAULT_BACKGROUND
+jt_STRING               [fsItalic]                  _DEFAULT_FOREGROUND         _DEFAULT_BACKGROUND
+jt_COMMENT              [fsItalic]                  clBlue                      _DEFAULT_BACKGROUND
+jt_RESERVED             [fsBold]                    _DEFAULT_FOREGROUND         _DEFAULT_BACKGROUND
+jt_NUMBER               []                          _DEFAULT_FOREGROUND         _DEFAULT_BACKGROUND
+jt_SYMBOL               []                          _DEFAULT_FOREGROUND         _DEFAULT_BACKGROUND
+
+%%map
+jt_RESERVED             jt_RESERVED
+jt_STRING               jt_STRING
+jt_COMMENT              jt_COMMENT
+jt_IDENTIFIER           jt_IDENTIFIER
+jt_COMMENT_LINE         jt_COMMENT
+jt_COMMENT_STAR         jt_COMMENT
+jt_STRING               jt_STRING
+jt_STRING_CHAR          jt_STRING
+jt_NUMBER               jt_NUMBER
+//
+//
+//
+jt_ABSTRACT             jt_RESERVED
+jt_BOOLEAN              jt_RESERVED
+jt_BREAK                jt_RESERVED
+jt_BYVALUE              jt_RESERVED
+jt_BYTE                 jt_RESERVED
+jt_CASE                 jt_RESERVED
+jt_CAST                 jt_RESERVED
+jt_CATCH                jt_RESERVED
+jt_CHAR                 jt_RESERVED
+jt_CLASS                jt_RESERVED
+jt_CONST                jt_RESERVED
+jt_CONTINUE             jt_RESERVED
+jt_DEFAULT              jt_RESERVED
+jt_DO                   jt_RESERVED
+jt_DOUBLE               jt_RESERVED
+jt_ELSE                 jt_RESERVED
+jt_EXTENDS              jt_RESERVED
+jt_FALSE                jt_RESERVED
+jt_FINAL                jt_RESERVED
+jt_FINALLY              jt_RESERVED
+jt_FLOAT                jt_RESERVED
+jt_FOR                  jt_RESERVED
+jt_FUNCTION             jt_RESERVED
+jt_GOTO                 jt_RESERVED
+jt_IF                   jt_RESERVED
+jt_IMPLEMENTS           jt_RESERVED
+jt_IMPORT               jt_RESERVED
+jt_IN                   jt_RESERVED
+jt_INSTANCEOF           jt_RESERVED
+jt_INT                  jt_RESERVED
+jt_INTERFACE            jt_RESERVED
+jt_LONG                 jt_RESERVED
+jt_NATIVE               jt_RESERVED
+jt_NEW                  jt_RESERVED
+jt_NULL                 jt_RESERVED
+jt_PACKAGE              jt_RESERVED
+jt_PRIVATE              jt_RESERVED
+jt_PROTECTED            jt_RESERVED
+jt_PUBLIC               jt_RESERVED
+jt_RETURN               jt_RESERVED
+jt_SHORT                jt_RESERVED
+jt_STATIC               jt_RESERVED
+jt_SUPER                jt_RESERVED
+jt_SWITCH               jt_RESERVED
+jt_SYCHRONIZ            jt_RESERVED
+jt_THIS                 jt_RESERVED
+jt_THROW                jt_RESERVED
+jt_THROWS               jt_RESERVED
+jt_TRANSIENT            jt_RESERVED
+jt_TRUE                 jt_RESERVED
+jt_TRY                  jt_RESERVED
+jt_VAR                  jt_RESERVED
+jt_VOID                 jt_RESERVED
+jt_WHILE                jt_RESERVED
+jt_CAST                 jt_RESERVED
+jt_FUTURE               jt_RESERVED
+jt_GENERIC              jt_RESERVED
+jt_INNER                jt_RESERVED
+jt_OPERATOR             jt_RESERVED
+jt_OUTER                jt_RESERVED
+jt_REST                 jt_RESERVED
+jt_VOLATILE             jt_RESERVED
+
+
+jt_COMMA                jt_SYMBOL
+jt_EQUALS               jt_SYMBOL
+jt_AUTOINC              jt_SYMBOL
+jt_AUTODEC              jt_SYMBOL
+jt_AUTOMULT             jt_SYMBOL
+jt_AUTODIV              jt_SYMBOL
+jt_AUTOMOD              jt_SYMBOL
+jt_AUTOSHL              jt_SYMBOL
+jt_AUTOSHR              jt_SYMBOL
+jt_AUTOSHR_SIGNED       jt_SYMBOL
+jt_AUTOAND              jt_SYMBOL
+jt_AUTOXOR              jt_SYMBOL
+jt_AUTOOR               jt_SYMBOL
+jt_CONDITIONAL          jt_SYMBOL
+jt_LOGOR                jt_SYMBOL
+jt_LORAND               jt_SYMBOL
+jt_BITOR                jt_SYMBOL
+jt_BITXOR               jt_SYMBOL
+jt_BITAND               jt_SYMBOL
+jt_EQUALTO              jt_SYMBOL
+jt_NOTEQUALTO           jt_SYMBOL
+jt_LESS                 jt_SYMBOL
+jt_LESSTHANEQ           jt_SYMBOL
+jt_GREATER              jt_SYMBOL
+jt_GREATERTHANEQ        jt_SYMBOL
+jt_SHL                  jt_SYMBOL
+jt_SHR                  jt_SYMBOL
+jt_SHR_SIGNED           jt_SYMBOL
+jt_PLUS                 jt_SYMBOL
+jt_MINUS                jt_SYMBOL
+jt_TIMES                jt_SYMBOL
+jt_DIV                  jt_SYMBOL
+jt_MOD                  jt_SYMBOL
+jt_NOT                  jt_SYMBOL
+jt_NEGATE               jt_SYMBOL
+jt_INCREMENT            jt_SYMBOL
+jt_DECREMENT            jt_SYMBOL
+jt_LBRACKET             jt_SYMBOL
+jt_RBRACKET             jt_SYMBOL
+jt_LSBRACKET            jt_SYMBOL
+jt_RSBRACKET            jt_SYMBOL
+jt_DOT                  jt_SYMBOL
+
+
+/*
+#ifdef ver200
+
+%%keys
+caLEFT                  ([] Left)                     'Cursor Left'
+caRIGHT                 ([] Right)                    'Cursor Right'
+caLINEHOME              ([] Home)                     'Line start'
+caLINEEND               ([] End)                      'Line end'
+caUP                    ([] Up)                       'Line up'
+caDOWN                  ([] Down)                     'Line down'
+caPAGEUP                ([] PgUp)                     'Page up'
+caPAGEDOWN              ([] PgDn)                     'Page down'
+caWORDLEFT              ([Ctrl] Left)                 'Word left'
+caWORDRIGHT             ([Ctrl] Right)                'Word right'
+caDOCSTART              ([Ctrl] Home)                 'Document start'
+caDOCEND                ([Ctrl] End)                  'Document end'
+caCUT                   ([Ctrl] 'X')                  'Cut to clipboard'
+caCOPY                  ([Ctrl] 'C')                  'Copy to clipboard'
+caPASTE                 ([Ctrl] 'V'     |
+                         [CTRL] INSERT)               'Paste from clipboard'
+caDELETE                ([] Delete)                   'Delete at cursor'
+caBACKSPACE             ([] Backspace)                'Delete before cursor'
+caBLOCKIND              ([Ctrl] 'K', 'I')             'Indent block'
+caBLOCKUND              ([Ctrl] 'K', 'U')             'Un-Indent block'
+caINSTOGGLE             ([] Insert)                   'Toggle insert / override mode'
+caSETBOOKMARK0          ([Ctrl] 'K', '0')             'Set bookmark 0'
+caSETBOOKMARK1          ([Ctrl] 'K', '1')             'Set bookmark 1'
+caSETBOOKMARK2          ([Ctrl] 'K', '2')             'Set bookmark 2'
+caSETBOOKMARK3          ([Ctrl] 'K', '3')             'Set bookmark 3'
+caSETBOOKMARK4          ([Ctrl] 'K', '4')             'Set bookmark 4'
+caSETBOOKMARK5          ([Ctrl] 'K', '5')             'Set bookmark 5'
+caSETBOOKMARK6          ([Ctrl] 'K', '6')             'Set bookmark 6'
+caSETBOOKMARK7          ([Ctrl] 'K', '7')             'Set bookmark 7'
+caSETBOOKMARK8          ([Ctrl] 'K', '8')             'Set bookmark 8'
+caSETBOOKMARK9          ([Ctrl] 'K', '9')             'Set bookmark 9'
+caGOTOBOOKMARK0         ([Ctrl] 'Q', '0')             'Goto bookmark 0'
+caGOTOBOOKMARK1         ([Ctrl] 'Q', '1')             'Goto bookmark 1'
+caGOTOBOOKMARK2         ([Ctrl] 'Q', '2')             'Goto bookmark 2'
+caGOTOBOOKMARK3         ([Ctrl] 'Q', '3')             'Goto bookmark 3'
+caGOTOBOOKMARK4         ([Ctrl] 'Q', '4')             'Goto bookmark 4'
+caGOTOBOOKMARK5         ([Ctrl] 'Q', '5')             'Goto bookmark 5'
+caGOTOBOOKMARK6         ([Ctrl] 'Q', '6')             'Goto bookmark 6'
+caGOTOBOOKMARK7         ([Ctrl] 'Q', '7')             'Goto bookmark 7'
+caGOTOBOOKMARK8         ([Ctrl] 'Q', '8')             'Goto bookmark 8'
+caGOTOBOOKMARK9         ([Ctrl] 'Q', '9')             'Goto bookmark 9'
+caUNDO                  ([Ctrl] 'Z')                  'Undo'
+caREDO                  ([Ctrl Shift] 'Z')            'Redo'
+
+#else
+caLEFT                  ([] Left)                     'Cursor Left'
+caRIGHT                 ([] Right)                    'Cursor Right'
+caLINEHOME              ([] Home)                     'Line start'
+caLINEEND               ([] End)                      'Line end'
+caUP                    ([] Up)                       'Line up'
+caDOWN                  ([] Down)                     'Line down'
+caPAGEUP                ([] PgUp)                     'Page up'
+caPAGEDOWN              ([] PgDn)                     'Page down'
+caWORDLEFT              ([Ctrl] Left)                 'Word left'
+caWORDRIGHT             ([Ctrl] Right)                'Word right'
+caDOCSTART              ([Ctrl] Home)                 'Document start'
+caDOCEND                ([Ctrl] End)                  'Document end'
+caCUT                   ([Ctrl] 'X')                  'Cut to clipboard'
+caCOPY                  ([Ctrl] 'C')                  'Copy to clipboard'
+caPASTE                 ([Ctrl] 'V')                  'Paste from clipboard'
+caDELETE                ([] Delete)                   'Delete at cursor'
+caBACKSPACE             ([] Backspace)                'Delete before cursor'
+caBLOCKIND              ([Ctrl] 'K', 'I')             'Indent block'
+caBLOCKUND              ([Ctrl] 'K', 'U')             'Un-Indent block'
+caINSTOGGLE             ([] Insert)                   'Toggle insert / override mode'
+caSETBOOKMARK0          ([Ctrl] 'K', '0')             'Set bookmark 0'
+caSETBOOKMARK1          ([Ctrl] 'K', '1')             'Set bookmark 1'
+caSETBOOKMARK2          ([Ctrl] 'K', '2')             'Set bookmark 2'
+caSETBOOKMARK3          ([Ctrl] 'K', '3')             'Set bookmark 3'
+caSETBOOKMARK4          ([Ctrl] 'K', '4')             'Set bookmark 4'
+caSETBOOKMARK5          ([Ctrl] 'K', '5')             'Set bookmark 5'
+caSETBOOKMARK6          ([Ctrl] 'K', '6')             'Set bookmark 6'
+caSETBOOKMARK7          ([Ctrl] 'K', '7')             'Set bookmark 7'
+caSETBOOKMARK8          ([Ctrl] 'K', '8')             'Set bookmark 8'
+caSETBOOKMARK9          ([Ctrl] 'K', '9')             'Set bookmark 9'
+caGOTOBOOKMARK0         ([Ctrl] 'Q', '0')             'Goto bookmark 0'
+caGOTOBOOKMARK1         ([Ctrl] 'Q', '1')             'Goto bookmark 1'
+caGOTOBOOKMARK2         ([Ctrl] 'Q', '2')             'Goto bookmark 2'
+caGOTOBOOKMARK3         ([Ctrl] 'Q', '3')             'Goto bookmark 3'
+caGOTOBOOKMARK4         ([Ctrl] 'Q', '4')             'Goto bookmark 4'
+caGOTOBOOKMARK5         ([Ctrl] 'Q', '5')             'Goto bookmark 5'
+caGOTOBOOKMARK6         ([Ctrl] 'Q', '6')             'Goto bookmark 6'
+caGOTOBOOKMARK7         ([Ctrl] 'Q', '7')             'Goto bookmark 7'
+caGOTOBOOKMARK8         ([Ctrl] 'Q', '8')             'Goto bookmark 8'
+caGOTOBOOKMARK9         ([Ctrl] 'Q', '9')             'Goto bookmark 9'
+caUNDO                  ([Ctrl] 'Z')                  'Undo'
+caREDO                  ([Ctrl Shift] 'Z')            'Redo'
+
+#endif
+*/

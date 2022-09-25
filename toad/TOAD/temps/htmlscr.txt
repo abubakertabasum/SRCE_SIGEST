@@ -1,0 +1,683 @@
+/* -------------------------------------------------------------------------------------------------
+ *  HTML Full Tag Parser
+ * ------------------------------------------------------------------------------------------------- */
+
+#define ht_DEFAULT                  0
+#define ht_NUMBER                   1
+#define ht_STRING                   2
+#define ht_IDENTIFIER               3
+#define ht_TAGNAME                  4
+#define ht_TAGSTART                 5
+#define	ht_TAGEND					6
+#define ht_ATTRIBUTE				7
+#define ht_TAG_SCRIPT		    	9
+#define ht_TAG_SCRIPT_START         10
+#define ht_TAG_SCRIPT_END           11
+#define ht_COMMENT                  12
+
+#define ht_COMMENT_END              14
+#define ht_WHITESPACE               15
+#define ht_PLAIN_ID               	16
+#define ht_SPECIAL                  17
+ 
+#define jt_RESERVED                 30
+#define jt_COMMENT                  31
+#define jt_WHITESPACE               32
+#define jt_STRING                   34
+#define jt_STRING_CHAR              35
+#define jt_IDENTIFIER               36
+#define jt_NUMBER                   37
+#define jt_SYMBOL                   38
+#define jt_BUILTINMETHOD            39
+#define jt_HEXNUMBER                40
+#define jt_COMMENT_STAR				42
+#define	jt_COMMENT_LINE				43
+
+#define ht_ANCHOR_TAG				50
+#define ht_ANCHOR_START				51
+#define ht_ANCHOR_END				52
+
+#define ht_TABLE_TAG				60
+#define ht_TABLE_START				61
+#define ht_TABLE_END				62
+
+#define ht_IMAGE_TAG				70
+#define ht_IMAGE_START				71
+#define ht_IMAGE_END				72
+
+#define ht_CFML_TAG					80
+#define ht_CFML_START				81
+#define ht_CFML_END					82
+
+#define ht_ASP_TAG					104
+#define ht_HEXNUMBER           		105
+#define ht_CFML_COMMENT				106
+
+#define ht_STYLE_TAG				120
+#define ht_STYLE_START				121
+#define ht_STYLE_END				122
+
+#define css_COMMENT					130
+#define css_SELECTOR				131
+#define css_PROPERTY				133
+#define css_VALUE					134
+#define css_OPENBRACKET				135
+#define css_CLOSEBRACKET			136
+#define css_COLON					137
+#define css_SEMICOLON				138
+#define css_PERIOD					140
+#define css_NUMBER					141
+#define css_STRING					142
+#define css_STRING2					143
+#define css_COMMENT_STAR			144
+#define css_HEXNUMBER				145
+
+// ht_PUNCTUATION = brackets in scripts and styles; semi-colons and colons in styles
+#define ht_PUNCTUATION				150
+#define ht_COMMENT_LINE				151
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * State definitions
+ *
+ */
+#define ss_START                    0
+#define ss_SCRIPT                   2
+#define ss_INTAG					3
+#define ss_INTABLE					4
+#define ss_INANCHOR					5
+#define ss_INIMAGE					6
+#define ss_INCFML					7
+#define ss_INSTYLE					10
+
+#define ss_IN_CSS_SELECTOR			50
+#define ss_IN_CSS_PROPERTY  		52
+#define ss_IN_CSS_VALUE				53
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Common script elements
+ *
+ */
+#define _non_alpha_                 '[^_A-Za-z0-9]'
+#define _all_chars_                 '[\x01-\xFF]'
+#define _no_chars_                  '[]'
+#define _dont_care_                 _all_chars_
+#define _DEFAULT_BACKGROUND         clWhite
+#define _DEFAULT_FOREGROUND         clBlack
+
+
+
+%%language
+   Name                      = 'HTML'
+   Case                      = __INSENSITIVE
+   StartState                = [ss_START]
+   Anchor                    = [ht_TAGSTART]
+   ContextStates             = (jt_BUILTINMETHOD, jt_SYMBOL, jt_RESERVED  [ss_SCRIPT])                               		   
+   ExampleText               = '<!-- Comment -->\n\
+			    				\<td><p><a href="link">Plain Text&nbsp;</a>\n\
+                                \<cfquery>\n\
+                                \<img src="image" width=15><%asp%>\n\
+	 		    				\<script="JavaScript">\n\
+			    				\   function DoIt {\n\
+			                	\      var worldString="Hello, world" }\n\
+                                \</script>\n\
+                                \<style> headline {font-size: 24pt;} </style>\n'
+                                
+   EditableStyles     
+                ('Default Text',				ht_DEFAULT),
+                ('HTML Tags',					ht_TAGNAME),
+				('HTML Attributes',				ht_ATTRIBUTE),
+                ('Comments',                    ht_COMMENT),
+                ('Strings',                     ht_STRING),
+                ('Numbers',                     ht_NUMBER),
+                ('Microsoft ASP Tags',          ht_ASP_TAG),
+                ('HTML Special Characters',     ht_SPECIAL),
+                ('HTML Anchor Tags',            ht_ANCHOR_TAG),
+                ('HTML Image Tags',             ht_IMAGE_TAG),
+                ('HTML Table Tags',             ht_TABLE_TAG),
+                ('Script Tags',                 ht_TAG_SCRIPT),
+                ('Allaire Cold Fusion Tags',    ht_CFML_TAG),
+                ('HTML Style Tags',             ht_STYLE_TAG), 
+				('Punctuation { } ; :', 		ht_PUNCTUATION),               
+                ('JavaScript Keywords',     	jt_RESERVED),
+                ('JavaScript Methods',      	jt_BUILTINMETHOD),
+                ('JavaScript Symbols',      	jt_SYMBOL),
+                ('JavaScript Strings',      	jt_STRING),
+                ('JavaScript Identifiers',  	jt_IDENTIFIER),
+                ('JavaScript Numbers',      	jt_NUMBER),
+                ('StyleSheet Selectors',        css_SELECTOR),
+                ('StyleSheet Properties',       css_PROPERTY),
+                ('StyleSheet Values',           css_VALUE)
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Fixed lexeme definitions
+ *
+ */
+//     Column 1          Quoted string giving the characters that make up the word
+//     Column 2          Quoted string that specifies how the word is terminated
+//     Column 3          Token value returned when word is recognised
+//     Column 4          Optional state set in which the word is recognised in any one or more of the given states
+//
+
+%%words
+'<'             _dont_care_             ht_TAGSTART				[ss_START]
+'</'            _dont_care_             ht_TAGSTART				[ss_START]
+'>'             _dont_care_             ht_TAGEND				[ss_INTAG]		
+//////////////////////////////////////////////////////////////////////////////////////
+'<!---'         _dont_care_             ht_CFML_COMMENT         [ss_START]
+'<!--'          _dont_care_             ht_COMMENT              [ss_START]
+'<!'            _dont_care_             ht_TAGSTART				[ss_START]
+'<%'            _dont_care_             ht_ASP_TAG				[ss_START]
+//////////////////////////////////////////////////////////////////////////////////////
+'<a'			_non_alpha_             ht_ANCHOR_START			[ss_START]
+'</a'			_non_alpha_             ht_ANCHOR_START			[ss_START]
+'>'				_dont_care_             ht_ANCHOR_END			[ss_INANCHOR]
+//////////////////////////////////////////////////////////////////////////////////////
+'<img'			_non_alpha_             ht_IMAGE_START			[ss_START]
+'>'				_dont_care_             ht_IMAGE_END			[ss_INIMAGE]
+//////////////////////////////////////////////////////////////////////////////////////
+'<cf'			_dont_care_             ht_CFML_START			[ss_START]
+'</cf'			_dont_care_             ht_CFML_START			[ss_START]
+'>'				_dont_care_             ht_CFML_END				[ss_INCFML]
+//////////////////////////////////////////////////////////////////////////////////////
+// TABLES
+//////////////////////////////////////////////////////////////////////////////////////
+'<table'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'<td'			_non_alpha_              ht_TABLE_START			[ss_START]
+'<th'			_non_alpha_              ht_TABLE_START			[ss_START]
+'<tr'			_non_alpha_              ht_TABLE_START			[ss_START]
+'<caption'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'<col'	     	_non_alpha_              ht_TABLE_START			[ss_START]
+'<colgroup'     _non_alpha_              ht_TABLE_START			[ss_START]
+'<tbody'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'<tfoot'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'<thead'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'</table'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'</td'			_non_alpha_              ht_TABLE_START			[ss_START]
+'</th'			_non_alpha_              ht_TABLE_START			[ss_START]
+'</tr'			_non_alpha_              ht_TABLE_START			[ss_START]
+'</caption'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'</col'	     	_non_alpha_              ht_TABLE_START			[ss_START]
+'</colgroup'    _non_alpha_              ht_TABLE_START			[ss_START]
+'</tbody'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'</tfoot'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'</thead'	    _non_alpha_              ht_TABLE_START			[ss_START]
+'>'				_dont_care_				 ht_TABLE_END			[ss_INTABLE]		
+//////////////////////////////////////////////////////////////////////////////////////
+// Styles
+//////////////////////////////////////////////////////////////////////////////////////
+'<style'		_non_alpha_         	ht_STYLE_START			[ss_START]
+'</style'		_non_alpha_         	ht_STYLE_END			[ss_INSTYLE]
+'<!--'       	_dont_care_          	css_COMMENT				[ss_INSTYLE]
+'-->'        	_dont_care_          	css_COMMENT				[ss_INSTYLE]
+'{'				_dont_care_				css_OPENBRACKET			[ss_INSTYLE]
+'}'				_dont_care_				css_CLOSEBRACKET		[ss_IN_CSS_PROPERTY ss_IN_CSS_VALUE]
+'.'				_dont_care_				css_PERIOD				[ss_IN_CSS_SELECTOR]
+':'				_dont_care_				css_COLON				[ss_IN_CSS_PROPERTY]
+';'				_dont_care_				css_SEMICOLON			[ss_IN_CSS_VALUE]
+'\/*'       	_dont_care_       		css_COMMENT_STAR		[ss_INSTYLE]	
+'#'				_dont_care_				css_HEXNUMBER			[ss_IN_CSS_PROPERTY ss_IN_CSS_VALUE]
+//////////////////////////////////////////////////////////////////////////////////////
+// Scripts
+//////////////////////////////////////////////////////////////////////////////////////
+'<script'       _non_alpha_              ht_TAG_SCRIPT_START 	[ss_START]
+'</script'      _dont_care_              ht_TAG_SCRIPT_END		[ss_SCRIPT]
+'<!--'          _dont_care_              ht_COMMENT_LINE        [ss_SCRIPT] 
+'-->'			_dont_care_              ht_COMMENT_END         [ss_SCRIPT]
+
+/*--------------------------------------------------------------------------------------------------------------------
+ * Fixed lexeme follow on handlers
+ */
+%%handler
+ht_COMMENT			_all_chars_?            '->'            _use_
+ht_CFML_COMMENT		_all_chars_?            '\-\-\-\>'      _use_
+ht_COMMENT_LINE     '[^\n]'?            	'\n'       		_discard_
+css_COMMENT_STAR    _all_chars_?            '*\/'   		_use_
+
+ht_ASP_TAG			_all_chars_?        	'\%\>'          _use_
+css_HEXNUMBER       '[0-9A-Fa-f]'           '[^0-9a-fA-F]' 	_discard_
+
+ht_TAG_SCRIPT_START	_all_chars_?        	'>'            	_use_
+ht_TAG_SCRIPT_END	_all_chars_?        	'>'            	_use_
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Variable character tokens
+ *
+ */
+//     Column 1          Token value
+//     Column 2          Single start character specifier
+//     Column 3          Single contains character specifier
+//     Column 4          End sequence specifier
+//     Column 5          Whether end sequence is part of lexeme
+//     Column 6          Valid states for token
+
+%%tokens
+ht_WHITESPACE           '[\x01-\s]'                 '[\x01-\s]'?       '[^\x01-\s]'     _discard_    [ss_START]
+ht_PLAIN_ID             __STD_IDENTIFIER                                                             
+ht_SPECIAL              '&'                         '[^;\n\s]'?        '[;\n\s]'        _discard_
+
+InState ss_INTAG
+(
+  ht_TAGNAME				__STD_IDENTIFIER	
+  ht_ATTRIBUTE             	__STD_HTML_STRING 	
+  ht_NUMBER             	__STD_NUMBER_OR_FP  
+)
+
+InState ss_INIMAGE
+(
+  ht_IMAGE_TAG				__STD_IDENTIFIER	
+  ht_ATTRIBUTE             	__STD_HTML_STRING 	
+  ht_NUMBER             	__STD_NUMBER_OR_FP  
+)
+
+InState ss_INTABLE
+(
+  ht_TABLE_TAG				__STD_IDENTIFIER	
+  ht_ATTRIBUTE             	__STD_HTML_STRING 	
+  ht_NUMBER             	__STD_NUMBER_OR_FP  
+)
+
+InState ss_INANCHOR
+(
+  ht_ANCHOR_TAG				__STD_IDENTIFIER	
+  ht_ATTRIBUTE             	__STD_HTML_STRING 	
+  ht_NUMBER             	__STD_NUMBER_OR_FP  
+)
+
+InState ss_INCFML
+(
+  ht_CFML_TAG				__STD_IDENTIFIER	
+  ht_ATTRIBUTE             	__STD_HTML_STRING 	
+  ht_NUMBER             	__STD_NUMBER_OR_FP  
+)
+
+InState ss_IN_CSS_SELECTOR
+ (
+   css_SELECTOR             __STD_IDENTIFIER  [ss_IN_CSS_SELECTOR]
+ )
+
+InState ss_IN_CSS_PROPERTY
+ (
+   css_PROPERTY             __STD_IDENTIFIER   [ss_IN_CSS_PROPERTY]
+ )
+
+InState ss_IN_CSS_VALUE
+ (
+   css_VALUE             	__STD_IDENTIFIER   	[ss_IN_CSS_VALUE]   
+   css_STRING               __STD_HTML_STRING	[ss_IN_CSS_VALUE]
+   css_STRING2              __STD_PASCALSTRING	[ss_IN_CSS_VALUE]
+   css_NUMBER               __STD_NUMBER_OR_FP	[ss_IN_CSS_VALUE]
+ )
+
+
+/********************************************************************************************************************\
+*                                                                                                                    *
+*                                 J A V A S C R I P T   SPECIFIC SCRIPT ITEMS                                        *
+*                                 ===========================================                                        *
+*                                                                                                                    *
+\********************************************************************************************************************/
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Fixed lexeme definitions
+ *
+ */
+%%words
+'abstract'                  _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'boolean'                   _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'break'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'byte'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'case'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'catch'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'char'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'class'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'const'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'continue'                  _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'default'                   _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'do'                        _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'double'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'else'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'extends'                   _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'false'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'final'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'finally'                   _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'float'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'for'                       _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'function'                  _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'goto'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'if'                        _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'implements'                _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'import'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'in'                        _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'instanceof'                _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'int'                       _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'interface'                 _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'long'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'native'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'new'                       _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'null'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'package'                   _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'private'                   _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'protected'                 _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'public'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'return'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'short'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'static'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'super'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'switch'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'synchroniz'                _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'this'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'throw'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'throws'                    _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'transient'                 _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'true'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'try'                       _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'var'                       _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'void'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'while'                     _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+'with'                      _non_alpha_       jt_RESERVED        [ss_SCRIPT]
+//
+//
+//
+'abs'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'acos'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'alert'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'anchor'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'asin'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'atan'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'back'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'big'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'blink'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'blur'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'bold'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'ceil'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'charAt'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'clear'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'clearTimeout'              _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'click'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'close'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'confirm'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'cos'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'escape'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'eval'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'exp'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'fixed'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'floor'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'focus'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'fontcolor'                 _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'fontsize'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'forward'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getDate'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getDay'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getHours'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getMinutes'                _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getMonth'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getSeconds'                _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getTime'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getTimezoneOffset'         _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'getYear'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'go'                        _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'indexOf'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'isNaN'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'italics'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'lastIndexOf'               _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'link'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'log'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'max'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'min'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'open'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'parse'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'parseFloat'                _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'parseInt'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'pow'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'prompt'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'random'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'round'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'select'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setDate'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setHours'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setMinutes'                _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setMonth'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setSeconds'                _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setTimeout'                _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setTime'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'setYear'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'sin'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'small'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'sqrt'                      _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'strike'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'sub'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'submit'                    _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'substring'                 _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'sup'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'tan'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'toGMTString'               _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'toLocaleString'            _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'toLowerCase'               _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'toUpperCase'               _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'unescape'                  _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'UTC'                       _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'write'                     _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+'writeln'                   _non_alpha_       jt_BUILTINMETHOD   [ss_SCRIPT]
+
+','                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'='                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'+='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'-='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'*='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'/='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'%='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'<<='                       _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'>>='                       _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'>>>='                      _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'&='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'^='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'|='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'?:'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'||'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'&&'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'|'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'^'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'&'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'=='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'!='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'<'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'<='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'>'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'>='                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'<<'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'>>'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'>>>'                       _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'+'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'-'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'*'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'/'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'%'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'!'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'~'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'++'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'--'                        _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'('                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+')'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'['                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+']'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+'.'                         _dont_care_       jt_SYMBOL          [ss_SCRIPT]
+
+'0'                         '[xX]'            jt_HEXNUMBER       [ss_SCRIPT]
+'\/\/'                      _dont_care_       jt_COMMENT_LINE    [ss_SCRIPT]
+'\/*'                      	_dont_care_       jt_COMMENT_STAR    [ss_SCRIPT]
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Fixed lexeme follow on handlers
+ *
+ */
+%%handler
+jt_COMMENT_STAR		_all_chars_?        '*\/'   			_use_
+jt_COMMENT_LINE		__STD_JS_LINE_COMMENT
+jt_HEXNUMBER        '[xX0-9A-Fa-f]'     '[^0-9a-fA-F]'      _discard_
+ht_HEXNUMBER        '[0-9A-Fa-f]'  		'[^0-9a-fA-F]' 	 	_discard_
+
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Variable character tokens
+ *
+ */
+%%tokens
+
+InState ss_SCRIPT
+ (
+   jt_IDENTIFIER           __STD_IDENTIFIER
+   jt_STRING               __STD_C_STRING
+   jt_NUMBER               __STD_NUMBER_OR_FP
+   jt_WHITESPACE           '[\x01-\s]'	'[\x01-\s]'?  '[^\x01-\s]'  	_discard_
+   ht_PUNCTUATION          '[\{\}:]'   	'[\x01]'?      _all_chars_		_discard_
+ )
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * Display effects specification
+ *
+ */
+%%effects
+ht_DEFAULT              []                      _DEFAULT_FOREGROUND     _DEFAULT_BACKGROUND
+ht_TAGNAME              []                    	clNavy                  _DEFAULT_BACKGROUND*
+ht_COMMENT              [fsItalic]              clGray					_DEFAULT_BACKGROUND*
+ht_ATTRIBUTE			[]                 		clBlue					_DEFAULT_BACKGROUND*
+ht_STRING               []                 		clBlue					_DEFAULT_BACKGROUND*
+ht_NUMBER               []                      clBlue              	_DEFAULT_BACKGROUND*
+ht_SPECIAL              [fsItalic, fsBold]      _DEFAULT_FOREGROUND*    _DEFAULT_BACKGROUND*
+ht_ASP_TAG				[]						_DEFAULT_FOREGROUND*     clYellow
+ht_ANCHOR_TAG			[]        				clGreen					_DEFAULT_BACKGROUND*
+ht_IMAGE_TAG			[]        				clPurple				_DEFAULT_BACKGROUND*
+ht_TABLE_TAG			[]						clTeal					_DEFAULT_BACKGROUND*
+ht_CFML_TAG				[]       				clMaroon				_DEFAULT_BACKGROUND*
+ht_TAG_SCRIPT			[]   					clMaroon				_DEFAULT_BACKGROUND*
+ht_STYLE_TAG			[]						clPurple				_DEFAULT_BACKGROUND*
+ht_PUNCTUATION			[fsBold]               	clNavy                  _DEFAULT_BACKGROUND*
+jt_RESERVED             [fsBold]                clNavy					_DEFAULT_BACKGROUND*
+jt_BUILTINMETHOD        [fsBold]                _DEFAULT_FOREGROUND*    _DEFAULT_BACKGROUND*
+jt_SYMBOL               []                      clBlue                  _DEFAULT_BACKGROUND*
+jt_STRING               [fsItalic]              _DEFAULT_FOREGROUND*    _DEFAULT_BACKGROUND*
+jt_IDENTIFIER           []           			_DEFAULT_FOREGROUND*    _DEFAULT_BACKGROUND*
+jt_NUMBER               []                      clFuchsia               _DEFAULT_BACKGROUND*
+css_SELECTOR			[]                      clFuchsia               _DEFAULT_BACKGROUND*
+css_PROPERTY			[]		 				clNavy					_DEFAULT_BACKGROUND*
+css_VALUE				[]  	 				clRed					_DEFAULT_BACKGROUND*
+/*--------------------------------------------------------------------------------------------------------------------
+ *
+ * State switching definitions
+ *
+ */
+%%states
+ht_TAG_SCRIPT_START         (+[ss_SCRIPT]                			    -[ss_START ss_INTAG])
+ht_TAG_SCRIPT_END           (+[ss_START]                     		 	-[ss_SCRIPT])
+ht_COMMENT_END              (+[ss_START]                               	-[ss_SCRIPT])
+
+ht_TAGSTART					(+[ss_INTAG])
+ht_TAGEND					(-[ss_INTAG])
+
+ht_TABLE_START				(+[ss_INTABLE])
+ht_TABLE_END				(-[ss_INTABLE])
+
+ht_ANCHOR_START				(+[ss_INANCHOR])
+ht_ANCHOR_END				(-[ss_INANCHOR])
+
+ht_IMAGE_START				(+[ss_INIMAGE])
+ht_IMAGE_END				(-[ss_INIMAGE])
+
+ht_CFML_START				(+[ss_INCFML])
+ht_CFML_END					(-[ss_INCFML])
+
+ht_STYLE_START				(+[ss_INSTYLE ss_IN_CSS_SELECTOR]			-[ss_SCRIPT ss_START])
+ht_STYLE_END				(+[ss_START]                               	-[ss_INSTYLE ss_IN_CSS_SELECTOR ss_IN_CSS_VALUE ss_IN_CSS_PROPERTY])
+
+css_OPENBRACKET				(+[ss_IN_CSS_PROPERTY] 						-[ss_IN_CSS_VALUE ss_IN_CSS_SELECTOR])
+css_CLOSEBRACKET			(+[ss_IN_CSS_SELECTOR] 						-[ss_IN_CSS_PROPERTY ss_IN_CSS_VALUE])
+css_COLON					(+[ss_IN_CSS_VALUE]    						-[ss_IN_CSS_PROPERTY ss_IN_CSS_SELECTOR])
+css_SEMICOLON				(+[ss_IN_CSS_PROPERTY] 						-[ss_IN_CSS_VALUE ss_IN_CSS_SELECTOR])
+
+%%map
+ht_DEFAULT                    	ht_DEFAULT
+
+ht_TAGNAME                    	ht_TAGNAME
+ht_TAGSTART                   	ht_TAGNAME
+ht_TAGEND						ht_TAGNAME
+ht_ATTRIBUTE					ht_ATTRIBUTE
+
+ht_COMMENT                    	ht_COMMENT
+ht_CFML_COMMENT					ht_COMMENT
+ht_STRING                     	ht_STRING
+ht_IDENTIFIER                 	ht_TAGNAME
+ht_NUMBER                     	ht_NUMBER
+ht_SPECIAL                    	ht_SPECIAL
+ht_TAG_SCRIPT					ht_TAG_SCRIPT
+ht_TAG_SCRIPT_END        		ht_TAG_SCRIPT
+ht_TAG_SCRIPT_START    			ht_TAG_SCRIPT
+ht_COMMENT_END            		ht_COMMENT
+ht_PLAIN_ID                   	ht_DEFAULT
+ht_ASP_TAG						ht_ASP_TAG
+ht_HEXNUMBER					ht_NUMBER
+ht_WHITESPACE					ht_DEFAULT	
+
+ht_CFML_TAG						ht_CFML_TAG
+ht_CFML_START					ht_CFML_TAG
+ht_CFML_END						ht_CFML_TAG
+
+ht_IMAGE_TAG					ht_IMAGE_TAG
+ht_IMAGE_START					ht_IMAGE_TAG
+ht_IMAGE_END					ht_IMAGE_TAG
+
+ht_ANCHOR_TAG               	ht_ANCHOR_TAG
+ht_ANCHOR_START					ht_ANCHOR_TAG
+ht_ANCHOR_END               	ht_ANCHOR_TAG
+
+ht_TABLE_TAG					ht_TABLE_TAG
+ht_TABLE_START					ht_TABLE_TAG
+ht_TABLE_END					ht_TABLE_TAG
+		
+ht_STYLE_TAG					ht_STYLE_TAG
+ht_STYLE_START					ht_STYLE_TAG
+ht_STYLE_END					ht_STYLE_TAG
+ht_COMMENT_LINE					ht_COMMENT
+ht_PUNCTUATION					ht_PUNCTUATION
+	
+jt_RESERVED                   	jt_RESERVED
+jt_STRING                    	jt_STRING
+jt_COMMENT                    	ht_COMMENT
+jt_IDENTIFIER                 	jt_IDENTIFIER
+jt_COMMENT_STAR					ht_COMMENT
+jt_COMMENT_LINE					ht_COMMENT
+jt_STRING                     	jt_STRING
+jt_STRING_CHAR                	jt_STRING
+jt_BUILTINMETHOD             	jt_BUILTINMETHOD
+jt_HEXNUMBER                  	jt_NUMBER
+jt_NUMBER                     	jt_NUMBER
+jt_IDENTIFIER                 	jt_IDENTIFIER
+jt_WHITESPACE                 	ht_DEFAULT
+jt_SYMBOL                     	jt_SYMBOL
+
+css_SELECTOR					css_SELECTOR
+css_PROPERTY					css_PROPERTY
+css_VALUE						css_VALUE
+css_NUMBER						ht_NUMBER
+css_HEXNUMBER					ht_NUMBER
+css_STRING						ht_STRING
+css_STRING2						ht_STRING
+css_OPENBRACKET	    			ht_PUNCTUATION
+css_CLOSEBRACKET				ht_PUNCTUATION
+css_PERIOD						ht_PUNCTUATION
+css_COLON						ht_PUNCTUATION
+css_SEMICOLON					ht_PUNCTUATION
+css_COMMENT_STAR				ht_COMMENT
+css_COMMENT						ht_COMMENT

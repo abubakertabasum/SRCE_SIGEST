@@ -1,0 +1,45 @@
+/*
+* TSyntaxMemoParser Script
+* ------------------------
+*
+* Author  :          David Brock
+* Date    :          April 2 1999
+* Language:          Plain text
+* ------------------------------------
+*/
+
+
+#define pt_DEFAULT                  0
+#define pt_PLAINTEXT                1
+#define pt_NEWLINE                  2
+
+#define _all_chars_                 '[\x00-\xFF]'
+#define _dont_care_                 _all_chars_
+#define _DEFAULT_BACKGROUND         clWhite
+#define _DEFAULT_FOREGROUND         clBlack
+
+
+%%language
+Name                      = 'INI'
+ExampleText               = 'Ini Files\n'
+Anchor                    = pt_PLAINTEXT
+EditableStyles              ('Default',          pt_DEFAULT)
+Case                      = __INSENSITIVE
+Options                   = __DEFAULT_OPTIONS
+Gutter                    = _DEFAULT_GUTTER
+Anchor                    = _DEFAULT_START_ANCHOR
+IndentStep                = 1
+FontName                  = 'Courier New'
+FontSize                  = 10
+
+%%tokens
+pt_PLAINTEXT    '[\x00-\x0C\x0E-\xFE]'     '[^\n]'?        '\n'           _discard_
+pt_NEWLINE      '\n'                       '[\n]'?         '[^\n]'        _discard_
+
+%%effects
+pt_DEFAULT              []       _DEFAULT_FOREGROUND        _DEFAULT_BACKGROUND
+
+%%map
+pt_PLAINTEXT    pt_DEFAULT
+pt_NEWLINE      pt_DEFAULT
+

@@ -1,0 +1,79 @@
+*CHR(n)
+Returns the character having the binary equivalent to N in the database character set.
+*CONCAT(char1, char2)
+Returns Char1 concatenated with Char2.
+*INITCAP(char)
+Returns Char, with the first letter of each word in uppercase, all other letters in lowercase.
+
+Words are delimited by white space or characters that are not alphanumeric.
+*LOWER(char)
+Returns Char, with all letters lowercase.
+*LPAD(char1, n [,char2])
+Returns Char1, left-padded to length N with the sequence of characters in Char2.
+
+Char2 defaults to a single blank.
+*LTRIM(char [,set])
+Removes characters from the left of Char, with all the leftmost characters that appear in Set removed.
+
+Set defaults to a single blank.
+
+Oracle begins scanning Char from its first character and removes all characters that appear in Set until reaching a character not in set and then returns the result.
+*NLS_INITCAP(char [, 'nlsparams'])
+Returns Char, with the first letter of each word in uppercase, and all other letters in lowercase.
+
+Words are delimited by white space or characters that are not alphanumeric.
+
+The value of NLSPARAMS can have this form: 'NLS_SORT = sort' where sort is either a linguistic sort sequence or BINARY.
+*NLS_LOWER(char [, 'nlsparams'])
+Returns Char, with all letters lowercase.
+
+The 'nlsparams' can have the same form and serve the same purpose as in the NLS_INITCAP function.
+*NLS_UPPER(char [, 'nlsparams'])
+Returns Char, with all letters uppercase.
+
+The 'nlsparams' can have the same form and serve the same purpose as in the NLS_INITCAP function.
+*REPLACE(char, search_string [,replacement_string])
+Returns Char with every occurrence of search_string replaced with replacement_string.
+*RPAD(char1, n [,char2])
+Returns Char1, right-padded to length N with Char2, replicated as many times as necessary.  Char2 defaults to a single blank.
+*RTRIM(char [,set])
+Returns char, with all the rightmost characters that appear in Set removed.
+
+Set defaults to a single blank.
+*SOUNDEX(char)
+Returns a character string containing the phonetic representation of Char.
+
+This function allows you to compare words that are spelled differently, but sound alike in English.
+*SUBSTR(char, m [, n])
+Returns a portion of Char, beginning at character M, N characters long.
+
+If M is positive, Oracle counts from the beginning of Char to find the first character.
+if M is negative, Oracle counts backwards from the end of Char.
+If N is omitted, Oracle returns all characters to the end of Char.
+*SUBSTRB(char, m [, n])
+The same as SUBSTR, except that the arguments M and N are expressed in bytes, rather than in characters.
+*TRANSLATE(char, from, to)
+Returns Char with all occurrences of each character in From replaced by its corresponding character in To.
+
+Characters in Char that are not in From are not replaced.
+
+E.g., Translate (colName, 'i', 'a') replaces all 'i's with 'a's
+*UPPER(char)
+Returns Char, with all letters uppercase.
+*ASCII(char)
+Returns the decimal representation in the database character set of the first byte of Char.
+*INSTR(char1, char2 [,n [,m]])
+Searches Char1 beginning with its Nth character for the Mth occurrence of Char2 and returns the position of the character in Char1 that is the first character of this occurrence.
+
+If N is negative, Oracle counts and searches backward from the end of Char1.  N and M default to 1.
+*INSTRB(char1, char2 [,n [,m]])
+The same as INSTR, except that N and the return value are expressed in bytes, rather than in characters.
+*LENGTH(char)
+Returns the length of Char in characters.
+
+If Char has datatype CHAR, then length includes all trailing blanks.
+*LENGTHB(char)
+Returns the length of Char in bytes.
+*NLSSORT(char [, 'nlsparams'])
+Returns the string of bytes used to sort Char.
+

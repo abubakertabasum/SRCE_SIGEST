@@ -1,0 +1,47 @@
+*TRUNC(date1 [,fmt])
+Date1 is truncated as specified by fmt.
+*TRUNC(number1 [,fmt])
+Number1 is truncated to the number of decimal places specified by fmt.
+*TO_CHAR(date1 [,fmt])
+Date1 is converted to char type in the format specified by fmt.
+*TO_CHAR(sysdate)
+Returns '27-FEB-97'
+*TO_CHAR(sysdate, 'MM/DD/YY')
+Returns '02/27/97'
+*TO_CHAR(sysdate, 'J')
+Returns the Julian date '2450507'
+*TO_CHAR(sysdate,'Mon')
+Returns the short Month name 'Feb'
+*TO_CHAR(sysdate, 'Month')
+Returns the long Month name 'February'
+*TO_CHAR(sysdate, 'DDD')
+Returns the 3 digit day of the year 058
+*TO_CHAR(number1 [,fmt])
+Number1 is converted by the format specified by fmt.
+*TO_CHAR(123.456, '09999')
+Number1 is returned as '00123'
+*TO_CHAR(123.456, '09999.9')
+Number1 is returned as '00123.5'
+*TO_CHAR(123456, 'FM999,999,999')
+Number1 is returned as '123,456'
+*TO_NUMBER(char [,fmt [, 'nlsparams']])
+Converts Char, a value of CHAR or VARCHAR2 datatype containing a number in the format specified by the optional format model fmt, to a value of NUMBER datatype.
+*CHARTOROWID(char)
+Converts a CHAR value to ROWID datatype.
+
+Used to reverse a rowid that was converted to CHAR via ROWIDTOCHAR function.
+*ROWIDTOCHAR(rowid)
+Converts a ROWID value to VARCHAR2 datatype.
+*TO_DATE(char [,fmt])
+Converts a Char date to an Oracle Date data type.
+
+See TO_CHAR for samples of fmt.
+*HEXTORAW(char)
+Converts Char containing hexadecimal digits to a raw value.
+*RAWTOHEX(raw)
+Converts Raw to a character value containing its hexadecimal equivalent.
+*CONVERT(char1, dest_char_set [,source_char_set)
+Returns Char1 converted to dest_char_set.  Source_char_set defaults to the current char set.
+
+E.g.:  Convert('sample', 'US7ASCII', 'WE8DEC')
+

@@ -1,0 +1,43 @@
+*ADD_MONTHS(d,n)
+Returns the date D plus N months.  N can be any integer.
+*LAST_DAY(d)
+Returns the date of the last day of the month that contains D.
+*MONTHS_BETWEEN(d1, d2)
+Returns the number of months between dates d1 and d2.
+
+If d1 is later than d2, result is positive; if earlier, than negative.
+*NEW_TIME(d, z1, z2)
+Returns the date and time in time zone z2 when date and time in time zone z1 are d.
+*NEXT_DAY(d, char)
+Returns the date of the first weekday named by Char that is later than the date d.
+
+E.g., next_day ('15-MAR-92', 'Tuesday') returns 17-MAR-92
+*SYSDATE
+Returns the current system date and time of the database server.
+*ROUND(d [,fmt])
+Returns d rounded to the unit specified by the format model fmt.
+
+If you omit fmt, d is rounded to the nearest day.
+
+If fmt is 'YYYY' the year of the date is rounded Up/Down as determined by the day of the year.
+
+If fmt is 'MM' the month is rounded Up/Down determined by the day of the month.
+*TRUNC(d [,fmt])
+Returns D with the time portion of the day truncated to the unit specified by the format model fmt.
+
+If you omit fmt, d is truncated to the nearest day.
+*TO_CHAR(date1 [,fmt])
+Date1 is converted to CHAR data type in the format specified by fmt.
+*TO_CHAR(sysdate)
+Given a current date of 2/25/97, returns '27-FEB-97'
+*TO_CHAR(sysdate, 'MM/DD/YY')
+Given a current date of 2/25/97, returns '02/27/97'
+*TO_CHAR(sysdate, 'J')
+Given a current date of 2/25/97, returns the Julian date '2450507'
+*TO_CHAR(sysdate,'Mon')
+Given a current date of 2/25/97, returns the short Month name 'Feb'
+*TO_CHAR(sysdate, 'Month')
+Given a current date of 2/25/97, returns the long Month name 'February'
+*TO_CHAR(sysdate, 'DDD')
+Given a current date of 2/25/97, returns the 3 digit day of the year 058
+

@@ -1,0 +1,5 @@
+(c) = ©
+(r) = ®
+(tm) = ™
+ndf = NO_DATA_FOUND
+teh = the

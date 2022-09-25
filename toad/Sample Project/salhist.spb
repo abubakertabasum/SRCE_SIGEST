@@ -1,0 +1,899 @@
+
+create or replace package body salhist
+is
+  --// Package name and program name globals --//
+  c_pkgname varchar2(30) := 'salhist';
+  g_progname varchar2(30) := null;
+
+  --// Update Flag private data structures. --//
+  type frcflg_rt is record(
+  
+  salary                        char(1),
+  comments                      char(1),
+  created_by                    char(1),
+  created_on                    char(1),
+  changed_by                    char(1),
+  changed_on                    char(1));
+
+  frcflg frcflg_rt;
+  emptyfrc frcflg_rt;
+  c_set char(1) := 'Y';
+  c_noset char(1) := 'N';
+
+  --// Private Modules //--
+
+  --// For Dynamic SQL operations; currently unused. //--
+  procedure initcur(
+  cur_inout in out integer
+  )
+  is
+  begin
+  if not dbms_sql.is_open(cur_inout
+     ) then
+  cur_inout := dbms_sql.open_cursor;
+  end if;
+  exception
+  when invalid_cursor then
+  cur_inout := dbms_sql.open_cursor;
+  end;
+
+  procedure start_program(
+  nm in varchar2,
+  msg in varchar2 := null
+  )
+  is
+  begin
+  g_progname := nm;
+  end;
+
+  procedure end_program
+  is
+  begin
+  g_progname := null;
+  end;
+
+  --// Cursor management procedures //--
+
+  --// Open the cursors with some options. //--
+  procedure open_allforpky_cur(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type,
+  close_if_open in boolean := true
+  )
+  is
+    v_close boolean := nvl(close_if_open,
+                       true
+                       );
+    v_open boolean := true;
+  begin
+  start_program('open_allforpky_cur'
+  );
+
+  if     allforpky_cur%isopen
+     and v_close then
+  close allforpky_cur;
+  elsif     allforpky_cur%isopen
+        and not v_close then
+  v_open := false;
+  end if;
+
+  if v_open then
+  open allforpky_cur(employee_id_in,
+  raise_dain
+  );
+  end if;
+
+  end_program;
+  end;
+
+  procedure open_allbypky_cur(
+  close_if_open in boolean := true
+  )
+  is
+    v_close boolean := nvl(close_if_open,
+                       true
+                       );
+    v_open boolean := true;
+  begin
+  if     allbypky_cur%isopen
+     and v_close then
+  close allbypky_cur;
+  elsif     allbypky_cur%isopen
+        and not v_close then
+  v_open := false;
+  end if;
+
+  if v_open then
+  open allbypky_cur;
+  end if;
+  end;
+
+  procedure open_salhist_emp_lookup_all_cu(
+  employee_id_in in salhist.employee_id%type,
+  close_if_open in boolean := true
+  )
+  is
+    v_close boolean := nvl(close_if_open,
+                       true
+                       );
+    v_open boolean := true;
+  begin
+  if     salhist_emp_lookup_all_cur%isopen
+     and v_close then
+  close salhist_emp_lookup_all_cur;
+  elsif     salhist_emp_lookup_all_cur%isopen
+        and not v_close then
+  v_open := false;
+  end if;
+
+  if v_open then
+  open salhist_emp_lookup_all_cur(employee_id_in
+  );
+  end if;
+  end;
+
+  --// Close the cursors if they are open. //--
+  procedure close_allforpky_cur
+  is
+  begin
+  if allforpky_cur%isopen then
+  close allforpky_cur;
+  end if;
+  end;
+
+  procedure close_allbypky_cur
+  is
+  begin
+  if allbypky_cur%isopen then
+  close allbypky_cur;
+  end if;
+  end;
+
+  procedure close_salhist_emp_lookup_all_c
+  is
+  begin
+  if salhist_emp_lookup_all_cur%isopen then
+  close salhist_emp_lookup_all_cur;
+  end if;
+  end;
+
+  procedure closeall
+  is
+  begin
+  close_allforpky_cur;
+  close_allbypky_cur;
+  close_salhist_emp_lookup_all_c;
+  end;
+
+  --// Emulate aggregate-level record operations. //--
+
+  function recseq(
+  rec1 in salhist%rowtype,
+  rec2 in salhist%rowtype
+  )
+  return boolean
+  is
+    unequal_records exception;
+    retval boolean;
+  begin
+  retval :=
+     rec1.employee_id = rec2.employee_id
+  or (    rec1.employee_id is null
+      and rec2.employee_id is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.raise_date = rec2.raise_date
+  or (    rec1.raise_date is null
+      and rec2.raise_date is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+        rec1.salary = rec2.salary
+     or (    rec1.salary is null
+         and rec2.salary is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.comments = rec2.comments
+  or (    rec1.comments is null
+      and rec2.comments is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.created_by = rec2.created_by
+  or (    rec1.created_by is null
+      and rec2.created_by is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.created_on = rec2.created_on
+  or (    rec1.created_on is null
+      and rec2.created_on is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.changed_by = rec2.changed_by
+  or (    rec1.changed_by is null
+      and rec2.changed_by is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.changed_on = rec2.changed_on
+  or (    rec1.changed_on is null
+      and rec2.changed_on is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  return true;
+  exception
+  when unequal_records then
+  return false;
+  end;
+
+  function recseq(
+  rec1 in pky_rt,
+  rec2 in pky_rt
+  )
+  return boolean
+  is
+    unequal_records exception;
+    retval boolean;
+  begin
+  retval :=
+     rec1.employee_id = rec2.employee_id
+  or (    rec1.employee_id is null
+      and rec2.employee_id is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  retval :=
+     rec1.raise_date = rec2.raise_date
+  or (    rec1.raise_date is null
+      and rec2.raise_date is null);
+  if not nvl(retval,
+     false
+     ) then
+  raise unequal_records;
+  end if;
+  return true;
+  exception
+  when unequal_records then
+  return false;
+  end;
+
+  --// Is the primary key NOT NULL? //--
+
+  function isnullpky(
+  rec_in in salhist%rowtype
+  )
+  return boolean
+  is
+  begin
+  return    rec_in.employee_id is null
+         or rec_in.raise_date is null;
+  end;
+
+  function isnullpky(
+  rec_in in pky_rt
+  )
+  return boolean
+  is
+  begin
+  return    rec_in.employee_id is null
+         or rec_in.raise_date is null;
+  end;
+
+  --// Query Processing --//
+
+  function onerow_internal(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type
+  )
+  return salhist%rowtype
+  is
+    cursor onerow_cur
+    is
+    select   employee_id, raise_date, salary, comments, created_by,
+             created_on,
+             changed_by, changed_on
+    from     salhist
+    where    employee_id = employee_id_in
+    and      raise_date = raise_dain;
+    onerow_rec salhist%rowtype;
+  begin
+  open onerow_cur;
+  fetch onerow_cur into onerow_rec;
+  close onerow_cur;
+  return onerow_rec;
+  end onerow_internal;
+
+  function onerow(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type
+  )
+  return salhist%rowtype
+  is
+    retval salhist%rowtype;
+  begin
+  retval := onerow_internal(employee_id_in,
+            raise_dain
+            );
+  return retval;
+  end onerow;
+
+  --// Count of all rows in table and for each foreign key. //--
+  function rowcount
+  return integer
+  is
+    retval integer;
+  begin
+  select   count(*)
+  into    retval
+  from     salhist;
+  return retval;
+  end;
+
+  function pkyrowcount(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type
+  )
+  return integer
+  is
+    retval integer;
+  begin
+  select   count(*)
+  into    retval
+  from     salhist
+  where    employee_id = employee_id_in
+  and      raise_date = raise_dain;
+  return retval;
+  end;
+
+  function salhist_emp_lookuprowcount(
+  employee_id_in in salhist.employee_id%type
+  )
+  return integer
+  is
+    retval integer;
+  begin
+  select   count(*)
+  into    retval
+  from     salhist
+  where    employee_id = salhist_emp_lookuprowcount.employee_id_in;
+  return retval;
+  end;
+
+  --// Check Constraint Validation --//
+
+  --// Check Constraint: salary > 0 --//
+  function sal_positive$chk(
+  salary_in in salhist.salary%type
+  )
+  return boolean
+  is
+  begin
+  return (salary_in > 0);
+  end sal_positive$chk;
+
+  --// Check Constraint: CREATED_BY IS NOT NULL --//
+  function notnull_created_by$chk(
+  created_by_in in salhist.created_by%type
+  )
+  return boolean
+  is
+  begin
+  return (created_by_in is not null);
+  end notnull_created_by$chk;
+
+  --// Check Constraint: CREATED_ON IS NOT NULL --//
+  function notnull_created_on$chk(
+  created_on_in in salhist.created_on%type
+  )
+  return boolean
+  is
+  begin
+  return (created_on_in is not null);
+  end notnull_created_on$chk;
+
+  --// Check Constraint: CHANGED_BY IS NOT NULL --//
+  function notnull_changed_by$chk(
+  changed_by_in in salhist.changed_by%type
+  )
+  return boolean
+  is
+  begin
+  return (changed_by_in is not null);
+  end notnull_changed_by$chk;
+
+  --// Check Constraint: CHANGED_ON IS NOT NULL --//
+  function notnull_changed_on$chk(
+  changed_on_in in salhist.changed_on%type
+  )
+  return boolean
+  is
+  begin
+  return (changed_on_in is not null);
+  end notnull_changed_on$chk;
+
+  procedure validate(
+  salary_in in salhist.salary%type,
+  created_by_in in salhist.created_by%type,
+  created_on_in in salhist.created_on%type,
+  changed_by_in in salhist.changed_by%type,
+  changed_on_in in salhist.changed_on%type,
+  record_error in boolean := true
+  )
+  is
+  begin
+  if not sal_positive$chk(salary_in
+     ) then
+  --//** General mechanism! //--
+  raise_application_error(-20000,
+  'ora-2290: check constraint (sal_positive) failed!'
+  );
+  end if;
+  if not notnull_created_by$chk(created_by_in
+     ) then
+  raise_application_error(-20000,
+  'value of created_by cannot be null.'
+  );
+  end if;
+  if not notnull_created_on$chk(created_on_in
+     ) then
+  raise_application_error(-20000,
+  'value of created_on cannot be null.'
+  );
+  end if;
+  if not notnull_changed_by$chk(changed_by_in
+     ) then
+  raise_application_error(-20000,
+  'value of changed_by cannot be null.'
+  );
+  end if;
+  if not notnull_changed_on$chk(changed_on_in
+     ) then
+  raise_application_error(-20000,
+  'value of changed_on cannot be null.'
+  );
+  end if;
+  exception
+  when others then
+  if record_error then
+  raise;
+  end if;
+  raise;
+  end validate;
+
+  procedure validate(
+  rec_in in salhist%rowtype,
+  record_error in boolean := true
+  )
+  is
+  begin
+  validate(rec_in.salary,
+  rec_in.created_by,
+  rec_in.created_on,
+  rec_in.changed_by,
+  rec_in.changed_on,
+  record_error
+  );
+  end validate;
+  --// Update Processing --//
+
+  procedure reset$frc
+  is
+  begin
+  frcflg := emptyfrc;
+  end reset$frc;
+
+  function salary$frc(
+  salary_in in salhist.salary%type default null
+  )
+  return salhist.salary%type
+  is
+  begin
+  frcflg.salary := c_set;
+  return salary_in;
+  end salary$frc;
+
+  function comments$frc(
+  comments_in in salhist.comments%type default null
+  )
+  return salhist.comments%type
+  is
+  begin
+  frcflg.comments := c_set;
+  return comments_in;
+  end comments$frc;
+
+  function created_by$frc(
+  created_by_in in salhist.created_by%type default null
+  )
+  return salhist.created_by%type
+  is
+  begin
+  frcflg.created_by := c_set;
+  return created_by_in;
+  end created_by$frc;
+
+  function created_on$frc(
+  created_on_in in salhist.created_on%type default null
+  )
+  return salhist.created_on%type
+  is
+  begin
+  frcflg.created_on := c_set;
+  return created_on_in;
+  end created_on$frc;
+
+  function changed_by$frc(
+  changed_by_in in salhist.changed_by%type default null
+  )
+  return salhist.changed_by%type
+  is
+  begin
+  frcflg.changed_by := c_set;
+  return changed_by_in;
+  end changed_by$frc;
+
+  function changed_on$frc(
+  changed_on_in in salhist.changed_on%type default null
+  )
+  return salhist.changed_on%type
+  is
+  begin
+  frcflg.changed_on := c_set;
+  return changed_on_in;
+  end changed_on$frc;
+
+  procedure upd(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type,
+  salary_in in salhist.salary%type default null,
+  comments_in in salhist.comments%type default null,
+  created_by_in in salhist.created_by%type default null,
+  created_on_in in salhist.created_on%type default null,
+  changed_by_in in salhist.changed_by%type default null,
+  changed_on_in in salhist.changed_on%type default null,
+  rowcount_out out integer,
+  reset_in in boolean default true
+  )
+  is
+  begin
+  update salhist
+     set salary =
+         decode(frcflg.salary,
+         c_set, salary_in,
+         nvl(salary_in,
+         salary
+         )
+         ),
+         comments =
+         decode(frcflg.comments,
+         c_set, comments_in,
+         nvl(comments_in,
+         comments
+         )
+         ),
+         created_by =
+         decode(frcflg.created_by,
+         c_set, created_by_in,
+         nvl(created_by_in,
+         created_by
+         )
+         ),
+         created_on =
+         decode(frcflg.created_on,
+         c_set, created_on_in,
+         nvl(created_on_in,
+         created_on
+         )
+         ),
+         changed_by =
+         decode(frcflg.changed_by,
+         c_set, changed_by_in,
+         nvl(changed_by_in,
+         changed_by
+         )
+         ),
+         changed_on =
+         decode(frcflg.changed_on,
+         c_set, changed_on_in,
+         nvl(changed_on_in,
+         changed_on
+         )
+         )
+   where employee_id = employee_id_in
+and      raise_date = raise_dain;
+  rowcount_out := sql%rowcount;
+  if reset_in then
+  reset$frc;
+  end if;
+  exception
+  when others then
+  raise;
+  end upd;
+
+  --// Record-based Update --//
+  procedure upd(
+  rec_in in salhist%rowtype,
+  rowcount_out out integer,
+  reset_in in boolean default true
+  )
+  is
+  begin
+  upd(rec_in.employee_id,
+  rec_in.raise_date,
+  rec_in.salary,
+  rec_in.comments,
+  rec_in.created_by,
+  rec_in.created_on,
+  rec_in.changed_by,
+  rec_in.changed_on,
+  rowcount_out,
+  reset_in
+  );
+  end upd;
+
+  --// Insert Processing --//
+
+  --// Initialize record with default values. --//
+  function initrec(
+  allnull in boolean := false
+  )
+  return salhist%rowtype
+  is
+    retval salhist%rowtype;
+  begin
+  if allnull then
+  null;                                /* Default values are NULL already. */
+  else
+  retval.employee_id := null;
+  retval.raise_date := null;
+  retval.salary := null;
+  retval.comments := null;
+  retval.created_by := user;
+  retval.created_on := sysdate;
+  retval.changed_by := user;
+  retval.changed_on := sysdate;
+  end if;
+  return retval;
+  end;
+
+  --// Initialize record with default values. --//
+  procedure initrec(
+  rec_inout in out salhist%rowtype,
+  allnull in boolean := false
+  )
+  is
+  begin
+  rec_inout := initrec;
+  end;
+
+  procedure ins$ins(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type,
+  salary_in in salhist.salary%type default null,
+  comments_in in salhist.comments%type default null,
+  created_by_in in salhist.created_by%type default user,
+  created_on_in in salhist.created_on%type default sysdate,
+  changed_by_in in salhist.changed_by%type default user,
+  changed_on_in in salhist.changed_on%type default sysdate,
+  upd_on_dup in boolean := false
+  )
+  is
+  begin
+  validate(salary_in,
+  created_by_in,
+  created_on_in,
+  changed_by_in,
+  changed_on_in,
+  true
+  );
+  insert into salhist(employee_id, raise_date, salary, comments, created_by,
+                      created_on, changed_by, changed_on)
+       values(employee_id_in, raise_dain, salary_in, comments_in,
+              created_by_in, created_on_in, changed_by_in, changed_on_in);
+  exception
+  when dup_val_on_index then
+  if not nvl(upd_on_dup,
+     false
+     ) then
+  raise;
+  else
+  declare
+         v_errm varchar2(2000) := sqlerrm;
+         v_rowcount integer;
+         dotloc integer;
+         leftloc integer;
+         c_owner all_constraints.owner%type;
+         c_name all_constraints.constraint_name%type;
+  begin
+  dotloc := instr(v_errm,
+            '.'
+            );
+  leftloc := instr(v_errm,
+             '('
+             );
+  c_owner := substr(v_errm,
+             leftloc + 1,
+             dotloc - leftloc - 1
+             );
+  c_name := substr(v_errm,
+            dotloc + 1,
+            instr(v_errm,
+            ')'
+            ) - dotloc - 1
+            );
+
+  --// Duplicate based on primary key //--
+  if     'SALHIST_PK' = c_name
+     and 'SCOTT' = c_owner then
+  upd(employee_id_in,
+  raise_dain,
+  salary_in,
+  comments_in,
+  created_by_in,
+  created_on_in,
+  changed_by_in,
+  changed_on_in,
+  v_rowcount,
+  false
+  );
+  else
+  --// Unique index violation. Cannot recover... //--
+  raise;
+  end if;
+  end;
+  end if;
+  when others then
+  raise;
+  end ins$ins;
+
+
+  --// Insert 3: with fields and providing primary key. --//
+  procedure ins(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type,
+  salary_in in salhist.salary%type default null,
+  comments_in in salhist.comments%type default null,
+  created_by_in in salhist.created_by%type default user,
+  created_on_in in salhist.created_on%type default sysdate,
+  changed_by_in in salhist.changed_by%type default user,
+  changed_on_in in salhist.changed_on%type default sysdate,
+  upd_on_dup in boolean := false
+  )
+  is
+  begin
+  ins$ins(employee_id_in,
+  raise_dain,
+  salary_in,
+  comments_in,
+  created_by_in,
+  created_on_in,
+  changed_by_in,
+  changed_on_in,
+  upd_on_dup
+  );
+  end;
+
+  --// Insert 4: with a record and providing primary key. --//
+  procedure ins(
+  rec_in in salhist%rowtype,
+  upd_on_dup in boolean := false
+  )
+  is
+  begin
+  ins$ins(rec_in.employee_id,
+  rec_in.raise_date,
+  rec_in.salary,
+  rec_in.comments,
+  rec_in.created_by,
+  rec_in.created_on,
+  rec_in.changed_by,
+  rec_in.changed_on,
+  upd_on_dup
+  );
+  end;
+
+  --// Delete Processing --//
+
+  procedure del(
+  employee_id_in in salhist.employee_id%type,
+  raise_dain in salhist.raise_date%type,
+  rowcount_out out integer
+  )
+  is
+  begin
+  delete
+    from salhist
+   where employee_id = employee_id_in
+and      raise_date = raise_dain;
+  rowcount_out := sql%rowcount;
+  exception
+  when others then
+  raise;
+  end del;
+
+  --// Record-based delete --//
+  procedure del(
+  rec_in in pky_rt,
+  rowcount_out out integer
+  )
+  is
+  begin
+  del(rec_in.employee_id,
+  rec_in.raise_date,
+  rowcount_out
+  );
+  end del;
+
+  procedure del(
+  rec_in in salhist%rowtype,
+  rowcount_out out integer
+  )
+  is
+  begin
+  del(rec_in.employee_id,
+  rec_in.raise_date,
+  rowcount_out
+  );
+  end del;
+
+  --// Delete all records for foreign key SALHIST_EMP_LOOKUP. //--
+  procedure delby_salhist_emp_lookup(
+  employee_id_in in salhist.employee_id%type,
+  rowcount_out out integer
+  )
+  is
+  begin
+  delete
+    from salhist
+   where employee_id = delby_salhist_emp_lookup.employee_id_in;
+  rowcount_out := sql%rowcount;
+  exception
+  when others then
+  raise;
+  end delby_salhist_emp_lookup;
+
+
+  --// Program called by database initialization script to pin the package. //--
+  procedure pinme
+  is
+  begin
+  --// Doesn't do anything except cause the package to be loaded. //--
+  null;
+  end;
+
+
+--// Initialization section for the package. --//
+begin
+null;                                                         -- Placeholder.
+end salhist;
+/

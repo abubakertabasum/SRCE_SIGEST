@@ -1,0 +1,709 @@
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and to_char(vs_date_releve,'jj/mm/yyyy')<=to_char(to_date('04/05/2005'),'jj/mm/yyyy')
+and to_char(vs_date_releve,'jj/mm/yyyy')>=to_char(to_date('01/05/2005'),'jj/mm/yyyy')
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and to_char(vs_date_releve,'jj/mm/yyyy')<=to_char('04/05/2005','jj/mm/yyyy')
+and to_char(vs_date_releve,'jj/mm/yyyy')>=to_char('01/05/2005','jj/mm/yyyy')
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and to_char(vs_date_releve,'jj/mm/yyyy')<=to_char(04/05/2005,'jj/mm/yyyy')
+and to_char(vs_date_releve,'jj/mm/yyyy')>=to_char('01/05/2005','jj/mm/yyyy')
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and to_char(vs_date_releve,'jj/mm/yyyy')<=to_char('04/05/2005')
+and to_char(vs_date_releve,'jj/mm/yyyy')>=to_char('01/05/2005')
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and to_char(vs_date_releve,'jj/mm/yyyy')<='04/05/2005'
+and to_char(vs_date_releve,'jj/mm/yyyy')>='01/05/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<='05/05/2005'
+and vs_date_releve>='01/05/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<='04/05/2005'
+and vs_date_releve>='01/05/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<'04/05/2005'
+and vs_date_releve>='01/05/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<'05/05/2005'
+and vs_date_releve>='01/05/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<='31/12/2005'
+and vs_date_releve>='01/01/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<='31/05/2005'
+and vs_date_releve>='01/05/2005'
+and vs_type_compteur='IPRENL'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<='04/05/2005'
+and vs_date_releve>='01/05/2005'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+and vs_date_releve<='04/05/2005'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+and vs_equipement='CENTR'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+where vs_site='KOMH'
+///
+/*
+SELECT 6, to_char(sum(vs_quantite))
+FROM sg_valeur_site
+WHERE (ltrim(rtrim(vs_site))=ltrim(rtrim(:site))) 
+and (ltrim(rtrim(vs_type_compteur))='IPRENL') 
+and (vs_date_releve<=:date_info)
+and (to_char(vs_date_releve,'MM/RR')=to_char(:date_info,'MM/RR'))
+and (vs_site,vs_masque_donnee,vs_periode,vs_date_releve) in (select xs_site,xs_masque_donnee,xs_periode,xs_date_releve from sg_donnee_site where xs_status=2)
+and (vs_equipement=:equip)
+*/
+select *
+FROM sg_valeur_site
+///
+select * from sg_index_site where is_site='KOMT'
+--UPDATE sg_index_site set is_type_compteur='GHORGL' where is_site='KOMT'
+--commit;
+///
+--select * from sg_index_site where is_site='KOMT'
+--UPDATE sg_index_site set is_type_compteur='GHORGL' where is_site='KOMT'
+commit;
+///
+--select * from sg_index_site where is_site='KOMT'
+UPDATE sg_index_site set is_type_compteur='GHORGL' where is_site='KOMT'
+--commit
+///
+--select * from sg_index_site where is_site='KOMT'
+UPDATE sg_index_site set is_type_compteur='GHORGL' where is_site='KOMT'
+--commit;
+///
+--select * from sg_index_site where is_site='KOMT'
+UPDATE sg_index_site set is_type_compteur='GHORGL' where is_site='KOMT';
+--commit
+///
+--select * from sg_index_site where is_site='KOMT'
+UPDATE sg_index_site set is_type_compteur='GHORGL' where is_site='KOMT';
+--commit;
+///
+--select * from sg_index_site where is_site='KOMT'
+--UPDATE sg_index_site set is_type_compteur='CONSFO' where is_site='KOMT';
+commit;
+///
+--select * from sg_index_site where is_site='KOMT'
+UPDATE sg_index_site set is_type_compteur='CONSFO'
+where is_site='KOMT'
+///
+--select * from sg_index_site where is_site='KOMT'
+UPDATE sg_index_site set is_type_compteur='CONSFO'
+///
+select * from sg_index_site where is_site='KOMT'
+--UPDATE sg_index_site set is_type_compteur='CONSFO'
+///
+select * from sg_index_site
+where is_site='KOMT'
+///
+select * from sg_index_site
+where is_date_releve between '01/05/2005' and '04/05/2005'
+///
+select * from sg_index_site
+///
+/*
+select *
+from sg_affectation_groupe a1
+where (select count(a2.ag_code) 
+       from sg_affectation_groupe a2
+	   where a2.ag_code=a1.ag_code
+       )>1 
+order by ag_code
+*/
+--desc sg_affectation_groupe
+desc sgc_type_donnee
+///
+/*
+select *
+from sg_affectation_groupe a1
+where (select count(a2.ag_code) 
+       from sg_affectation_groupe a2
+	   where a2.ag_code=a1.ag_code
+       )>1 
+order by ag_code
+*/
+--desc sg_affectation_groupe
+desc sgc_type_donne
+///
+/*
+select *
+from sg_affectation_groupe a1
+where (select count(a2.ag_code) 
+       from sg_affectation_groupe a2
+	   where a2.ag_code=a1.ag_code
+       )>1 
+order by ag_code
+*/
+desc sg_affectation_groupe
+///
+select *
+from sg_affectation_groupe a1
+where (select count(a2.ag_code) 
+       from sg_affectation_groupe a2
+	   where a2.ag_code=a1.ag_code
+       )>1 
+order by ag_code
+///
+select *
+from sg_affectation_groupe
+where (select count(ag_code) from sg_affectation_groupe)>1 
+order by ag_code
+///
+select *
+from sg_affectation_groupe
+where (select count(ag_code) from sg_affectation_groupe)>1
+///
+select * from sgc_facturation
+///
+select * from sgc_tarif
+///
+select *
+from sg_valeur_site 
+where vs_type_compteur='PMAXICE'
+///
+select *
+from sg_valeur_site
+///
+select nvl(sum(vs_quantite),0)
+from sg_valeur_site         
+where (vs_equipement='GR5') 
+  and (vs_site='OUA1') 
+  and (vs_date_releve between '01/01/2005' and '01/11/2005') 
+  and (vs_type_compteur='PMAXICE')
+///
+select nvl(sum(vs_quantite),0)
+from sg_valeur_site         
+where (vs_equipement='GR4') 
+  and (vs_site='OUA1') 
+  and (vs_date_releve between '01/01/2005' and '01/11/2005') 
+  and (vs_type_compteur='PMAXICE')
+///
+select nvl(sum(vs_quantite),0)
+from sg_valeur_site         
+where (vs_equipement='GR3') 
+  and (vs_site='OUA1') 
+  and (vs_date_releve between '01/01/2005' and '01/11/2005') 
+  and (vs_type_compteur='PMAXICE')
+///
+select nvl(sum(vs_quantite),0)
+from sg_valeur_site         
+where (vs_equipement='GR2') 
+  and (vs_site='OUA1') 
+  and (vs_date_releve between '01/01/2005' and '01/11/2005') 
+  and (vs_type_compteur='PMAXICE')
+///
+select nvl(sum(vs_quantite),0)
+from sg_valeur_site         
+where (vs_equipement='GR1') 
+  and (vs_site='OUA1') 
+  and (vs_date_releve between '01/01/2005' and '01/11/2005') 
+  and (vs_type_compteur='PMAXICE')
+///
+select * from sg_personnel where pe_age=26
+///
+select * from sg_personnel where pe_annee=2005
+///
+select * from sg_personnel where pe_annnee=2005
+///
+desc sgc_travaux
+///
+select * from sgc_travaux
+///
+select * from sg_projet
+///
+select distinct pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+where xp_code not in (select pe_personnel from sg_personnel)
+order by pe_age
+///
+select pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+where xp_code not in (select pe_personnel from sg_personnel)
+order by pe_age
+///
+select pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+where xp_code not in (select pe_personnel from sg_personnel)
+///
+select pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+///
+/*select pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+group by pe_age*/
+select pe_age,sum(pe_quantite) from
+sg_personnel
+group by pe_age
+///
+select pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+group by pe_age
+///
+select pe_age,xp_code,xp_libelle,0 
+from sg_personnel,sgc_personnel
+order by pe_age
+///
+--delete from sgc_groupe1
+--commit
+select * from sgc_groupe1 order by gr_code
+///
+--delete from sgc_groupe1
+--commit
+select * from sgc_groupe1
+///
+--delete from sgc_groupe1
+commit
+///
+delete from sgc_groupe1
+///
+desc sgc_groupe
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+select * from sg_affectation_groupe order by ag_code
+--desc sgc_equipement
+--commit
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+select * from sg_affectation_groupe
+--desc sgc_equipement
+--commit
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+--select * from sg_affectation_groupe
+--desc sgc_equipement
+commit
+///
+delete from sg_affectation_groupe
+--select * from sgc_groupe
+--select * from sg_affectation_groupe
+--desc sgc_equipement
+///
+--delete from sg_affectation_groupe
+select * from sgc_groupe
+--select * from sg_affectation_groupe
+--desc sgc_equipement
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+select * from sg_affectation_groupe
+--desc sgc_equipement
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+commit
+--select * from sg_affectation_groupe
+--desc sgc_equipement
+///
+delete from sg_affectation_groupe
+--select * from sgc_groupe
+--commit
+--select * from sg_affectation_groupe
+--desc sgc_equipement
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+--commit
+--select * from sg_affectation_groupe
+desc sgc_equipement
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+--commit
+select * from sg_affectation_groupe
+--desc sgc_equipement
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+--commit
+select * from sg_affectation_groupe
+///
+--delete from sg_affectation_groupe
+--select * from sgc_groupe
+commit
+///
+delete from sg_affectation_groupe
+--select * from sgc_groupe
+commit
+///
+delete from sg_affectation_groupe
+--select * from sgc_groupe
+--commit
+///
+select * from sg_affectation_groupe
+--select * from sgc_groupe
+--commit
+///
+--delete from sg_affectation_groupe
+select * from sgc_groupe
+--commit
+///
+delete from sg_affectation_groupe
+--select * from sgc_groupe
+///
+--desc sg_affectation_groupe
+select * from sgc_groupe
+///
+desc sg_affectation_groupe
+///
+desc sgc_affectation_groupe
+///
+--select granted_role from user_role_privs
+	desc user_role_privs
+///
+select granted_role
+ 			from user_role_privs
+///
+select * from sg_personnel where pe_categorie='CXX'
+///
+select * from sg_personnel where pe_categorie='CX'
+///
+select * from sg_personnel --where pe_categorie='CX'
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   /*select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2004)
+	  and (pe_categorie=nvl('',pe_categorie))*/
+	  select * from sg_personnel --where pe_categorie='CX'
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   /*select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2004)
+	  and (pe_categorie=nvl('',pe_categorie))*/
+	  select * from sg_personnel where pe_categorie='CX'
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   /*select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2004)
+	  and (pe_categorie=nvl('',pe_categorie))*/
+	  select from sg_personnel where pe_categorie='CX'
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2004)
+	  and (pe_categorie=nvl('',pe_categorie))
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2004)
+	  and (pe_categorie=nvl('C02',pe_categorie))
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2004)
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   select * from sg_personnel
+   where (pe_centre_cout like  nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2005)
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   select * from sg_personnel
+   where (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+      and(pe_mois=9) and (pe_annee=2005)
+///
+/*select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))*/
+   select * from sg_personnel
+///
+select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('01/11/2004') and to_date('01/10/2005'))
+///
+select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('11/2004') and to_date('10/2005'))
+///
+select nvl(sum(pe_quantite),0) 
+from sg_personnel  
+where (pe_personnel='SBRUT') 
+   and (pe_centre_cout like '%' || nvl('2',pe_centre_cout) || '%')
+   and (pe_categorie=nvl('C01',pe_categorie)) 
+   and (to_date('01/' || pe_mois || '/' || pe_annee) between to_date('11/2004') and to_date('10/2005')
+///
+/*select pe_mois sum(pe_quantite) 
+FROM SG_PERSONNEL p1
+WHERE (pe_centre_cout like '%' || nvl('1',pe_centre_cout) || '%') 
+and (pe_categorie=nvl('C02',pe_categorie)) 
+*/
+desc sg_personnel
+///
+select sum(pe_quantite) 
+FROM SG_PERSONNEL p1
+WHERE (pe_centre_cout like '%' || nvl('1',pe_centre_cout) || '%') 
+and (pe_categorie=nvl('C02',pe_categorie))
+///

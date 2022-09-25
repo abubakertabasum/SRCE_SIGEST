@@ -1,0 +1,15 @@
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\users.sql|General Purpose|List users and their object counts
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\whoami.sql|General Purpose|Display the user running the script
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\what.sql|General Purpose|List all the users, their segments and sizes
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\who.sql|General Purpose|Display all the users with connected sessions
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\when.sql|General Purpose|Display the time of running the script
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\rbs_off.sql|General Purpose|Alter all rollback segments to offline
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\rbs_on.sql|General Purpose|Alter all rollback segments to online
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\rbs.sql|General Purpose|List all the rollback segments and their status
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\trig_on.sql|General Purpose|Alter all non SYSTEM triggers to enabled
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\trig_off.sql|General Purpose|Alter all non SYSTEM triggers to disabled
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\trig.sql|General Purpose|List all the non SYSTEM triggers and their status
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\tspc_on.sql|General Purpose|Alter all non SYSTEM tablespaces to online
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\tspc_off.sql|General Purpose|Alter all non SYSTEM tablespaces to offline
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\tspc.sql|General Purpose|Run detailed space usage report for tablespaces
+C:\Program Files\Quest Software\TOAD\ScriptMgr\DBA\tspc_coal.sql|General Purpose|Coalesce all tablespaces to reduce fragmentation

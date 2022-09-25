@@ -1,0 +1,31 @@
+*AVG([DISTINCT | ALL] n)
+Calculates the arithmetic average of the values in a column.
+*COUNT(*)
+Counts the number of values in a column or the number of rows in a table.
+
+COUNT(*) returns the number of rows in a table.
+
+COUNT( DISTINCT ColName) returns the number of unique values for column ColName.
+
+COUNT(ColName) returns the number of rows that have a non null value for ColName.
+*MAX([DISTINCT | ALL]  n)
+Determines the largest value in a column.
+
+See COUNT for usage of DISTINCT
+*MIN([DISTINCT | ALL] n)
+Determines the smallest value in a column.
+
+See COUNT for usage of DISTINCT
+*STDDEV([DISTINCT | ALL] n)
+Determines the standard deviation, the square root of the variance, of the values in a column.
+
+See COUNT for usage of DISTINCT
+*SUM([DISTINCT | ALL] n)
+Calculates the sum of all values in a column.
+
+See COUNT for usage of DISTINCT
+*VARIANCE( [DISTINCT | ALL] n)
+Determines the variance of the values in a column.
+
+See COUNT for usage of DISTINCT
+
